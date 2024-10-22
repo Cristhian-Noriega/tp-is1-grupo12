@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_USER=is1_admin
+      - POSTGRES_PASSWORD=is1_admin
+      - POSTGRES_DB=orderdb
+      - JWT_KEY=myjwtsecret
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/orderdb
+      - SPRING_DATASOURCE_USERNAME=is1_admin
+      - SPRING_DATASOURCE_PASSWORD=is1_admin
+    ports:
+      - "8080:8080"  # Expose API on port 8080
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12.16
+    container_name: is1_db
+    environment:
+      POSTGRES_USER: is1_admin
+      POSTGRES_PASSWORD: is1_admin
+      POSTGRES_DB: orderdb
+    ports:
+      - "5432:5432"  # Expose PostgreSQL on default port
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Set your pgAdmin email
+      PGADMIN_DEFAULT_PASSWORD: admin  # Set your pgAdmin password
+    ports:
+      - "8081:80"  # Expose pgAdmin on port 8081
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
