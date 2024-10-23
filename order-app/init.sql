@@ -1,7 +1,7 @@
 -- Creación de tablas para el proyecto
 
 -- Tabla usuario
-CREATE TABLE usuario (
+CREATE TABLE IF NOT EXISTS usuario (
     email VARCHAR(255) PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     apellido VARCHAR(255),
@@ -12,7 +12,7 @@ CREATE TABLE usuario (
 );
 
 -- Tabla producto
-CREATE TABLE producto (
+CREATE TABLE IF NOT EXISTS producto (
     id_producto SERIAL PRIMARY KEY,
     descripcion TEXT,
     peso DECIMAL(10, 2),
@@ -23,7 +23,7 @@ CREATE TABLE producto (
 );
 
 -- Tabla stock
-CREATE TABLE stock (
+CREATE TABLE IF NOT EXISTS stock (
     id_stock SERIAL PRIMARY KEY,
     numero INT NOT NULL CHECK (numero >= 0), 
     id_producto INT UNIQUE,
@@ -32,7 +32,7 @@ CREATE TABLE stock (
 
 
 -- Tabla pedido
-CREATE TABLE pedido (
+CREATE TABLE IF NOT EXISTS pedido (
     id_pedido SERIAL PRIMARY KEY,
     estado VARCHAR(50),
     fecha_creacion TIMESTAMP NOT NULL,
@@ -41,7 +41,7 @@ CREATE TABLE pedido (
 );
 
 -- Tabla pedido_producto (relación N:M entre pedido y producto)
-CREATE TABLE pedido_producto (
+CREATE TABLE IF NOT EXISTS pedido_producto (
     id_pedido INT,
     id_producto INT,
     PRIMARY KEY (id_pedido, id_producto),
