@@ -7,6 +7,7 @@ To build and run the containers:
 ```bash
 docker-compose up --build
 ```
+The env vars are set on a `.env` file at root of the project 
 
 ## Access the API
 
@@ -28,7 +29,7 @@ docker-compose up --build
 
 ## Access pgAdmin via Web
 
-If you added `pgAdmin` to your `docker-compose.yml`, follow these steps to access the PostgreSQL database using the web interface:
+To access the PostgreSQL database using the web interface:
 
 1. After running `docker-compose up --build`, pgAdmin will be available at [http://localhost:8081](http://localhost:8081).
 
