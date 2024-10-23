@@ -8,6 +8,9 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
+# Ignore the .mvn/wrapper folder, except for maven-wrapper.jar
+.mvn/wrapper/*
+
 
 ### STS ###
 .apt_generated
@@ -26,7 +29,6 @@ buildNumber.properties
 out/
 output/
 **/build/
-
 **/gradle_build/
 **/*.iml
 
