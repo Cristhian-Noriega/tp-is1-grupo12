@@ -29,6 +29,8 @@ services:
       - "5432:5432"  # Expose PostgreSQL on default port
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: postgres
 
   pgadmin:
     image: dpage/pgadmin4
