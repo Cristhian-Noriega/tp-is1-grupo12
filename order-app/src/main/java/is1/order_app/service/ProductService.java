@@ -1,41 +1,17 @@
 package is1.order_app.service;
 
-import is1.order_app.entities.ProductDTO;
+import is1.order_app.entities.product.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
-class ProductService {
+public class  ProductService {
 
-    private final ProductRepository productRepository;
-    private final BrandRepository brandRepository;
-
-    public List<ProductDTO> getProducts(ProductSearchDTO filter) {
-        return productRepository
-                .findByNameContaining(filter.name().orElse(""))
-                .stream()
-                .map(ProductDTO::new)
-                .toList();
-    }
-
-    public Optional<ProductDTO> getProductById(long id) {
-        return productRepository.findById(id).map(ProductDTO::new);
-    }
-
-    public ProductDTO createProduct(ProductCreateDTO data) {
+    public Product createProduct(ProductCreateDTO data) {
         var product = data.asProduct(brandRepository::getReferenceById);
-        return new ProductDTO(productRepository.save(product));
-    }
-
-    public Optional<ProductDTO> updateProduct(Long id, ProductUpdateDTO update) {
-        return productRepository.findById(id)
-                .map(update::applyTo)
-                .map(productRepository::save)
-                .map(ProductDTO::new);
+        return new Product(productRepository.save(product));
     }
 }
 

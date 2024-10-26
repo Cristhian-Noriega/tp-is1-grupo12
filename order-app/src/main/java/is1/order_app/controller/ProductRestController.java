@@ -1,8 +1,9 @@
 package is1.order_app.controller;
-import is1.order_app.entities.ProductDTO;
+import is1.order_app.entities.product.Product;
 
 
-
+import is1.order_app.entities.product.ProductCreateDTO;
+import is1.order_app.service.ProductService;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.lang.NonNull;
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 
 class ProductRestController {
-    private final ProductService productService;
+    private final ProductService productService=new ProductService();
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductDTO createProduct(
+    public Product createProduct(
             @NonNull @RequestBody ProductCreateDTO data
     ) {
         return productService.createProduct(data);
