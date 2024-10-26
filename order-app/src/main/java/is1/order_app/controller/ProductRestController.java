@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 class ProductRestController {
     private final ProductService productService=new ProductService();
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Product createProduct(
-            @NonNull @RequestBody ProductCreateDTO data
-    ) {
-        return productService.createProduct(data);
-    }
+//    @PostMapping
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Product createProduct(
+//            @NonNull @RequestBody ProductCreateDTO data
+//    ) {
+//        return productService.createProduct(data);
+//    }
 
 }

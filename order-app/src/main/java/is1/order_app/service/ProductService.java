@@ -9,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class  ProductService {
 
-    public Product createProduct(ProductCreateDTO data) {
-        var product = data.asProduct(brandRepository::getReferenceById);
-        return new Product(productRepository.save(product));
-    }
+//    public Product createProduct(ProductCreateDTO data) {
+//        var product = data.asProduct(brandRepository::getReferenceById);
+//        return new Product(productRepository.save(product));
+//    }
 }
 

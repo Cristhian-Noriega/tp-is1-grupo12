@@ -9,8 +9,8 @@ public record ProductCreateDTO(
         @NonNull EnumCategory category,
         long brandId
 ) {
-    public Product asProduct() {
-        return new Product(name, description);
-    }
+//    public Product asProduct() {
+//        return new Product(name, description);
+//    }
 }
 
