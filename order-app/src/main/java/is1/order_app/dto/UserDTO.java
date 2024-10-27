@@ -7,7 +7,7 @@ public record UserDTO(
         String name,
         String surname,
         String photoUrl,
-        int age,
+        Integer age,
         String gender,
         String address
 ) {

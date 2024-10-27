@@ -1,5 +1,6 @@
 package is1.order_app.service;
 
+import is1.order_app.dto.LoginDTO;
 import is1.order_app.exceptions.DuplicatedUserEmailException;
 import is1.order_app.dto.UserDTO;
 import is1.order_app.dto.UserRegistrationDTO;
@@ -51,5 +52,10 @@ public class UserService {
             throw new UserNotFoundException("User not found with email " + email);
         }
         return userDTO.get();
+    }
+
+    public boolean loginUser(LoginDTO loginDTO) {
+        Optional<User> user =  userRepository.findByEmail(loginDTO.email());
+        return user.isPresent() && user.get().getPassword().equals(loginDTO.password());
     }
 }
