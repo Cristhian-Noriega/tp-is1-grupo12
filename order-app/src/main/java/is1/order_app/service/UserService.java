@@ -1,6 +1,6 @@
 package is1.order_app.service;
 
-import is1.order_app.Exceptions.DuplicatedUserEmailException;
+import is1.order_app.exceptions.DuplicatedUserEmailException;
 import is1.order_app.dto.UserDTO;
 import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.entities.User;
@@ -8,6 +8,7 @@ import is1.order_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,5 +42,11 @@ public class UserService {
         return userRepository.findAll().stream()
                 .map(UserDTO::fromUser)
                 .collect(Collectors.toList());
+    }
+
+    public Optional<UserDTO> getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(UserDTO::fromUser);
+
     }
 }
