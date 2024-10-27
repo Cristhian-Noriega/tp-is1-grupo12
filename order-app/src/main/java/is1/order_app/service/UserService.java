@@ -4,6 +4,7 @@ import is1.order_app.exceptions.DuplicatedUserEmailException;
 import is1.order_app.dto.UserDTO;
 import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.entities.User;
+import is1.order_app.exceptions.UserNotFoundException;
 import is1.order_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +45,11 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<UserDTO> getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .map(UserDTO::fromUser);
-
+    public UserDTO getUserByEmail(String email) {
+        Optional<UserDTO> userDTO = userRepository.findByEmail(email).map(UserDTO::fromUser);
+        if (userDTO.isEmpty()) {
+            throw new UserNotFoundException("User not found with email " + email);
+        }
+        return userDTO.get();
     }
 }
