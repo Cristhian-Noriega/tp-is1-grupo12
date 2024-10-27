@@ -1,7 +1,5 @@
 package is1.order_app.entities;
-
 import jakarta.persistence.Id;
-
 public class User {
     @Id
     private String email;
