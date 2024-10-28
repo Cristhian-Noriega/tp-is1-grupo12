@@ -43,6 +43,10 @@ export const LoginForm = () => {
       <Link to="/forget-password" className='forget-password-box'>
         ¿Olvidaste tu contraseña?
       </Link>
+      
+      <Link to="/register" className='forget-password-box'>
+      <button id="register-btn" >Crear Cuenta</button>
+      </Link>
       <button id="login-btn" type="submit">Login</button>
     </form>
   </div>
