@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './loginForm.css'
 import { Link } from 'react-router-dom';
+import { SubmitButton } from '../ui/SubmitButton';
 
 export const LoginForm = () => {
     const [username, setUsername] = useState("");
@@ -44,10 +45,21 @@ export const LoginForm = () => {
         ¿Olvidaste tu contraseña?
       </Link>
       
-      <Link to="/register" className='forget-password-box'>
-      <button id="register-btn" >Crear Cuenta</button>
+      <Link to="/register">
+          <SubmitButton 
+          type="navigation"
+          text="Crear Cuenta"
+          backgroundColor="#64B82B"
+          backgroundColorHover="#6bf80c"
+          />
       </Link>
-      <button id="login-btn" type="submit">Login</button>
+      
+      <SubmitButton
+      type="submit"
+      text="Login"
+      backgroundColor="#007fca"
+      backgroundColorHover="#23A3E8"
+      />
     </form>
   </div>
   )

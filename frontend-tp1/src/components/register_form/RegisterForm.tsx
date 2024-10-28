@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './registerForm.css'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { SubmitButton } from '../ui/SubmitButton';
 
 export const RegisterForm  = () => {
     const [username, setUsername] = useState("");
@@ -47,7 +48,7 @@ export const RegisterForm  = () => {
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
-      
+
       <div className="surname-box">
         <div className="surname">Apellido</div>
         <input
@@ -110,8 +111,22 @@ export const RegisterForm  = () => {
           onChange={({ target }) => setAddress(target.value)}
         />
       </div>
-      
-      <button id="register-btn" type="submit">Registrarse</button>
+
+      <Link to="/login">
+      <SubmitButton
+        type="navigation"
+        text="Cancelar"
+        backgroundColor="#ff0000"
+        backgroundColorHover="#ff3020"
+      />
+      </Link>
+
+      <SubmitButton
+        type="submit"
+        text="Registrarse"
+        backgroundColor="#4CAF50"
+        backgroundColorHover="#45a049"
+      />
     </form>
   </div>
   )
