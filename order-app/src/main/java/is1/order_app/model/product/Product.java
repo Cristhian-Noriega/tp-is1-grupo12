@@ -2,7 +2,11 @@ package is1.order_app.model.product;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 public class Product {
     @Id
@@ -28,67 +32,5 @@ public class Product {
     public Product(){
 
     }
-    public String getProductData() {
-        return productData;
-    }
 
-    public void setProductData(String productData) {
-        this.productData = productData;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public void setType(EnumCategory type) {
-        this.type = type;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public EnumCategory getType() {
-        return type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
 }
