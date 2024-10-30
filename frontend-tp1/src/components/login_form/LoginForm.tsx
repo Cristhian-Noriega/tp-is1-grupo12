@@ -21,7 +21,7 @@ export const LoginForm = () => {
     </div>
     
     <form onSubmit={onSubmit}>
-      <div className="username-box">
+      <div className="username-box form-box">
         <div className="username">Username</div>
         <input
           id="username"
@@ -31,7 +31,7 @@ export const LoginForm = () => {
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
-      <div className="password-box">
+      <div className="password-box form-box">
         <div className="password">Password</div>
         <input
           id="password"
