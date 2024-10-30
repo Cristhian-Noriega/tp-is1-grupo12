@@ -2,6 +2,7 @@ package is1.order_app.service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import is1.order_app.exceptions.HandlerNotFoundException;
 import is1.order_app.exceptions.ProductNotFoundException;
 import is1.order_app.model.handler.ProductHandler;
 import is1.order_app.model.product.EnumCategory;
@@ -39,40 +40,41 @@ public class ProductService {
         return response;
     }
 
-    public ProductResponse updateProductStock(Long productId, StockRequest stockRequest) throws JsonProcessingException, ProductNotFoundException {
+    public ProductResponse updateProductStock(Long productId, StockRequest stockRequest) throws JsonProcessingException {
         Optional<Product> productOpt = productRepository.findById(productId);
-        if(productOpt.isPresent()){
-            Product product = productOpt.get();
-            product.setStock(stockRequest.getNewStock());
-            productRepository.save(product);
 
-            return getProductResponse(product);
+        if (productOpt.isEmpty()) {
+            throw new ProductNotFoundException("The product with ID: "+ productId+ "does not exist");
         }
-        throw new ProductNotFoundException("The product with ID: "+ productId+ "does not exist");
 
+        Product product = productOpt.get();
+        product.setStock(stockRequest.getNewStock());
+        productRepository.save(product);
+
+        return getProductResponse(product);
     }
 
-    public void deleteProduct(Long productId) throws ProductNotFoundException {
-
+    public void deleteProduct(Long productId) {
         Optional<Product> productOpt = productRepository.findById(productId);
-        if(productOpt.isPresent()){
-            productRepository.deleteById(productId);
-            return;
+
+        if (productOpt.isEmpty()) {
+            throw new ProductNotFoundException("The product with ID: " + productId + "does not exist");
         }
-        throw new ProductNotFoundException("The product with ID: "+ productId+ "does not exist");
+
+        productRepository.deleteById(productId);
     }
 
-    public ProductResponse getProductById(Long productId) throws JsonProcessingException, ProductNotFoundException {
-
+    public ProductResponse getProductById(Long productId) throws JsonProcessingException {
         Optional<Product> productOpt = productRepository.findById(productId);
-        if(productOpt.isPresent()){
-            return getProductResponse(productOpt.get());
+        if (productOpt.isEmpty()) {
+            throw new ProductNotFoundException("The product with ID: " + productId + "does not exist");
         }
-        throw new ProductNotFoundException("The product with ID: "+ productId+ "does not exist");
+
+        return getProductResponse(productOpt.get());
     }
 
     public List<ProductResponse> getAllProducts() throws JsonProcessingException {
-        List<ProductResponse> products=new ArrayList<>();
+        List<ProductResponse> products = new ArrayList<>();
         for (Product p :productRepository.findAll()){
             products.add(getProductResponse(p));
         }
@@ -91,14 +93,14 @@ public class ProductService {
 
     private ProductHandler getHandler(EnumCategory type) {
         for (ProductHandler handler : handlers) {
-            if(handler.canHandle(type)) {
+            if (handler.canHandle(type)) {
                 return handler;
             }
         }
-        throw new RuntimeException("No handler found for type " + type);
+        throw new HandlerNotFoundException("No handler found for type " + type);
     }
     private Product createGenericProduct(ProductRequest productRequest){
-        Product product=new Product();
+        Product product = new Product();
         product.setName(productRequest.getName());
         product.setPrice(productRequest.getPrice());
         product.setStock(productRequest.getStock());
@@ -109,7 +111,7 @@ public class ProductService {
     }
 
     private ProductResponse createProductResponse(Product product){
-        ProductResponse response=new ProductResponse();
+        ProductResponse response = new ProductResponse();
         response.setId(product.getId());
         response.setName(product.getName());
         response.setPrice(product.getPrice());

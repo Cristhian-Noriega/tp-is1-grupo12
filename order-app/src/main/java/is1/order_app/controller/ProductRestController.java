@@ -20,8 +20,9 @@ import java.util.List;
 @Validated
 
 class ProductRestController {
-    @Autowired
     private ProductService productService;
+
+    public ProductRestController(ProductService productService) { this.productService = productService; }
 
     @PostMapping
     public ResponseEntity<ProductResponse> createProduct(@NonNull @RequestBody ProductRequest request) {
