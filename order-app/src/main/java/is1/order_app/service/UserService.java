@@ -58,4 +58,8 @@ public class UserService {
         Optional<User> user =  userRepository.findByEmail(loginDTO.email());
         return user.isPresent() && user.get().getPassword().equals(loginDTO.password());
     }
+
+    public boolean restorePassword(String email) {
+        return true;
+    }
 }
