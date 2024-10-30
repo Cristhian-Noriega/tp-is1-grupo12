@@ -1,7 +1,8 @@
 package is1.order_app.entities.product;
 
-import jdk.jfr.Description;
+import lombok.Getter;
 
+@Getter
 public abstract class Product {
     private int id;
     private String name;
@@ -12,26 +13,14 @@ public abstract class Product {
     private String description;
 
     public boolean remove_stock(Integer num){
-        if (stock - num >= 0){
-            stock -= num;
-            return true;
-        }else{
+        // aca se podria tirar una excepcion
+        if (stock - num < 0) {
             return false;
         }
+        stock -= num;
+        return true;
     }
     public void add_stock(Integer num){
         stock += num;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
     }
 }

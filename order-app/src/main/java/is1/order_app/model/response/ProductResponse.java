@@ -2,9 +2,12 @@ package is1.order_app.model.response;
 
 
 import is1.order_app.model.product.EnumCategory;
+import lombok.Getter;
+import lombok.Setter;
 
 
-
+@Setter
+@Getter
 public class ProductResponse {
     private Long id;
     private String name;
@@ -27,13 +30,6 @@ public class ProductResponse {
     public ProductResponse(){
 
     }
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     @Override
     public String toString() {
@@ -49,59 +45,4 @@ public class ProductResponse {
                 '}';
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public EnumCategory getType() {
-        return type;
-    }
-
-    public void setType(EnumCategory type) {
-        this.type = type;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Object getProductData() {
-        return productData;
-    }
-
-    public void setProductData(Object productData) {
-        this.productData = productData;
-    }
 }
