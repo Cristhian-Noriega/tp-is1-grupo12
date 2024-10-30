@@ -6,7 +6,7 @@ import is1.order_app.model.handler.ProductHandler;
 import is1.order_app.model.product.Clothing;
 import is1.order_app.model.product.EnumCategory;
 import is1.order_app.model.product.Product;
-import is1.order_app.model.request.ProductRequest;
+import is1.order_app.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +22,7 @@ public class ClothingHandler implements ProductHandler {
     }
 
     @Override
-    public String handleProduct(ProductRequest productRequest) throws JsonProcessingException {
+    public String handleProduct(ProductDTO productRequest) throws JsonProcessingException {
         Clothing clothing=new Clothing(productRequest.getSize(),productRequest.getColor());
         return objectMapper.writeValueAsString(clothing);
     }

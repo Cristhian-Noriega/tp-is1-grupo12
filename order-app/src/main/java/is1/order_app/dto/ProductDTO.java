@@ -1,4 +1,4 @@
-package is1.order_app.model.request;
+package is1.order_app.dto;
 
 import is1.order_app.model.product.EnumCategory;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductRequest {
+public class ProductDTO {
 
     private String name;
     private Double price;
@@ -17,10 +17,10 @@ public class ProductRequest {
     private String color;
     private Double weight;
     private String expirationDate;
-    private Boolean requiereRefigeration;
+    private Boolean requiredRefrigeration;
     private String size;
 
-    public ProductRequest(String name, Double price, EnumCategory type, Integer stock, String brand, String description, String color, Double weight, String expirationDate, Boolean requiereRefigeration, String size) {
+    public ProductDTO(String name, Double price, EnumCategory type, Integer stock, String brand, String description, String color, Double weight, String expirationDate, Boolean requiredRefrigeration, String size) {
         this.name = name;
         this.price = price;
         this.type = type;
@@ -30,7 +30,7 @@ public class ProductRequest {
         this.color = color;
         this.weight = weight;
         this.expirationDate = expirationDate;
-        this.requiereRefigeration = requiereRefigeration;
+        this.requiredRefrigeration = requiredRefrigeration;
         this.size = size;
     }
 
@@ -46,7 +46,7 @@ public class ProductRequest {
                 ", color='" + color + '\'' +
                 ", weight=" + weight +
                 ", expirationDate='" + expirationDate + '\'' +
-                ", requiereRefigeration=" + requiereRefigeration +
+                ", requiereRefigeration=" + requiredRefrigeration +
                 ", size='" + size + '\'' +
                 '}';
     }

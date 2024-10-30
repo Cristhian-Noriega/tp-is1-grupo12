@@ -1,4 +1,4 @@
-package is1.order_app.model.response;
+package is1.order_app.dto;
 
 
 import is1.order_app.model.product.EnumCategory;
@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class ProductResponse {
+public class ProductViewDTO {
     private Long id;
     private String name;
     private Double price;
@@ -18,7 +18,7 @@ public class ProductResponse {
     private String description;
     private Object productData;
 
-    public ProductResponse(String name, Double price, EnumCategory type, Integer stock, String brand, String description, Object productData) {
+    public ProductViewDTO(String name, Double price, EnumCategory type, Integer stock, String brand, String description, Object productData) {
         this.name = name;
         this.price = price;
         this.type = type;
@@ -27,7 +27,7 @@ public class ProductResponse {
         this.description = description;
         this.productData = productData;
     }
-    public ProductResponse(){
+    public ProductViewDTO(){
 
     }
 
