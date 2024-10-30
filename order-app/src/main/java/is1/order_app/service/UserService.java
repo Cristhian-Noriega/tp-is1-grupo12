@@ -16,8 +16,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final is1.order_app.service.EmailSenderService emailSenderService;
 
     public UserService(UserRepository userRepository) {
+        this.emailSenderService = new is1.order_app.service.EmailSenderService();
         this.userRepository = userRepository;
     }
 
@@ -59,7 +61,26 @@ public class UserService {
         return user.isPresent() && user.get().getPassword().equals(loginDTO.password());
     }
 
-    public boolean restorePassword(String email) {
-        return true;
+    public void askMailRestorePassword(String email) {
+        userRepository.findByEmail(email).ifPresentOrElse(user -> {
+            emailSenderService.restorePasswordMail(email);
+        }, () -> {
+            throw new UserNotFoundException("User not found with email " + email);
+        });
+    }
+
+    public void restorePassword(String email, String password) {
+        UserDTO userDTO = getUserByEmail(email);
+        User user = new User(
+                userDTO.email(),
+                userDTO.name(),
+                userDTO.surname(),
+                password,
+                userDTO.photoUrl(),
+                userDTO.age(),
+                userDTO.gender(),
+                userDTO.address()
+        );
+        userRepository.save(user);
     }
 }
