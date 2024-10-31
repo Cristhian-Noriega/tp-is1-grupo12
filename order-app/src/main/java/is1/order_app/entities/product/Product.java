@@ -1,37 +1,36 @@
 package is1.order_app.entities.product;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
-import jdk.jfr.Description;
-
-public abstract class Product {
-    private int id;
+@Setter
+@Getter
+@Entity
+public class Product {
+    @Id
+    @GeneratedValue
+    private Long id;
     private String name;
-    private double price;
-    private int stock;
+    private Double price;
+    private Integer stock;
     private String brand;
     private EnumCategory type;
     private String description;
+    private String productData;
 
-    public boolean remove_stock(Integer num){
-        if (stock - num >= 0){
-            stock -= num;
-            return true;
-        }else{
-            return false;
-        }
+    public Product(String name, Double price, EnumCategory type, Integer stock, String brand, String description, String productData) {
+        this.name = name;
+        this.price = price;
+        this.type = type;
+        this.stock = stock;
+        this.brand = brand;
+        this.description = description;
+        this.productData = productData;
     }
-    public void add_stock(Integer num){
-        stock += num;
-    }
+    public Product(){
 
-    public int getStock() {
-        return stock;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
 }

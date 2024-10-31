@@ -1,12 +1,12 @@
-package is1.order_app.model.handler.impl;
+package is1.order_app.entities.handler.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import is1.order_app.model.handler.ProductHandler;
-import is1.order_app.model.product.Cosmetics;
-import is1.order_app.model.product.EnumCategory;
-import is1.order_app.model.product.Product;
-import is1.order_app.model.request.ProductRequest;
+import is1.order_app.entities.handler.ProductHandler;
+import is1.order_app.entities.product.Cosmetics;
+import is1.order_app.entities.product.EnumCategory;
+import is1.order_app.entities.product.Product;
+import is1.order_app.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,8 +24,8 @@ public class CosmeticsHandler implements ProductHandler{
     }
 
     @Override
-    public String handleProduct(ProductRequest productRequest) throws JsonProcessingException {
-        Cosmetics cosmetic=new Cosmetics(productRequest.getColor(),productRequest.getWeight(),productRequest.getExpirationDate(),productRequest.getRequiereRefigeration());
+    public String handleProduct(ProductDTO productRequest) throws JsonProcessingException {
+        Cosmetics cosmetic=new Cosmetics(productRequest.getColor(),productRequest.getWeight(),productRequest.getExpirationDate(),productRequest.getRequiredRefrigeration());
         return objectMapper.writeValueAsString(cosmetic);
     }
 
