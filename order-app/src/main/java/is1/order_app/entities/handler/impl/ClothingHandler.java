@@ -1,4 +1,4 @@
-package is1.order_app.entities.handler.impl;
+package is1.order_app.model.handler.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
