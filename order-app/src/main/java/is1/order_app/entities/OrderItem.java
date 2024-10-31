@@ -1,10 +1,21 @@
 package is1.order_app.entities;
 
 import is1.order_app.model.product.Product;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Entity
+@NoArgsConstructor
 public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
     private Product product;
+
     private Integer quantity;
 
     public OrderItem(Product product, Integer quantity) {

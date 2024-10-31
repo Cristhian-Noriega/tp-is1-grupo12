@@ -1,26 +1,37 @@
 package is1.order_app.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.Date;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Entity
 public class Order {
     @Id
     private Long id;
 
+    @ManyToOne
     private User user;
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItem> items;
 
+    @Enumerated(EnumType.STRING)
     private OrderState state;
 
-    private Date creationDate;
+    private LocalDateTime creationDate;
+
+    private LocalDateTime confirmationDate;
 
     public Order() {}
+
+    @PrePersist
+    public void setCreationDate() {
+        this.creationDate = LocalDateTime.now();
+    }
+
+    public boolean canBeCanceled() {
+        return state != OrderState.PROCESSING &&
+                confirmationDate != null &&
+                confirmationDate.plusHours(24).isAfter(LocalDateTime.now());
+    }
 }
