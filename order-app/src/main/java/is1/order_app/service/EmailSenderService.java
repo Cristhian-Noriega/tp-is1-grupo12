@@ -15,9 +15,10 @@ public class EmailSenderService {
         message.setFrom("orderappingsoftware@gmail.com");
         message.setTo(receptorMail);
         message.setSubject("Recuperacion de contrasena");
-        message.setText("Su contrasena es:\n" +
-                "******\n" +
-                "Muchas gracias por usar nuestro servicio");
+        String link = "http://localhost:3000/#/password-recovery";
+        message.setText("Recupere su contrasena con el siguiente link:\n" +
+                link +
+                "\nMuchas gracias por usar nuestro servicio");
 
         mailSender.send(message);
     }
