@@ -1,6 +1,8 @@
 package is1.order_app.dto;
 
 import is1.order_app.entities.product.EnumCategory;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
