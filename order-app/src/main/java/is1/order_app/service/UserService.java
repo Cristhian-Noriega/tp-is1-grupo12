@@ -3,6 +3,7 @@ package is1.order_app.service;
 import is1.order_app.dto.LoginDTO;
 import is1.order_app.exceptions.DuplicatedUserEmailException;
 import is1.order_app.dto.UserDTO;
+import is1.order_app.dto.PassChangeDTO;
 import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.entities.User;
 import is1.order_app.exceptions.UserNotFoundException;
@@ -82,5 +83,16 @@ public class UserService {
                 userDTO.address()
         );
         userRepository.save(user);
+    }
+    public boolean changePassword(PassChangeDTO passChangeDTO) {
+        Optional<User> user = userRepository.findByEmail(passChangeDTO.email());
+        if (!(user.isPresent())) {
+            return false;
+        }
+        /*
+        Change the user's password
+        user.get().setPassword(newPassword);
+        */
+        return true;
     }
 }

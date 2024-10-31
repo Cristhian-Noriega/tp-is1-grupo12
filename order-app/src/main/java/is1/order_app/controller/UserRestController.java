@@ -1,6 +1,7 @@
 package is1.order_app.controller;
 import is1.order_app.dto.UserDTO;
 import is1.order_app.dto.LoginDTO;
+import is1.order_app.dto.PassChangeDTO;
 import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.service.UserService;
 import jakarta.validation.Valid;
@@ -33,6 +34,15 @@ public class UserRestController {
         }
     }
 
+@PostMapping("/passChange")
+    public ResponseEntity<String> changePassword(@Valid @RequestBody PassChangeDTO passChangeDTO) {
+        boolean response = userService.changePassword(passChangeDTO);
+        if (response) {
+            return ResponseEntity.ok("Password changed successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email");
+        }
+    }
 @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         // METODO momentaneo para testear la api
