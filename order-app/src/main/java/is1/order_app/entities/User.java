@@ -31,6 +31,8 @@ public class User {
 
     private String address;
 
+    private String authToken;
+
     public User(String email, String name, String surname, String password, String photoUrl, Integer age, String gender, String address) {
         this.email = email;
         this.password = password;
@@ -41,4 +43,42 @@ public class User {
         this.gender = gender;
         this.address = address;
     }
+
+    public String getAuthToken() { return authToken; }
+    public void setAuthToken(String authToken) { this.authToken = authToken; }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
 }
+

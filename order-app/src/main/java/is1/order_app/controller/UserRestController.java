@@ -1,6 +1,7 @@
 package is1.order_app.controller;
 import is1.order_app.dto.UserDTO;
 import is1.order_app.dto.LoginDTO;
+import is1.order_app.jwt.JwtUtil;
 import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.service.UserService;
 import jakarta.validation.Valid;
@@ -13,9 +14,11 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserRestController {
     private final UserService userService;
+    //private final JwtUtil jwtUtil;
 
-    public UserRestController(UserService userService) {
+    public UserRestController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+       // this.jwtUtil = jwtUtil;
     }
 @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserRegistrationDTO registration) {
@@ -23,17 +26,32 @@ public class UserRestController {
         return ResponseEntity.ok(user);
 }
 
+
 @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
-        boolean response = userService.loginUser(loginDTO);
-        if (response) {
-            return ResponseEntity.ok("Login successful");
+public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
+    String token = userService.loginUserToken(loginDTO);
+    if (token != null) {
+        return ResponseEntity.ok(token);
+    } else {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+    }
+}
+
+@PostMapping("/profile")
+    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody UserDTO.ProfileRequestDTO request) {
+        String email = request.email();
+        String token = request.token();
+
+        if (userService.validateToken(email, token)) {
+            UserDTO user = userService.getUserByEmail(email);
+            return ResponseEntity.ok(user);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 
-@GetMapping
+
+    @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         // METODO momentaneo para testear la api
         List<UserDTO> users = userService.getAllUsers();
