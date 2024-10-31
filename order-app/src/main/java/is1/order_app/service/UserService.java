@@ -70,13 +70,13 @@ public class UserService {
         });
     }
 
-    public void restorePassword(String email, String password) {
-        UserDTO userDTO = getUserByEmail(email);
+    public void restorePassword(PassChangeDTO passChangeDTO) {
+        UserDTO userDTO = getUserByEmail(passChangeDTO.email());
         User user = new User(
                 userDTO.email(),
                 userDTO.name(),
                 userDTO.surname(),
-                password,
+                passChangeDTO.newPassword(),
                 userDTO.photoUrl(),
                 userDTO.age(),
                 userDTO.gender(),
@@ -84,15 +84,13 @@ public class UserService {
         );
         userRepository.save(user);
     }
+    
     public boolean changePassword(PassChangeDTO passChangeDTO) {
         Optional<User> user = userRepository.findByEmail(passChangeDTO.email());
         if (!(user.isPresent())) {
             return false;
         }
-        /*
-        Change the user's password
-        user.get().setPassword(newPassword);
-        */
+        user.get().setPassword(passChangeDTO.newPassword());
         return true;
     }
 }
