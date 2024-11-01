@@ -34,6 +34,12 @@ public class UserRestController {
         }
     }
 
+@PostMapping("/requestPassChange")
+    public ResponseEntity<String> requestPasswordChange(@RequestParam String email) {
+        userService.askMailRestorePassword(email);
+        return ResponseEntity.ok("Password recovery mail sent");
+    }
+
 @PostMapping("/passChange")
     public ResponseEntity<String> changePassword(@Valid @RequestBody PassChangeDTO passChangeDTO) {
         boolean response = userService.changePassword(passChangeDTO);
