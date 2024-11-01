@@ -14,6 +14,9 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne
+    private Order order;
+
+    @ManyToOne
     private Product product;
 
     private Integer quantity;
