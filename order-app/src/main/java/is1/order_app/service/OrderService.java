@@ -1,6 +1,10 @@
 package is1.order_app.service;
 
+import is1.order_app.dto.OrderDTO;
 import is1.order_app.entities.Order;
+import is1.order_app.entities.OrderState;
+import is1.order_app.exceptions.CannotCancelOrderException;
+import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +34,21 @@ public class OrderService {
 
     public Optional<Order> getOrderById(Long id) {
         return orderRepository.findById(id);
+    }
+
+    public void cancelOrder(Long id) {
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        if (orderOpt.isEmpty()) {
+            throw new OrderNotFoundException("The order with id " + id  + "not exists");
+        }
+
+        Order order = orderOpt.get();
+
+        if (!order.canBeCanceled()) {
+            throw new CannotCancelOrderException("The order cannot be cancelled");
+        }
+
+       order.setState(OrderState.CANCELED);
     }
 
     public void deleteOrder(Long id) {
