@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class OrderDTO {
     private Long id;
-    private Long userId;  // Reference User by ID only
+    private String userId;
     private List<OrderItemDTO> items;
     private String state;
     private LocalDateTime creationDate;

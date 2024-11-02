@@ -12,8 +12,7 @@ public class Order {
     @Id
     private Long id;
 
-    @ManyToOne
-    private User user;
+    private String userId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderItem> items;
@@ -21,20 +20,18 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderState state;
 
-    private LocalDateTime creationDate;
-
-    private LocalDateTime confirmationDate;
+    private LocalDateTime confirmationTime;
 
     public Order() {}
 
     @PrePersist
-    public void setCreationDate() {
-        this.creationDate = LocalDateTime.now();
+    public void setConfirmationTime() {
+        this.confirmationTime = LocalDateTime.now();
     }
 
     public boolean canBeCanceled() {
-        return state != OrderState.PROCESSING &&
-                confirmationDate != null &&
-                confirmationDate.plusHours(24).isAfter(LocalDateTime.now());
+        return state == OrderState.CONFIRMED &&
+                confirmationTime != null &&
+                confirmationTime.plusHours(24).isAfter(LocalDateTime.now());
     }
 }
