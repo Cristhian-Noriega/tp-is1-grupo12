@@ -17,32 +17,37 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping
+    @PostMapping("/createOrder")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         Order newOrder = orderService.createOrder(order);
         return ResponseEntity.ok(newOrder);
     }
 
-    @GetMapping
+    @GetMapping("/getAllOrders")
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Optional<Order> order = orderService.getOrderById(id);
+    @GetMapping("/getOrder")
+    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
+        Optional<Order> order = orderService.getOrderById(orderId);
         return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("{/{id}}")
-    public ResponseEntity<?> cancelOrder(@PathVariable Long id) {
-
+    @GetMapping("/cancelOrder")
+    public ResponseEntity<String> cancelOrder(@PathVariable Long orderId) {
+        return ResponseEntity.ok("order canceled");        
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+    @DeleteMapping("/deleteOrder")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
+        orderService.deleteOrder(orderId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/completeOrder")
+    public ResponseEntity<String> completeOrder(@PathVariable Long orderId) {
+        return ResponseEntity.ok("order completed");
     }
 }
