@@ -1,13 +1,15 @@
 package is1.order_app.controller;
 import is1.order_app.dto.UserDTO;
 import is1.order_app.dto.LoginDTO;
-import is1.order_app.jwt.JwtUtil;
+import is1.order_app.dto.PassChangeDTO;
 import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import is1.order_app.exceptions.WrongPasswordException;
+import is1.order_app.exceptions.UserNotFoundException;
 import java.util.List;
 
 @RestController
