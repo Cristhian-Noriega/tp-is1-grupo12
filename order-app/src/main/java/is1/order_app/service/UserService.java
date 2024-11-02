@@ -18,10 +18,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final is1.order_app.service.EmailSenderService emailSenderService;
+    private final EmailSenderService emailSenderService;
 
-    public UserService(UserRepository userRepository) {
-        this.emailSenderService = new is1.order_app.service.EmailSenderService();
+    public UserService(UserRepository userRepository, EmailSenderService emailSenderService) {
+        this.emailSenderService = emailSenderService;
         this.userRepository = userRepository;
     }
 
