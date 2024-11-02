@@ -42,7 +42,7 @@ public class OrderController {
         } catch(OrderNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order couldn't be canceled because the order with that ID wasn't found.");
         } catch(CannotCancelOrderException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order couldn't be canceled because 24 hours have already passed.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Order can't be canceled any more.");
         }
         return ResponseEntity.ok("order canceled");        
     }
