@@ -16,8 +16,8 @@ public class ReglaInterpreter {
             String atributo = regla.getString("atributo_afectado");
             String msjError = regla.getString("mensaje_error");
 
-            if (simbolo == "<" && atributo == "color") {
-                reglas.add(new MaximoColorRegla(regla.getString("valor_atributo"), regla.getInt("valor"), msjError));
+            if (simbolo == "<") {
+                reglas.add(new MaximoRegla(atributo, regla.getString("valor_atributo"), regla.getInt("valor"), msjError));
             } else {
                 throw new ClassNotFoundException("No hay regla con el simbolo y atributo proporcionados");
             }
