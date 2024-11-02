@@ -76,13 +76,16 @@ public class UserService {
         return null;
     }
 
+    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
+        return user.get().getPassword().equals(possiblePassword);
+    }
 
     public boolean loginUser(LoginDTO loginDTO) {
         Optional<User> user = userRepository.findByEmail(loginDTO.email());
         if (!(user.isPresent())) {
             throw new UserNotFoundException("User not found with email " + loginDTO.email());
         }
-        if (confirmPassword(user, loginDTO.password())) {
+        if (this.confirmPassword(user, loginDTO.password())) {
             return true;
         } else {
             throw new WrongPasswordException("Login to " + loginDTO.email() + " failed because of wrong password.");
