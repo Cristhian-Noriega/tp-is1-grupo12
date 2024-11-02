@@ -1,0 +1,34 @@
+[
+  {
+    "regla": "<",
+    "atributo_afectado": "color",
+    "valor_atributo": "rojo",
+    "valor": 3,
+    "mensaje_error": "Máximo 3 productos de color rojo."
+  },
+  {
+    "regla": "no_mix",
+    "atributo_afectado": "refrigerable",
+    "valor_atributo": "true",
+    "valor_atributo2": "false",
+    "mensaje_error": "No pueden haber productos refrigerables con productos no refrigerables."
+  },
+  {
+    "regla": "<=",
+    "atributo_afectado": "peso",
+    "valor": 10,
+    "mensaje_error": "El peso total de los productos debe ser al menos de 10 kg."
+  },
+  {
+    "regla": ">",
+    "atributo_afectado": "peso",
+    "valor_atributo": 2,
+    "mensaje_error": "Cada producto debe pesar más de 2 kg."
+  },
+  {
+    "regla": "not_in",
+    "atributo_afectado": "color",
+    "valor_atributo": "verde",
+    "mensaje_error": "No deben haber productos de color verde."
+  }
+]
