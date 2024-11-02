@@ -30,13 +30,20 @@ public class OrderController {
     }
 
     @GetMapping("/getOrder")
-    public ResponseEntity<Order> getOrderById(@PathVariable Long orderId) {
-        Optional<Order> order = orderService.getOrderById(orderId);
+    public ResponseEntity<Order> searchOrderById(@PathVariable Long orderId) {
+        Optional<Order> order = orderService.searchOrderById(orderId);
         return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/cancelOrder")
     public ResponseEntity<String> cancelOrder(@PathVariable Long orderId) {
+        try {
+            orderService.cancelOrder(orderId);
+        } catch(OrderNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order couldn't be canceled because the order with that ID wasn't found.");
+        } catch(CannotCancelOrderException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order couldn't be canceled because 24 hours have already passed.");
+        }
         return ResponseEntity.ok("order canceled");        
     }
 
@@ -48,6 +55,11 @@ public class OrderController {
 
     @GetMapping("/completeOrder")
     public ResponseEntity<String> completeOrder(@PathVariable Long orderId) {
+        try {
+            orderService.completeOrder(orderId);
+        } catch(OrderNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order couldn't be confirmed because the order with that ID wasn't found.");
+        }
         return ResponseEntity.ok("order completed");
     }
 }

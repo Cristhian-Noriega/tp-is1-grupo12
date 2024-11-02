@@ -32,26 +32,33 @@ public class OrderService {
         return products;
     }
 
-    public Optional<Order> getOrderById(Long id) {
+    public Optional<Order> searchOrderById(Long id) {
         return orderRepository.findById(id);
     }
 
-    public void cancelOrder(Long id) {
-        Optional<Order> orderOpt = orderRepository.findById(id);
-        if (orderOpt.isEmpty()) {
+    public Order getOrderById(Long id) {
+        Optional<Order> order = orderRepository.searchOrderById(id);
+        if (order.isEmpty()) {
             throw new OrderNotFoundException("The order with id " + id  + "not exists");
         }
+        return orderOpt.get();
+    }
 
-        Order order = orderOpt.get();
-
+    public void cancelOrder(Long id) {
+        Order order = OrderService.getOrderById();
         if (!order.canBeCanceled()) {
             throw new CannotCancelOrderException("The order cannot be cancelled");
         }
-
        order.setState(OrderState.CANCELED);
     }
 
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
+
+    public void completeOrder(Long orderId) {
+        Order order = OrderService.getOrderById(orderId);
+        order.setState(OrderState.CONFIRMED);
+    }
+
 }
