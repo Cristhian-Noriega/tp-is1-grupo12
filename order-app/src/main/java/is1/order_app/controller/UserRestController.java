@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import is1.order_app.exceptions.WrongPasswordException;
+import is1.order_app.exceptions.UserNotFoundException;
 import java.util.List;
 
 @RestController
@@ -26,11 +28,13 @@ public class UserRestController {
 
 @PostMapping("/login")
     public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
-        boolean response = userService.loginUser(loginDTO);
-        if (response) {
+        try {
+            userService.loginUser(loginDTO);
             return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed because user was not found.");
+        } catch (WrongPasswordException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed because of wrong password.");
         }
     }
 
