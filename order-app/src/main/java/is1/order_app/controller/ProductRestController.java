@@ -1,13 +1,10 @@
 package is1.order_app.controller;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import is1.order_app.model.request.ProductRequest;
-import is1.order_app.model.request.StockRequest;
-import is1.order_app.model.response.ProductResponse;
+import is1.order_app.dto.ProductDTO;
+import is1.order_app.dto.StockChangeDTO;
+import is1.order_app.dto.ProductViewDTO;
 import is1.order_app.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
@@ -20,11 +17,12 @@ import java.util.List;
 @Validated
 
 class ProductRestController {
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
-    @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@NonNull @RequestBody ProductRequest request) {
+    public ProductRestController(ProductService productService) { this.productService = productService; }
+
+    @PostMapping("/admin")
+    public ResponseEntity<ProductViewDTO> createProduct(@NonNull @RequestBody ProductDTO request) {
         try {
             return ResponseEntity.ok(productService.createProduct(request));
         }catch (Exception e) {
@@ -33,7 +31,7 @@ class ProductRestController {
         }
 
     }
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("/admin/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long productId) {
         try{
             productService.deleteProduct(productId);
@@ -44,8 +42,8 @@ class ProductRestController {
         }
     }
 
-    @PutMapping("/{productId}/stock")
-    public ResponseEntity<ProductResponse> updateStock(@PathVariable Long productId, @RequestBody StockRequest request) {
+    @PutMapping("/admin/{productId}/stock")
+    public ResponseEntity<ProductViewDTO> updateStock(@PathVariable Long productId, @RequestBody StockChangeDTO request) {
         try{
             return ResponseEntity.ok(productService.updateProductStock(productId, request));
         }catch (Exception e) {
@@ -55,7 +53,7 @@ class ProductRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getAllProducts() {
+    public ResponseEntity<List<ProductViewDTO>> getAllProducts() {
         try{
             return ResponseEntity.ok(productService.getAllProducts());
         }catch (Exception e) {
@@ -66,7 +64,7 @@ class ProductRestController {
     }
 
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductResponse> getProduct(@PathVariable Long productId) {
+    public ResponseEntity<ProductViewDTO> getProduct(@PathVariable Long productId) {
         try{
             return ResponseEntity.ok(productService.getProductById(productId));
         }catch (Exception e) {
@@ -75,5 +73,14 @@ class ProductRestController {
         }
 
     }
+    @GetMapping("/{productId}/stock")
+    public ResponseEntity<?> getStockProduct(@PathVariable Long productId) {
+        try{
+            return ResponseEntity.ok(productService.getProductById(productId).getStock());
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
 
+    }
 }
