@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailSenderService {
-    @Autowired
+    
     private JavaMailSender mailSender;
+
+    public EmailSenderService(JavaMailSender mailSender){
+        this.mailSender = mailSender;
+    }
 
     public void restorePasswordMail(String receptorMail) {
         SimpleMailMessage message=new SimpleMailMessage();
