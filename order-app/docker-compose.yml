@@ -43,5 +43,20 @@ services:
     depends_on:
       - postgres
 
+  react-app:
+    image: node:20.18.0
+    container_name: react-app
+    ports:
+      - "5173:5173" 
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host"
+    volumes:
+      - ../frontend-tp1:/app
+      - /app/node_modules
+    depends_on:
+      - web
+
 volumes:
   pgdata:
+
+
