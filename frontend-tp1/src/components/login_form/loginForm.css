@@ -1,0 +1,59 @@
+.login-form-wrapper {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: #1e1e1e; 
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+}
+
+.iniciar-sesion-box h2 {
+    text-align: center;
+    margin: 0;
+    margin-bottom: 20px;
+    font-weight: 300;
+    color: #f0f0f0;
+    border-bottom: 2px solid #007fca; 
+    padding-bottom: 10px;
+}
+
+.username-box, .password-box {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    
+    margin-bottom: 15px;
+}
+
+.username, .password {
+    font-size: 14px;
+    width: 17%;
+    margin-right: 10px;
+    color: #cfcfcf; 
+}
+
+.form-box input {
+    padding: 10px;
+    width: 90%;
+    border: none;
+    border-radius: 4px;
+    background-color: #f0f0f0; 
+    color: black;
+    outline: none;
+}
+
+.forget-password-box{
+    font-size: small;
+    color: #f0f0f0;
+}
+
+.forget-password-box:hover {
+    color: #23A3E8;
+}
+
+@media (max-width: 768px){
+.login-form-wrapper {
+    max-width: 200px;
+    margin: 50px auto;
+}
+}
