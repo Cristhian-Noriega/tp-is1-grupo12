@@ -14,6 +14,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+
+
 
 @Service
 public class UserService {
@@ -58,9 +63,19 @@ public class UserService {
         return userDTO.get();
     }
 
-    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
-        return user.get().getPassword().equals(possiblePassword);
+
+    public String loginUserToken(LoginDTO loginDTO) {
+        Optional<User> userOpt = userRepository.findByEmail(loginDTO.email());
+        if (userOpt.isPresent() && userOpt.get().getPassword().equals(loginDTO.password())) {
+            User user = userOpt.get();
+            String token = generateToken(user.getEmail());
+            user.setAuthToken(token);
+            userRepository.save(user);
+            return token;
+        }
+        return null;
     }
+
 
     public boolean loginUser(LoginDTO loginDTO) {
         Optional<User> user = userRepository.findByEmail(loginDTO.email());
@@ -90,4 +105,29 @@ public class UserService {
         user.get().setPassword(passChangeDTO.newPassword());
         return true;
     }
+
+    private String generateToken(String email) {
+        try {
+            String input = email + System.currentTimeMillis();
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(input.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error generating token", e);
+        }
+    }
+
+    public boolean validateToken(String email, String token) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        return userOpt.isPresent() && token.equals(userOpt.get().getAuthToken());
+    }
+
+
 }
+
+
+
