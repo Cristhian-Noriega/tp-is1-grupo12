@@ -8,7 +8,7 @@ export const SubmitButton = ({type,text, backgroundColor, backgroundColorHover})
 
   const buttonStyle = {
     backgroundColor: isHovered ? backgroundColorHover : backgroundColor,
-    width: '100%',
+    width: '95%',
     padding: '10px',
     border: 'none',
     borderRadius: '4px',

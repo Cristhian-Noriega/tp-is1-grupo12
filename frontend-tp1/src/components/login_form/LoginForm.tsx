@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import './loginForm.css'
 import { Link } from 'react-router-dom';
 import { SubmitButton } from '../ui/SubmitButton';
@@ -22,7 +22,7 @@ export const LoginForm = ({handleLogin}) => {
     </div>
     
     <form onSubmit={onSubmit}>
-      <div className="username-box">
+      <div className="username-box form-box">
         <div className="username">Username</div>
         <input
           id="username"
@@ -32,7 +32,7 @@ export const LoginForm = ({handleLogin}) => {
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
-      <div className="password-box">
+      <div className="password-box form-box">
         <div className="password">Password</div>
         <input
           id="password"

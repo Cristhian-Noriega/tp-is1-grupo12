@@ -32,8 +32,7 @@
     color: #cfcfcf; 
 }
 
-input[type="text"], input[type="password"] {
-    flex: 2;
+.form-box input {
     padding: 10px;
     width: 90%;
     border: none;
@@ -57,9 +56,4 @@ input[type="text"], input[type="password"] {
     max-width: 200px;
     margin: 50px auto;
 }
-
-/* button#login-btn {
-    padding:9px;
-    font-size: 16px;
-} */
 }
