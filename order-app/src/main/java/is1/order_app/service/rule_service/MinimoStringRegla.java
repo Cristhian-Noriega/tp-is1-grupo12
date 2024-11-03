@@ -1,29 +1,31 @@
 package is1.order_app.service.rule_service;
 
+import is1.order_app.entities.product.Product;
+
 import java.util.List;
 
-public class MaximoRegla implements Regla {
+public class MinimoStringRegla implements Regla {
     private String atributo;
     private String valor;
-    private int maximo;
+    private int minimo;
     private String mensajeError;
 
-    public MaximoRegla(String atributo, String valor, int maximo, String mensajeError) {
+    public MinimoStringRegla(String atributo, String valor, int minimo, String mensajeError) {
         this.atributo = atributo;
         this.valor = valor;
-        this.maximo = maximo;
+        this.minimo = minimo;
         this.mensajeError = mensajeError;
     }
 
     @Override
-    public boolean interpret(List<is1.order_app.entities.product.Product> products, List<Integer> cantidades) {
+    public boolean interpret(List<Product> products, List<Integer> cantidades) {
         long total = 0;
         for (int i = 0; i < products.size(); i++) {
             if (products.get(i).get(atributo) == valor) {
                 total += cantidades.get(i);
             }
-        i
-        return total <= maximo;
+        }
+        return total >= minimo;
     }
 
     @Override
