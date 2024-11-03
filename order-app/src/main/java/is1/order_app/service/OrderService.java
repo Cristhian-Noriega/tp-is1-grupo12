@@ -5,6 +5,7 @@ import is1.order_app.entities.Order;
 import is1.order_app.entities.OrderState;
 import is1.order_app.exceptions.CannotCancelOrderException;
 import is1.order_app.exceptions.OrderNotFoundException;
+import is1.order_app.mapper.OrderMapper;
 import is1.order_app.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,16 +37,21 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public Order getOrderById(Long id) {
-        Optional<Order> order = orderRepository.searchOrderById(id);
+    public OrderDTO getOrderById(Long id) {
+        Optional<Order> order = orderRepository.findById(id);
         if (order.isEmpty()) {
             throw new OrderNotFoundException("The order with id " + id  + "not exists");
         }
-        return orderOpt.get();
+        return OrderMapper.toDTO(order.get());
     }
 
     public void cancelOrder(Long id) {
-        Order order = OrderService.getOrderById();
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        if (orderOpt.isEmpty()) {
+            throw new OrderNotFoundException("The order with id " + id  + "not exists");
+        }
+
+        Order order = orderOpt.get();
         if (!order.canBeCanceled()) {
             throw new CannotCancelOrderException("The order cannot be cancelled");
         }
@@ -56,8 +62,13 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public void completeOrder(Long orderId) {
-        Order order = OrderService.getOrderById(orderId);
+    public void completeOrder(Long id) {
+        Optional<Order> orderOpt = orderRepository.findById(id);
+        if (orderOpt.isEmpty()) {
+            throw new OrderNotFoundException("The order with id " + id  + "not exists");
+        }
+
+        Order order = orderOpt.get();
         order.setState(OrderState.CONFIRMED);
     }
 
