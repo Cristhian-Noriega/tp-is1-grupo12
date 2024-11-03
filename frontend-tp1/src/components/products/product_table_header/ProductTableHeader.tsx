@@ -5,12 +5,10 @@ export const ProductTableHeader = () => {
     <thead>
     <tr>
       <th>Nombre</th>
-      <th>Descripción</th>
-      <th>Marca</th>
-      <th>Categoría</th>
-      <th>Precio</th>
       <th>Stock</th>
-      <th>Activo</th>
+      <th>Marca</th>
+      <th>Descrpicion</th>
+      <th>Estado</th>
       <th>Acciones</th>
     </tr>
   </thead>

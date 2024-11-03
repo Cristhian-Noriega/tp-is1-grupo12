@@ -1,20 +1,25 @@
-import React from 'react'
-const iconProducts = "/public/assets/caja_productos.svg";
-export const ProductItem = ({product}) => {
+import './productItem.css';
+const editButton = "/public/assets/add.svg";
+const deleteButton = "/public/assets/delete.svg";
+const infoButton = "/public/assets/info.svg";
+
+export const ProductItem = ({ product, onShowDetails }) => {
   return (
     <tr>
-    <td>{product.name}</td>
-    <td>{product.description}</td>
-    <td>{product.brand}</td>
-    <td>{product.category}</td>
-    <td>{product.price}</td>
-    <td>{product.stock}</td>
-    <td>{product.active ? 'Sí' : 'No'}</td>
-    <td>
-        {/* Puedes agregar botones o enlaces para las acciones */}
-        <button><img src={iconProducts} alt="Users Icon" className="nav-icon" /></button>
-        <button>Eliminar</button>
-    </td>
-</tr>
-  )
+      <td>{product.name}</td>
+      <td>{product.stock}</td>
+      <td>{product.brand}</td>
+      <td>{product.description}</td>
+      <td>{product.state === 'confirm' && 'Confirmado'}
+      {product.state === 'processing' && 'En Proceso'}
+      {product.state === 'shipped' && 'Enviado'}
+      {product.state === 'canceled' && 'Cancelado'}
+      </td>
+      <td>
+        <button className='action-button'><img src={editButton} alt="BOTON EDITAR" className="nav-icon" /></button>
+        <button className='action-button'><img src={deleteButton} alt="BOTON ELIMINAR" className="nav-icon" /></button>
+        <button className='action-button' onClick={() => onShowDetails(product)}><img src={infoButton} alt="BOTON INFO" className="nav-icon" /></button>
+      </td>
+    </tr>
+  );
 }

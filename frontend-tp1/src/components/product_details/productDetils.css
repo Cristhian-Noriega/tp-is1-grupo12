@@ -1,0 +1,40 @@
+.product-details-wrapper-box {
+    padding: 16px;
+    background-color: #f9f9f9; /* Fondo claro */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card {
+    margin-bottom: 16px; /* Espaciado entre tarjetas */
+  }
+  
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    background-color: #e0e0e0; /* Color de fondo de la cabecera */
+    padding: 8px;
+    border-radius: 4px;
+  }
+  
+  .header-item {
+    flex: 1; /* Hace que cada elemento ocupe espacio igual */
+    text-align: left; /* Alineación del texto a la izquierda */
+  }
+  
+  .body-row {
+    margin-top: 8px; /* Espaciado entre la cabecera y el cuerpo */
+  }
+  
+  .body-item {
+    display: flex;
+    justify-content: space-between; /* Espacio entre los elementos del cuerpo */
+    padding: 8px;
+    border-bottom: 1px solid #ccc; /* Línea divisoria entre filas */
+  }
+  
+  .item {
+    flex: 1; /* Hace que cada elemento ocupe espacio igual */
+    text-align: left; /* Alineación del texto a la izquierda */
+  }
+  
