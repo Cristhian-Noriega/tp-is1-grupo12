@@ -43,6 +43,7 @@ public class OrderService {
             throw new CannotCancelOrderException("The order cannot be cancelled");
         }
        order.setState(OrderState.CANCELED);
+        orderRepository.save(order);
     }
 
     public void deleteOrder(Long id) {
@@ -52,7 +53,7 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public void completeOrder(Long id) {
+    public void confirmOrder(Long id) {
         Order order = findOrderById(id);
         order.setState(OrderState.CONFIRMED);
     }
@@ -64,5 +65,4 @@ public class OrderService {
         }
         return order.get();
     }
-
 }

@@ -1,12 +1,12 @@
 package is1.order_app.controller;
 
+import is1.order_app.dto.OrderDTO;
 import is1.order_app.entities.Order;
 import is1.order_app.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -23,43 +23,33 @@ public class OrderController {
         return ResponseEntity.ok(newOrder);
     }
 
-    @GetMapping("/getAllOrders")
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
-        return ResponseEntity.ok(orders);
+    @GetMapping()
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
 
-    @GetMapping("/getOrder")
-    public ResponseEntity<Order> searchOrderById(@PathVariable Long orderId) {
-        Optional<Order> order = orderService.searchOrderById(orderId);
-        return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderDTO> getOrder(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
-    @GetMapping("/cancelOrder")
-    public ResponseEntity<String> cancelOrder(@PathVariable Long orderId) {
-        try {
-            orderService.cancelOrder(orderId);
-        } catch(OrderNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order couldn't be canceled because the order with that ID wasn't found.");
-        } catch(CannotCancelOrderException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Order can't be canceled any more.");
-        }
-        return ResponseEntity.ok("order canceled");        
+    @GetMapping("/{id}/cancel")
+    public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
+        orderService.cancelOrder(id);
+        //se podria devoler el order dto si se lo necesita, por ahora solo un string
+        return ResponseEntity.ok("Order canceled succsessfully");
     }
 
-    @DeleteMapping("/deleteOrder")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
-        orderService.deleteOrder(orderId);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/completeOrder")
-    public ResponseEntity<String> completeOrder(@PathVariable Long orderId) {
-        try {
-            orderService.completeOrder(orderId);
-        } catch(OrderNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order couldn't be confirmed because the order with that ID wasn't found.");
-        }
-        return ResponseEntity.ok("order completed");
+
+    @PutMapping("/{id}/confirm")
+    public ResponseEntity<String> confirmOrder(@PathVariable Long id) {
+        orderService.confirmOrder(id);
+        return ResponseEntity.ok("Order completed successfully");
     }
 }
