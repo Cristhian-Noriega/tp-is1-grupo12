@@ -2,12 +2,11 @@ package is1.order_app.service;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import is1.order_app.exceptions.HandlerNotFoundException;
+
 import is1.order_app.exceptions.ProductNotFoundException;
 import is1.order_app.mapper.ProductMapper;
-import is1.order_app.entities.handler.ProductHandler;
-import is1.order_app.entities.product.EnumCategory;
-import is1.order_app.entities.product.Product;
+
+import is1.order_app.entities.Product;
 import is1.order_app.dto.ProductDTO;
 import is1.order_app.dto.StockChangeDTO;
 import is1.order_app.dto.ProductViewDTO;
@@ -24,26 +23,22 @@ import java.util.Optional;
 @Log4j2
 @Service
 public class ProductService {
-    private final List<ProductHandler> handlers;
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
 
     @Autowired
-    public ProductService(List<ProductHandler> handlers, ProductRepository productRepository, ProductMapper productMapper) {
-        this.handlers = handlers;
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
     }
 
     public ProductViewDTO createProduct(ProductDTO newProduct) throws JsonProcessingException {
+        log.info("Producto llegue");
         ProductViewDTO result;
-        ProductHandler handler = getHandler(newProduct.getType());
         Product product = productMapper.toEntity(newProduct);
-        product.setProductData(handler.handleProduct(newProduct));
         productRepository.save(product);
         result = productMapper.toProductViewDTO(product);
-        result.setProductData(handler.getProduct(product));
-        //log.info("Producto creado con exito"+ result.toString());
+        log.info("Producto creado con exito"+ result.toString());
         return result;
     }
 
@@ -89,19 +84,10 @@ public class ProductService {
 
     private ProductViewDTO getProduct(Product product) throws JsonProcessingException {
         ProductViewDTO response;
-        ProductHandler handler= getHandler(product.getType());
         response = productMapper.toProductViewDTO(product);
-        response.setProductData(handler.getProduct(product));
         return response;
     }
 
 
-    private ProductHandler getHandler(EnumCategory type) {
-        for (ProductHandler handler : handlers) {
-            if (handler.canHandle(type)) {
-                return handler;
-            }
-        }
-        throw new HandlerNotFoundException("No handler found for type " + type);
-    }
+
 }
