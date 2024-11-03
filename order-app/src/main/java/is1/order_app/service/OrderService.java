@@ -25,33 +25,20 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public List<Order> getAllOrders() {
-        List<Order> products = new ArrayList<>();
+    public List<OrderDTO> getAllOrders() {
+        List<OrderDTO> orders = new ArrayList<>();
         for (Order order :orderRepository.findAll()){
-            products.add(order);
+            orders.add(OrderMapper.toDTO(order));
         }
-        return products;
-    }
-
-    public Optional<Order> searchOrderById(Long id) {
-        return orderRepository.findById(id);
+        return orders;
     }
 
     public OrderDTO getOrderById(Long id) {
-        Optional<Order> order = orderRepository.findById(id);
-        if (order.isEmpty()) {
-            throw new OrderNotFoundException("The order with id " + id  + "not exists");
-        }
-        return OrderMapper.toDTO(order.get());
+        return OrderMapper.toDTO(findOrderById(id));
     }
 
     public void cancelOrder(Long id) {
-        Optional<Order> orderOpt = orderRepository.findById(id);
-        if (orderOpt.isEmpty()) {
-            throw new OrderNotFoundException("The order with id " + id  + "not exists");
-        }
-
-        Order order = orderOpt.get();
+        Order order = findOrderById(id);
         if (!order.canBeCanceled()) {
             throw new CannotCancelOrderException("The order cannot be cancelled");
         }
@@ -59,17 +46,23 @@ public class OrderService {
     }
 
     public void deleteOrder(Long id) {
+        if (!orderRepository.existsById(id)) {
+            throw new OrderNotFoundException("The order with id " + id + " not exists");
+        }
         orderRepository.deleteById(id);
     }
 
     public void completeOrder(Long id) {
-        Optional<Order> orderOpt = orderRepository.findById(id);
-        if (orderOpt.isEmpty()) {
+        Order order = findOrderById(id);
+        order.setState(OrderState.CONFIRMED);
+    }
+
+    private Order findOrderById(Long id) {
+        Optional<Order> order = orderRepository.findById(id);
+        if (order.isEmpty()) {
             throw new OrderNotFoundException("The order with id " + id  + "not exists");
         }
-
-        Order order = orderOpt.get();
-        order.setState(OrderState.CONFIRMED);
+        return order.get();
     }
 
 }
