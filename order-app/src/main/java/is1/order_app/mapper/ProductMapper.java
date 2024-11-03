@@ -5,11 +5,12 @@ import is1.order_app.dto.ProductViewDTO;
 import is1.order_app.entities.Product;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 
 @Component
 public class ProductMapper {
@@ -34,26 +35,15 @@ public class ProductMapper {
         response.setExtraAtributes(stringToMap(product.getProductExtraAtributtes()));
         return response;
     }
-    /*public void setExtraAtributes(String extraAtributes) {
-        Map<String, Object> map = new HashMap<>();
-
-        String[] pairs = extraAtributes.split(", ");
-        for (String pair : pairs) {
-            String[] keyValue = pair.split(": ");
-            if (keyValue.length == 2) {
-                String key = keyValue[0].trim();
-                Object value = keyValue[1].trim();
-                map.put(key, value);
-            }
-        }
-        this.extraAtributes= map;
-    }*/
-
     private Map<String, String> loadTypeMapping() {
         Map<String, String> typeMapping = new HashMap<>();
-        String filepath= "asd2";
         Properties properties = new Properties();
-        try (FileInputStream input = new FileInputStream(data_types_atributes.properties)) {
+        String fileName= "data_types_atributes.properties";
+        try (InputStream input = ProductMapper.class.getClassLoader().getResourceAsStream(fileName)) {
+            if (input == null) {
+                System.out.println("Lo siento, no se pudo encontrar el archivo: " + fileName);
+                return null;
+            }
             properties.load(input);
             for (String key : properties.stringPropertyNames()) {
                 typeMapping.put(key, properties.getProperty(key));
