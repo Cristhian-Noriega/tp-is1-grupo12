@@ -1,7 +1,5 @@
 package is1.order_app.dto;
 
-import is1.order_app.entities.User;
-
 public record UserDTO(
         String email,
         String name,
@@ -11,11 +9,4 @@ public record UserDTO(
         String gender,
         String address
 ) {
-
-    public record ProfileRequestDTO(
-            String email,
-            String token
-    ) {
-    }
-
 }
