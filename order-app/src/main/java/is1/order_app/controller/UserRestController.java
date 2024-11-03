@@ -5,17 +5,18 @@ import is1.order_app.dto.LoginDTO;
 import is1.order_app.dto.PassChangeDTO;
 import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.service.UserService;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import is1.order_app.exceptions.WrongPasswordException;
 import is1.order_app.exceptions.UserNotFoundException;
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
 public class UserRestController {
+
     private final UserService userService;
 
     public UserRestController(UserService userService) {
@@ -23,16 +24,16 @@ public class UserRestController {
     }
 
 @PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserRegistrationDTO registration) {
-        UserDTO user = userService.registerUser(registration);
+    public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserRegistrationDTO registrationDTO) {
+        UserDTO user = userService.registerUser(registrationDTO);
         return ResponseEntity.ok(user);
     }
 
 @PostMapping("/login")
     public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
         try {
-            userService.loginUser(loginDTO);
-            return ResponseEntity.ok("Login successful");
+            String token = userService.loginUser(loginDTO);
+            return ResponseEntity.ok(token);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed because user was not found.");
         } catch (WrongPasswordException e) {
@@ -46,7 +47,7 @@ public class UserRestController {
         return ResponseEntity.ok("Password recovery mail sent");
     }
 
-@PostMapping("/passChange")
+@PatchMapping("/passChange")
     public ResponseEntity<String> changePassword(@Valid @RequestBody PassChangeDTO passChangeDTO) {
         boolean response = userService.changePassword(passChangeDTO);
         if (response) {
@@ -56,11 +57,10 @@ public class UserRestController {
         }
     }
 
-
-@PostMapping("/profile")
-    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody UserDTO.ProfileRequestDTO request) {
-        String email = request.email();
-        String token = request.token();
+@GetMapping("/privateProfile")
+    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody UserDTO.ProfileRequestDTO requestDTO) {
+        String email = requestDTO.email();
+        String token = requestDTO.token();
         if (userService.validateToken(email, token)) {
             UserDTO user = userService.getUserByEmail(email);
             return ResponseEntity.ok(user);
@@ -69,15 +69,15 @@ public class UserRestController {
         }
     }
 
-@GetMapping
+@GetMapping("/publicProfile")
+    public ResponseEntity<UserDTO> getUserByEmail(@RequestParam String email) {
+        return ResponseEntity.ok(userService.getUserByEmail(email));
+    }
+
+@GetMapping("/allProfiles")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
         // METODO momentaneo para testear la api
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
-    }
-
-@GetMapping("/{email}")
-    public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
-        return ResponseEntity.ok(userService.getUserByEmail(email));
     }
 }

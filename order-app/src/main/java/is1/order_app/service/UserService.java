@@ -63,30 +63,21 @@ public class UserService {
         return userDTO.get();
     }
 
+    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
+        return user.get().getPassword().equals(possiblePassword);
+    }
 
-    public String loginUserToken(LoginDTO loginDTO) {
+    public String loginUser(LoginDTO loginDTO) {
         Optional<User> userOpt = userRepository.findByEmail(loginDTO.email());
-        if (userOpt.isPresent() && userOpt.get().getPassword().equals(loginDTO.password())) {
+        if (!(userOpt.isPresent())) {
+            throw new UserNotFoundException("User not found with email " + loginDTO.email());
+        }
+        if (this.confirmPassword(userOpt, loginDTO.password())) {
             User user = userOpt.get();
             String token = generateToken(user.getEmail());
             user.setAuthToken(token);
             userRepository.save(user);
             return token;
-        }
-        return null;
-    }
-
-    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
-        return user.get().getPassword().equals(possiblePassword);
-    }
-
-    public boolean loginUser(LoginDTO loginDTO) {
-        Optional<User> user = userRepository.findByEmail(loginDTO.email());
-        if (!(user.isPresent())) {
-            throw new UserNotFoundException("User not found with email " + loginDTO.email());
-        }
-        if (this.confirmPassword(user, loginDTO.password())) {
-            return true;
         } else {
             throw new WrongPasswordException("Login to " + loginDTO.email() + " failed because of wrong password.");
         }
