@@ -37,7 +37,7 @@ public class OrderController {
     public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
         orderService.cancelOrder(id);
         //se podria devoler el order dto si se lo necesita, por ahora solo un string
-        return ResponseEntity.ok("Order canceled succsessfully");
+        return ResponseEntity.ok("Order canceled successfully");
     }
 
     @DeleteMapping("/{id}")

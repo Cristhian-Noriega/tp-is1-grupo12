@@ -56,6 +56,7 @@ public class OrderService {
     public void confirmOrder(Long id) {
         Order order = findOrderById(id);
         order.setState(OrderState.CONFIRMED);
+        orderRepository.save(order);
     }
 
     private Order findOrderById(Long id) {
