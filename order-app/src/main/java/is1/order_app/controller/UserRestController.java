@@ -71,7 +71,6 @@ public class UserRestController {
 
 @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        // METODO momentaneo para testear la api
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }

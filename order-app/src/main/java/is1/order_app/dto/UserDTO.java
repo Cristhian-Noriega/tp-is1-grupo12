@@ -11,17 +11,7 @@ public record UserDTO(
         String gender,
         String address
 ) {
-    public static UserDTO fromUser(User user) {
-        return new UserDTO(
-                user.getEmail(),
-                user.getName(),
-                user.getSurname(),
-                user.getPhotoUrl(),
-                user.getAge(),
-                user.getGender(),
-                user.getAddress()
-        );
-    }
+
     public record ProfileRequestDTO(
             String email,
             String token
