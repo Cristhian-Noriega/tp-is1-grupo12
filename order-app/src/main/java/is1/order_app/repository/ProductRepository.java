@@ -1,6 +1,6 @@
 package is1.order_app.repository;
 
-import is1.order_app.entities.product.Product;
+import is1.order_app.entities.Product;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
