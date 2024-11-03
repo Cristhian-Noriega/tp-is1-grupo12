@@ -3,13 +3,14 @@ import './loginForm.css'
 import { Link } from 'react-router-dom';
 import { SubmitButton } from '../ui/SubmitButton';
 
-export const LoginForm = () => {
+export const LoginForm = ({handleLogin}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const onSubmit = (event) => {
         event.preventDefault();
         console.log('Iniciando sesión con:', { username, password });
+        handleLogin(username, password);
         setUsername("");
         setPassword("");
       };

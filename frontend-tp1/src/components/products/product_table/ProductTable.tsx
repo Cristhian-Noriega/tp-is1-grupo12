@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ProductItem } from '../product_item/ProductItem';
 import { ProductTableHeader } from '../product_table_header/ProductTableHeader'
 import './productTable.css'
-import ProductDetails from '../../info_card/product_details/ProductDetails';
+import ProductDetails from '../../product_details/ProductDetails';
 export const ProductTable = () => {
   const products = [
     { 

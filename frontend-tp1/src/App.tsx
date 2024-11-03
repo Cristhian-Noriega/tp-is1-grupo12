@@ -4,11 +4,12 @@ import { LoginPage } from './pages/LoginPage'
 import { RegisterPage } from './pages/RegisterPage'
 import { ForgetPasswordPage } from './pages/ForgetPasswordPage'
 import { HomePage } from './pages/HomePage'
+import { Provider } from './context/Provider'
 
 function App() {
 
   return (
-    <>
+    <Provider>
       <HashRouter>
       <Routes>
       <Route path="/" element={<Navigate to="/login" replace />} />
@@ -18,7 +19,7 @@ function App() {
       <Route path="/home" element={<HomePage/>} />
       </Routes>
       </HashRouter>
-    </>
+    </Provider>
   )
 }
 

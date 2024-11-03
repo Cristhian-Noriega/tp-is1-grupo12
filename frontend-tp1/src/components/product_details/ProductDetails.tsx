@@ -16,12 +16,12 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
-    
+
   return (
     <div className='product-details-wrapper-box'>
       <Card 
         title='Detalles del Producto'
-        body={<BodyCard itemsFieldDetails={itemsFieldsDetails} data={product} />}    
+        body={<BodyCard data={product} />}    
       />
     </div>
   );
