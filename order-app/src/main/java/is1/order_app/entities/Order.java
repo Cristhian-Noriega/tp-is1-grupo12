@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String userId;
@@ -25,8 +26,13 @@ public class Order {
     public Order() {}
 
     @PrePersist
-    public void setConfirmationTime() {
-        this.confirmationTime = LocalDateTime.now();
+    public void initializeOrder() {
+        if (confirmationTime == null) {
+            this.confirmationTime = LocalDateTime.now();
+        }
+        if (state == null) {
+            this.state = OrderState.CONFIRMED;
+        }
     }
 
     public boolean canBeCanceled() {

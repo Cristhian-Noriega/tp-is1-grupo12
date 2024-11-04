@@ -2,9 +2,9 @@ package is1.order_app.mapper;
 
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.dto.OrderItemDTO;
+import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.Order;
 import is1.order_app.entities.OrderItem;
-import is1.order_app.entities.OrderState;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,8 +20,9 @@ public class OrderMapper {
                 .map(OrderMapper::toDTO)
                 .collect(Collectors.toList())
         );
-        orderDTO.setState(order.getState().toString());
-        orderDTO.setConfirmationDate(order.getConfirmationTime());
+        orderDTO.setState(order.getState());
+        orderDTO.setConfirmationTime(order.getConfirmationTime());
+
         return orderDTO;
     }
 
@@ -31,6 +32,17 @@ public class OrderMapper {
         orderItemDTO.setQuantity(orderItem.getQuantity());
 
         return orderItemDTO;
+    }
+
+    public static Order toEntity(OrderRequestDTO orderRequestDTO) {
+        Order order = new Order();
+        order.setUserId(orderRequestDTO.getUserId());
+        List<OrderItem> orderItems = orderRequestDTO.getItems().stream()
+                .map(OrderMapper::toEntity)
+                .collect(Collectors.toList());
+        order.setItems(orderItems);
+
+        return order;
     }
 
     public static Order toEntity(OrderDTO orderDTO) {
@@ -43,16 +55,17 @@ public class OrderMapper {
                 .collect(Collectors.toList());
         order.setItems(orderItems);
 
-        order.setState(OrderState.valueOf(orderDTO.getState()));
-        order.setConfirmationTime(orderDTO.getConfirmationDate());
-        return order;
+        order.setState(orderDTO.getState());
+        order.setConfirmationTime(orderDTO.getConfirmationTime());
 
+        return order;
     }
 
     public static OrderItem toEntity(OrderItemDTO orderItemDTO) {
         OrderItem orderItem = new OrderItem();
         orderItem.setId(orderItem.getId());
         orderItem.setQuantity(orderItemDTO.getQuantity());
+
         return orderItem;
     }
 }

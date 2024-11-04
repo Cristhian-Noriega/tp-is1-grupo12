@@ -1,7 +1,7 @@
 package is1.order_app.controller;
 
 import is1.order_app.dto.OrderDTO;
-import is1.order_app.entities.Order;
+import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +17,10 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping("/createOrder")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order newOrder = orderService.createOrder(order);
-        return ResponseEntity.ok(newOrder);
+    @PostMapping("/create")
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+        OrderDTO orderDTO = orderService.createOrder(orderRequestDTO);
+        return ResponseEntity.ok(orderDTO);
     }
 
     @GetMapping()

@@ -1,6 +1,7 @@
 package is1.order_app.service;
 
 import is1.order_app.dto.OrderDTO;
+import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.Order;
 import is1.order_app.entities.OrderState;
 import is1.order_app.exceptions.CannotCancelOrderException;
@@ -21,8 +22,10 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(Order order) {
-        return orderRepository.save(order);
+    public OrderDTO createOrder(OrderRequestDTO orderRequestDTO) {
+        Order order = OrderMapper.toEntity(orderRequestDTO);
+        order = orderRepository.save(order);
+        return OrderMapper.toDTO(order);
     }
 
     public List<OrderDTO> getAllOrders() {
