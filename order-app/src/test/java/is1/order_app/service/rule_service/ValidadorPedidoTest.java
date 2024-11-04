@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -17,13 +16,11 @@ public class ValidadorPedidoTest {
 
     @BeforeEach
     public void setup() throws Exception {
-        // Inicializar el validador con el path al archivo de reglas de prueba
         validador = new ValidadorPedido("src/main/resources/testrules.json");
     }
 
     @Test
     public void testValidar_ConReglasQueFallan() {
-        // Configura algunos productos para que provoquen errores en las reglas
         Product producto1 = new Product();
         producto1.setName("Laptop");
         HashMap<String,Object> extraAttributes = new HashMap<>();
