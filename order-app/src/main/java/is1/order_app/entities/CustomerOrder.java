@@ -8,8 +8,9 @@ import java.util.List;
 
 @Entity
 @Data
-public class Order {
+public class CustomerOrder {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String userId;
@@ -22,11 +23,16 @@ public class Order {
 
     private LocalDateTime confirmationTime;
 
-    public Order() {}
+    public CustomerOrder() {}
 
     @PrePersist
-    public void setConfirmationTime() {
-        this.confirmationTime = LocalDateTime.now();
+    public void initializeOrder() {
+        if (confirmationTime == null) {
+            this.confirmationTime = LocalDateTime.now();
+        }
+        if (state == null) {
+            this.state = OrderState.CONFIRMED;
+        }
     }
 
     public boolean canBeCanceled() {

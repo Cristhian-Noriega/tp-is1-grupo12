@@ -1,5 +1,6 @@
 package is1.order_app.dto;
 
+import is1.order_app.entities.OrderState;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -10,8 +11,7 @@ public class OrderDTO {
     private Long id;
     private String userId;
     private List<OrderItemDTO> items;
-    private String state;
-    private LocalDateTime creationDate;
-    private LocalDateTime confirmationDate;
+    private OrderState state;
+    private LocalDateTime confirmationTime;
 }
 

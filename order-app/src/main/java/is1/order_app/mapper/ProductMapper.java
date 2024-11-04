@@ -2,20 +2,33 @@ package is1.order_app.mapper;
 
 import is1.order_app.dto.ProductDTO;
 import is1.order_app.dto.ProductViewDTO;
-import is1.order_app.entities.product.Product;
+import is1.order_app.entities.Product;
+import is1.order_app.utils.AttributeParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 
 @Component
 public class ProductMapper {
 
+    private final AttributeParser attributeParser;
+
+    public ProductMapper(AttributeParser attributeParser) {
+        this.attributeParser = attributeParser;
+    }
     public Product toEntity(ProductDTO productDTO) {
         Product product = new Product();
         product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
         product.setStock(productDTO.getStock());
-        product.setType(productDTO.getType());
         product.setBrand(productDTO.getBrand());
         product.setDescription(productDTO.getDescription());
+        product.setProductExtraAtributtes(productDTO.getExtraAtributes());
         return product;
     }
 
@@ -23,11 +36,10 @@ public class ProductMapper {
         ProductViewDTO response = new ProductViewDTO();
         response.setId(product.getId());
         response.setName(product.getName());
-        response.setPrice(product.getPrice());
         response.setStock(product.getStock());
-        response.setType(product.getType());
         response.setBrand(product.getBrand());
         response.setDescription(product.getDescription());
+        response.setExtraAtributes(attributeParser.stringToMap(product.getProductExtraAtributtes()));
         return response;
     }
 }

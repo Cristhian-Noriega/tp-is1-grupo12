@@ -1,7 +1,8 @@
 package is1.order_app.order_management.command;
 
-import is1.order_app.entities.Order;
+
+import is1.order_app.entities.CustomerOrder;
 
 public interface OrderCommand {
-    void execute(Order order);
+    void execute(CustomerOrder order);
 }

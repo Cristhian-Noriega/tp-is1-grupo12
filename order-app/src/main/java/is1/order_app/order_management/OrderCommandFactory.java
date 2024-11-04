@@ -1,6 +1,6 @@
 package is1.order_app.order_management;
 
-import is1.order_app.entities.Order;
+import is1.order_app.entities.CustomerOrder;
 import is1.order_app.entities.OrderState;
 import is1.order_app.order_management.command.CancelOrderCommand;
 import is1.order_app.order_management.command.CompleteOrderCommand;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderCommandFactory {
-    public static List<OrderCommand> getAvailableCommands(Order order) {
+    public static List<OrderCommand> getAvailableCommands(CustomerOrder order) {
         List<OrderCommand> commands = new ArrayList<>();
         OrderState state = order.getState();
 

@@ -1,6 +1,5 @@
 package is1.order_app.entities;
 
-import is1.order_app.entities.product.Product;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne
-    private Order order;
+    private CustomerOrder order;
 
     @ManyToOne
     private Product product;

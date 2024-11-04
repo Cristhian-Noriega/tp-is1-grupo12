@@ -1,11 +1,11 @@
 package is1.order_app.controller;
 
 import is1.order_app.dto.OrderDTO;
+import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.exceptions.CannotCancelOrderException;
 import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.mapper.OrderMapper;
 import is1.order_app.order_management.command.OrderCommand;
-import is1.order_app.entities.Order;
 import is1.order_app.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,21 +24,25 @@ public class OrderController {
         this.orderMapper = orderMapper;
     }
 
-@PostMapping("/createOrder")
-public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-    Order newOrder = orderService.createOrder(order);
-    return ResponseEntity.ok(newOrder);
-}
-
+    @PostMapping("/create")
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+        try {
+            OrderDTO orderDTO = orderService.createOrder(orderRequestDTO);
+            return ResponseEntity.ok(orderDTO);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the stack trace
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 
     @GetMapping()
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
-        return ResponseEntity.ok(orderService.getAllOrdersdto());
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrder(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrderByIddto(id));
+        return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
     @PostMapping("/{orderId}/executeCommand")
@@ -57,5 +61,11 @@ public ResponseEntity<Order> createOrder(@RequestBody Order order) {
     public ResponseEntity<List<OrderCommand>> getAvailableCommands(@PathVariable Long orderId) {
         List<OrderCommand> commands = orderService.getAvailableCommands(orderId);
         return ResponseEntity.ok(commands);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
     }
 }

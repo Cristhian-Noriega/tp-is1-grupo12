@@ -64,24 +64,7 @@ class ProductRestController {
         }
 
     }
-    @GetMapping("/category/{category}")
-    public ResponseEntity<List<ProductViewDTO>> getProductsByCategory(@PathVariable EnumCategory category) {
-        try {
-            List<ProductViewDTO> products = productService.getProductsByCategory(category);
-            return ResponseEntity.ok(products);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
-        }
-    }
 
-    @GetMapping("/categories")
-    public ResponseEntity<List<String>> getAllCategories() {
-        List<String> categories = Arrays.stream(EnumCategory.values())
-                .map(EnumCategory::name)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(categories);
-    }
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductViewDTO> getProduct(@PathVariable Long productId) {

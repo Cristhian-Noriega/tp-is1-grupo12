@@ -3,10 +3,14 @@ package is1.order_app.service;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.mapper.OrderMapper;
 import is1.order_app.order_management.command.OrderCommand;
-import is1.order_app.entities.Order;
 import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.order_management.OrderCommandFactory;
+import is1.order_app.dto.OrderRequestDTO;
+import is1.order_app.entities.CustomerOrder;
+import is1.order_app.entities.OrderState;
+import is1.order_app.exceptions.CannotCancelOrderException;
 import is1.order_app.repository.OrderRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,51 +25,52 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order createOrder(Order order) {
-        return orderRepository.save(order);
-    }
-
-    public List<Order> getAllOrders() {
-        return (List<Order>) orderRepository.findAll();
-    }
-
-    public Optional<Order> searchOrderById(Long id) {
-        return orderRepository.findById(id);
-    }
-
-    public Order getOrderById(Long id) {
-        return orderRepository.findById(id)
-                .orElseThrow(() -> new OrderNotFoundException("The order with id " + id + " does not exist"));
+    @Transactional
+    public OrderDTO createOrder(OrderRequestDTO orderRequestDTO) {
+        CustomerOrder order = OrderMapper.toEntity(orderRequestDTO);
+        order = orderRepository.save(order);
+        return OrderMapper.toDTO(order);
     }
 
     public void executeCommand(Long orderId, OrderCommand command) {
-        Order order = getOrderById(orderId);
+        OrderDTO orderDTO = getOrderById(orderId);
+        CustomerOrder order = OrderMapper.toEntity(orderDTO);
         command.execute(order);
         orderRepository.save(order);
     }
 
     public List<OrderCommand> getAvailableCommands(Long orderId) {
-        Order order = getOrderById(orderId);
+        OrderDTO orderDTO = getOrderById(orderId);
+        CustomerOrder order = OrderMapper.toEntity(orderDTO);
         return OrderCommandFactory.getAvailableCommands(order);
     }
 
-    private Order findOrderById(Long id) {
-        Optional<Order> order = orderRepository.findById(id);
-        if (order.isEmpty()) {
-            throw new OrderNotFoundException("The order with id " + id  + "not exists");
-        }
-        return order.get();
+    public OrderDTO getOrderById(Long id) {
+        return OrderMapper.toDTO(findOrderById(id));
     }
 
-    public List<OrderDTO> getAllOrdersdto() {
+    public List<OrderDTO> getAllOrders() {
         List<OrderDTO> orders = new ArrayList<>();
-        for (Order order :orderRepository.findAll()){
+        for (CustomerOrder order :orderRepository.findAll()){
             orders.add(OrderMapper.toDTO(order));
         }
         return orders;
     }
 
-    public OrderDTO getOrderByIddto(Long id) {
-        return OrderMapper.toDTO(findOrderById(id));
+
+    public void deleteOrder(Long id) {
+        if (!orderRepository.existsById(id)) {
+            throw new OrderNotFoundException("The order with id " + id + " not exists");
+        }
+        orderRepository.deleteById(id);
+    }
+
+
+    private CustomerOrder findOrderById(Long id) {
+        Optional<CustomerOrder> order = orderRepository.findById(id);
+        if (order.isEmpty()) {
+            throw new OrderNotFoundException("The order with id " + id  + "not exists");
+        }
+        return order.get();
     }
 }
