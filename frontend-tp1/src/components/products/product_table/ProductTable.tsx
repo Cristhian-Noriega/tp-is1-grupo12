@@ -2,37 +2,15 @@ import { useState } from 'react';
 import { ProductItem } from '../product_item/ProductItem';
 import { ProductTableHeader } from '../product_table_header/ProductTableHeader'
 import './productTable.css'
-import ProductDetails from '../../product_details/ProductDetails';
-export const ProductTable = () => {
-  const products = [
-    { 
-        id: 1,
-        name: 'Producto 1', 
-        stock: 20,
-        brand: 'Marca PEPE', 
-        description: 'Descripción del producto 1',
-        state:'confirm',
-        extraAttributes: {
-            color: 'Rojo',
-            weight: '1kg',
-        } 
-    },
-    { 
-        id: 2,
-        name: 'Producto 2', 
-        stock: 0,
-        brand: 'Marca B', 
-        description: 'Descripción del producto 2',
-        state:'canceled', 
-        extraAttributes: {
-            color: 'Azul',
-            weight: '1.5kg',
-        } 
-    },
-];
+import ProductDetails from '../product_details/ProductDetails';
+import { productsUtils } from '../../../utils/productsUtils';
+
+export const ProductTable = ({products}) => {
 
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isCardVisible, setCardVisible] = useState(false);
+
+  const {deleteProduct} = productsUtils();
 
   const handleShowDetails = (product) => {
     console.log('Producto seleccionado:', product);
@@ -53,6 +31,7 @@ export const ProductTable = () => {
       {products.map((product) => (
                         <ProductItem key={product.id} 
                         product={product}
+                        deleteProduct={deleteProduct}
                         onShowDetails={handleShowDetails} 
                         />
                     ))}

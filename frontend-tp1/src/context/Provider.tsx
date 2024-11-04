@@ -2,12 +2,11 @@ import { useState } from "react";
 import { Context } from "./Context";
 
 export function Provider({ children }) {
-    const [contactos, setContactos] = useState([]);
-    const [message, setMessage] = useState(null);
     const [user, setUser] = useState(null);
+    const [products, setProducts] = useState([]);
   
     return (
-      <Context.Provider value={{ message, setMessage, user, setUser, contactos, setContactos }}>
+      <Context.Provider value={{user, setUser, products, setProducts}}>
         {children}
       </Context.Provider>
     );

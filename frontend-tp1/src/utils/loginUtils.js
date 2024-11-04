@@ -5,7 +5,7 @@ import { Context } from "../context/Context";
 
 export const loginUtils = () => {
   
-const { user,setUser, setMessage}  = useContext(Context);
+const { user,setUser}  = useContext(Context);
 
 const handleLogin = async (email, password) => {
 

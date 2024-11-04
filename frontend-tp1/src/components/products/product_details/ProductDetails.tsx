@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card } from '../card/Card';
-import BodyCard from '../card/body_card/BodyCard';
+import { Card } from '../../card/Card';
+import BodyCard from '../../card/body_card/BodyCard';
 
 interface ProductDetailsProps {
   product: {

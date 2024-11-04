@@ -1,7 +1,7 @@
 import './bodyCard.css';
-import { HeaderBodyCard } from './HeaderBodyCard';
 
-export const BodyCard = ({ itemsFieldDetails,data }) => {
+export const BodyCard = ({ data }) => {
+  console.log(data)
   return (
     <div className='body-card'>
       <div className='header-row'>
@@ -10,8 +10,7 @@ export const BodyCard = ({ itemsFieldDetails,data }) => {
         <div className='header-item'>Marca</div>
         <div className='header-item'>Descripcion</div>
         <div className='header-item'>Estado</div>
-        <div className='header-item'>Peso</div>
-        <div className='header-item'>Color</div>
+        <div className='header-item'>Atributos Extras</div>
       </div>
       <div className='body-row'>
         {data && 
@@ -21,9 +20,19 @@ export const BodyCard = ({ itemsFieldDetails,data }) => {
             <div className='item'>{data.brand}</div>
             <div className='item'>{data.description}</div>
             <div className='item'>{data.state === 'confirm' ? 'Confirmado' : 'Cancelado'}</div>
-            <div className='item'>{data.extraAttributes.weight}</div>
-            <div className='item'>{data.extraAttributes.color}</div>
-            
+            <div className='item'>
+              {data.extraAttributes ? (
+                <div className='extra-attributes'>
+                  {Object.entries(data.extraAttributes).map(([key, value]) => (
+                    <div key={key}>
+                      <strong>{key}:</strong> {value}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                'N/A'
+              )}
+            </div>
           </div>
         }
       </div>
