@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -25,38 +24,20 @@ public class OrderController {
         this.orderMapper = orderMapper;
     }
 
-//    @PostMapping("/createOrder")
-//    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
-//        Order order = orderMapper.toEntity(orderDTO);
-//        Order newOrder = orderService.createOrder(order);
-//        OrderDTO responseDTO = orderMapper.toDTO(newOrder);
-//        return ResponseEntity.ok(responseDTO);
-//    }
+@PostMapping("/createOrder")
+public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+    Order newOrder = orderService.createOrder(order);
+    return ResponseEntity.ok(newOrder);
+}
 
-    @PostMapping("/createOrder")
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
-        Order order = orderMapper.toEntity(orderDTO);
-
-        // Verificación temporal
-        System.out.println("Order to be created: " + order);
-
-        Order newOrder = orderService.createOrder(order);
-        OrderDTO responseDTO = orderMapper.toDTO(newOrder);
-        return ResponseEntity.ok(responseDTO);
+    @GetMapping()
+    public ResponseEntity<List<OrderDTO>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrdersdto());
     }
 
-
-
-    @GetMapping("/getAllOrders")
-    public ResponseEntity<List<Order>> getAllOrders() {
-        List<Order> orders = orderService.getAllOrders();
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/getOrder")
-    public ResponseEntity<Order> searchOrderById(@PathVariable Long orderId) {
-        Optional<Order> order = orderService.searchOrderById(orderId);
-        return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderDTO> getOrder(@PathVariable Long id) {
+        return ResponseEntity.ok(orderService.getOrderByIddto(id));
     }
 
     @PostMapping("/{orderId}/executeCommand")

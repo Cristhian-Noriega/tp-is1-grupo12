@@ -11,6 +11,8 @@ import is1.order_app.entities.User;
 import is1.order_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,4 +92,37 @@ public class UserService {
         user.get().setPassword(passChangeDTO.newPassword());
         return true;
     }
+
+    public String loginUserToken(LoginDTO loginDTO) {
+        Optional<User> userOpt = userRepository.findByEmail(loginDTO.email());
+        if (userOpt.isPresent() && userOpt.get().getPassword().equals(loginDTO.password())) {
+            User user = userOpt.get();
+            String token = generateToken(user.getEmail());
+            user.setAuthToken(token);
+            userRepository.save(user);
+            return token;
+        }
+        return null;
+    }
+
+    private String generateToken(String email) {
+        try {
+            String input = email + System.currentTimeMillis();
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(input.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error generating token", e);
+        }
+    }
+
+    public boolean validateToken(String email, String token) {
+        Optional<User> userOpt = userRepository.findByEmail(email);
+        return userOpt.isPresent() && token.equals(userOpt.get().getAuthToken());
+    }
+
 }
