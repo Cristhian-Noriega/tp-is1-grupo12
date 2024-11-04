@@ -1,55 +1,37 @@
 package is1.order_app.dto;
 
-import is1.order_app.entities.product.EnumCategory;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Map;
 
 @Getter
 @Setter
 public class ProductDTO {
 
     private String name;
-    private Double price;
-    private EnumCategory type;
     private Integer stock;
     private String brand;
     private String description;
-    private String color;
-    private Double weight;
-    private String expirationDate;
-    private Boolean requiredRefrigeration;
-    private String size;
+    private Map<String,Object> extraAtributes;
 
-    public ProductDTO(String name, Double price, EnumCategory type, Integer stock, String brand, String description, String color, Double weight, String expirationDate, Boolean requiredRefrigeration, String size) {
+    public ProductDTO(String name, Integer stock, String brand, String description, Map<String,Object> extraAtributes) {
         this.name = name;
-        this.price = price;
-        this.type = type;
         this.stock = stock;
         this.brand = brand;
         this.description = description;
-        this.color = color;
-        this.weight = weight;
-        this.expirationDate = expirationDate;
-        this.requiredRefrigeration = requiredRefrigeration;
-        this.size = size;
+        this.extraAtributes= extraAtributes;
+
     }
 
     @Override
     public String toString() {
         return "ProductRequest{" +
                 "name='" + name + '\'' +
-                ", price=" + price +
-                ", type=" + type +
                 ", stock=" + stock +
                 ", brand='" + brand + '\'' +
                 ", description='" + description + '\'' +
-                ", color='" + color + '\'' +
-                ", weight=" + weight +
-                ", expirationDate='" + expirationDate + '\'' +
-                ", requiereRefigeration=" + requiredRefrigeration +
-                ", size='" + size + '\'' +
+                ", Extra='" + extraAtributes.toString() + '\'' +
                 '}';
     }
 }

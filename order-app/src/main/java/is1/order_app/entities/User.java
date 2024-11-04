@@ -5,11 +5,12 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
-@Data
 @NoArgsConstructor
 public class User {
     @Id
@@ -35,6 +36,9 @@ public class User {
 
     private String address;
 
+    @Setter
+    private String authToken;
+
     public User(String email, String name, String surname, String password, String photoUrl, Integer age, String gender, String address) {
         this.email = email;
         this.password = password;
@@ -46,3 +50,4 @@ public class User {
         this.address = address;
     }
 }
+
