@@ -22,4 +22,10 @@ public record UserDTO(
                 user.getAddress()
         );
     }
+    public record ProfileRequestDTO(
+            String email,
+            String token
+    ) {
+    }
+
 }
