@@ -13,7 +13,7 @@ public class OrderItem {
     private Long id;
 
     @ManyToOne
-    private Order order;
+    private CustomerOrder order;
 
     @ManyToOne
     private Product product;

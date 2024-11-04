@@ -1,9 +1,6 @@
 package is1.order_app.controller;
 
-import is1.order_app.dto.UserDTO;
-import is1.order_app.dto.LoginDTO;
-import is1.order_app.dto.PassChangeDTO;
-import is1.order_app.dto.UserRegistrationDTO;
+import is1.order_app.dto.*;
 import is1.order_app.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -70,7 +67,7 @@ public class UserRestController {
 
 
 @PostMapping("/profile")
-    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody UserDTO.ProfileRequestDTO request) {
+    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody ProfileRequestDTO request) {
         String email = request.email();
         String token = request.token();
         if (userService.validateToken(email, token)) {
@@ -83,7 +80,6 @@ public class UserRestController {
 
 @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        // METODO momentaneo para testear la api
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
