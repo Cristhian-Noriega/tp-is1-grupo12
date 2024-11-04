@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Order {
+public class CustomerOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +23,7 @@ public class Order {
 
     private LocalDateTime confirmationTime;
 
-    public Order() {}
+    public CustomerOrder() {}
 
     @PrePersist
     public void initializeOrder() {
