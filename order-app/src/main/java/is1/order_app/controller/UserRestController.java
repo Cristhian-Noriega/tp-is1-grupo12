@@ -35,18 +35,7 @@ public class UserRestController {
         }
     }
 
-    @PostMapping("/profile")
-    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody UserDTO.ProfileRequestDTO request) {
-        String email = request.email();
-        String token = request.token();
 
-        if (userService.validateToken(email, token)) {
-            UserDTO user = userService.getUserByEmail(email);
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-    }
 
 
     @PostMapping("/requestPassChange")

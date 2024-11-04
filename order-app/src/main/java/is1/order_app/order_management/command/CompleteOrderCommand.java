@@ -1,11 +1,11 @@
 package is1.order_app.order_management.command;
 
-import is1.order_app.entities.Order;
+import is1.order_app.entities.CustomerOrder;
 import is1.order_app.entities.OrderState;
 
 public class CompleteOrderCommand implements OrderCommand {
     @Override
-    public void execute(Order order) {
+    public void execute(CustomerOrder order) {
         if (order.getState() == OrderState.CONFIRMED) {
             order.setState(OrderState.PROCESSING);
         } else {

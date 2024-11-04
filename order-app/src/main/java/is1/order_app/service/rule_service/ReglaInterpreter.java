@@ -4,13 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ReglaInterpreter {
     public static List<Regla> createReglas(String path) throws Exception {
         List<Regla> reglas = new ArrayList<>();
-        JSONArray jsonArray = new JSONArray(path);
+
+        String content = new String(Files.readAllBytes(Paths.get(path)));
+        JSONArray jsonArray = new JSONArray(content);
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject regla = jsonArray.getJSONObject(i);

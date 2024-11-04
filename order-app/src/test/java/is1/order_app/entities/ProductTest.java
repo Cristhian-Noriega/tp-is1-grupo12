@@ -46,12 +46,12 @@ public class ProductTest {
 
     @Test
     void testAtributoComplejoInteger() {
-        assertEquals(32, product.get("size"));
+        assertEquals(32, Double.parseDouble((String) product.get("size")));
     }
 
     @Test
     void testAtributoComplejoDouble() {
-        assertEquals(150.4, product.get("peso"));
+        assertEquals(150.4, Double.parseDouble((String) product.get("peso")));
     }
 
     @Test

@@ -18,7 +18,7 @@ public class ValidadorPedidoTest {
     @BeforeEach
     public void setup() throws Exception {
         // Inicializar el validador con el path al archivo de reglas de prueba
-        validador = new ValidadorPedido("src/test/resources/testrules.json");
+        validador = new ValidadorPedido("testrules.json");
     }
 
     @Test

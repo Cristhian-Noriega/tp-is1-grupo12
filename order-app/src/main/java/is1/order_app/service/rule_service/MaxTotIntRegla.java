@@ -1,8 +1,6 @@
 package is1.order_app.service.rule_service;
 
-import is1.order_app.entities.Order;
 import is1.order_app.entities.OrderItem;
-import is1.order_app.entities.Product;
 
 import java.util.List;
 
@@ -21,14 +19,8 @@ public class MaxTotIntRegla implements Regla {
     public boolean interpret(List<OrderItem> items) {
         Double total = 0.0;
         for (OrderItem item : items) {
-            Object atributoValor = item.get(atributo);
-
-            if (atributoValor instanceof Number) {
-                double valorAtributo = ((Number) atributoValor).doubleValue();
-                total += valorAtributo * item.getQuantity();
-            } else {
-                throw new IllegalArgumentException("El atributo '" + atributo + "' no es un valor entero.");
-            }
+            double valorAtributo = Double.parseDouble((String) item.get(atributo));
+            total += valorAtributo * item.getQuantity();
         }
         return total <= valor;
     }
