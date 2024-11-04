@@ -2,7 +2,7 @@
   {
     "regla": "<=_str",
     "atributo_afectado": "categoria",
-    "valor_atributo": "Electrónica",
+    "valor_atributo": "electronica",
     "valor": 5,
     "mensaje_error": "No puede haber más de 5 productos de la categoría Electrónica"
   },

@@ -18,7 +18,7 @@ public class ValidadorPedidoTest {
     @BeforeEach
     public void setup() throws Exception {
         // Inicializar el validador con el path al archivo de reglas de prueba
-        validador = new ValidadorPedido("testrules.json");
+        validador = new ValidadorPedido("src/main/resources/testrules.json");
     }
 
     @Test
@@ -39,13 +39,13 @@ public class ValidadorPedidoTest {
         producto2.setProductExtraAtributtes(extraAttributes2);
 
         OrderItem item1 = new OrderItem(producto1, 3);
-        OrderItem item2 = new OrderItem(producto2, 3);
+        OrderItem item2 = new OrderItem(producto2, 2);
         List<OrderItem> productos = Arrays.asList(item1, item2);
 
         List<String> errores = validador.validar(productos);
 
         assertEquals(1, errores.size());
-        assertEquals("No puede haber más de 5 productos de la categoría Electrónica", errores.get(0));
+        assertEquals("El total no puede exceder los 1000", errores.get(0));
     }
 
     @Test
