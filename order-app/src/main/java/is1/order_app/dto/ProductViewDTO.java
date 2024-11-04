@@ -1,31 +1,30 @@
 package is1.order_app.dto;
 
-
-import is1.order_app.entities.product.EnumCategory;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 @Setter
 @Getter
 public class ProductViewDTO {
     private Long id;
     private String name;
-    private Double price;
     private Integer stock;
     private String brand;
-    private EnumCategory type;
     private String description;
-    private Object productData;
+    private Map<String,Object> extraAtributes;
 
-    public ProductViewDTO(String name, Double price, EnumCategory type, Integer stock, String brand, String description, Object productData) {
+    public ProductViewDTO(String name, Integer stock, String brand, String description, Map<String,Object> extraAtributes) {
         this.name = name;
-        this.price = price;
-        this.type = type;
         this.stock = stock;
         this.brand = brand;
         this.description = description;
-        this.productData = productData;
+        this.extraAtributes = extraAtributes;
     }
     public ProductViewDTO(){
 
@@ -36,12 +35,10 @@ public class ProductViewDTO {
         return "ProductResponse{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", price=" + price +
                 ", stock=" + stock +
                 ", brand='" + brand + '\'' +
-                ", type=" + type +
                 ", description='" + description + '\'' +
-                ", productData=" + productData +
+                ", extraAtributes=" + extraAtributes +
                 '}';
     }
 

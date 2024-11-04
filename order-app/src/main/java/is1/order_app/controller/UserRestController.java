@@ -1,9 +1,6 @@
 package is1.order_app.controller;
 
-import is1.order_app.dto.UserDTO;
-import is1.order_app.dto.LoginDTO;
-import is1.order_app.dto.PassChangeDTO;
-import is1.order_app.dto.UserRegistrationDTO;
+import is1.order_app.dto.*;
 import is1.order_app.service.UserService;
 import is1.order_app.exceptions.WrongPasswordException;
 import is1.order_app.exceptions.UserNotFoundException;
@@ -58,9 +55,10 @@ public class UserRestController {
     }
 
 @GetMapping("/privateProfile")
-    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody UserDTO.ProfileRequestDTO requestDTO) {
+    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody ProfileRequestDTO requestDTO) {
         String email = requestDTO.email();
         String token = requestDTO.token();
+
         if (userService.validateToken(email, token)) {
             UserDTO user = userService.getUserByEmail(email);
             return ResponseEntity.ok(user);
@@ -76,7 +74,6 @@ public class UserRestController {
 
 @GetMapping("/allProfiles")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
-        // METODO momentaneo para testear la api
         List<UserDTO> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
