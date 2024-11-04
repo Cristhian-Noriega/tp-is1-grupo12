@@ -63,7 +63,7 @@ public class OrderMapper {
 
     public static OrderItem toEntity(OrderItemDTO orderItemDTO) {
         OrderItem orderItem = new OrderItem();
-        orderItem.setId(orderItem.getId());
+        orderItem.setId(orderItemDTO.getProductId());
         orderItem.setQuantity(orderItemDTO.getQuantity());
 
         return orderItem;

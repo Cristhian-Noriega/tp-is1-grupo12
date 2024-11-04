@@ -1,6 +1,5 @@
 package is1.order_app.entities;
 
-import is1.order_app.entities.product.Product;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

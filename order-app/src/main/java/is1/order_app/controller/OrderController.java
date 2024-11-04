@@ -3,6 +3,7 @@ package is1.order_app.controller;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.service.OrderService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,13 @@ public class OrderController {
 
     @PostMapping("/create")
     public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
-        OrderDTO orderDTO = orderService.createOrder(orderRequestDTO);
-        return ResponseEntity.ok(orderDTO);
+        try {
+            OrderDTO orderDTO = orderService.createOrder(orderRequestDTO);
+            return ResponseEntity.ok(orderDTO);
+        } catch (Exception e) {
+            e.printStackTrace(); // Log the stack trace
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @GetMapping()
