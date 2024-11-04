@@ -85,7 +85,14 @@ public class ProductService {
         }
         return products;
     }
-
+    public List<ProductViewDTO> getProductsByCategory(EnumCategory category) throws JsonProcessingException {
+        List<Product> products = productRepository.findByType(category);
+        List<ProductViewDTO> productViewDTOs = new ArrayList<>();
+        for (Product product : products) {
+            productViewDTOs.add(getProduct(product));
+        }
+        return productViewDTOs;
+    }
 
     private ProductViewDTO getProduct(Product product) throws JsonProcessingException {
         ProductViewDTO response;

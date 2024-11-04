@@ -30,6 +30,7 @@ public ResponseEntity<Order> createOrder(@RequestBody Order order) {
     return ResponseEntity.ok(newOrder);
 }
 
+
     @GetMapping()
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         return ResponseEntity.ok(orderService.getAllOrdersdto());

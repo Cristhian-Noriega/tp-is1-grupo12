@@ -4,13 +4,16 @@ package is1.order_app.controller;
 import is1.order_app.dto.ProductDTO;
 import is1.order_app.dto.StockChangeDTO;
 import is1.order_app.dto.ProductViewDTO;
+import is1.order_app.entities.product.EnumCategory;
 import is1.order_app.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -60,6 +63,24 @@ class ProductRestController {
             return ResponseEntity.internalServerError().build();
         }
 
+    }
+    @GetMapping("/category/{category}")
+    public ResponseEntity<List<ProductViewDTO>> getProductsByCategory(@PathVariable EnumCategory category) {
+        try {
+            List<ProductViewDTO> products = productService.getProductsByCategory(category);
+            return ResponseEntity.ok(products);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/categories")
+    public ResponseEntity<List<String>> getAllCategories() {
+        List<String> categories = Arrays.stream(EnumCategory.values())
+                .map(EnumCategory::name)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/{productId}")
