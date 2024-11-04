@@ -28,19 +28,31 @@ public class UserRestController {
         return ResponseEntity.ok(user);
     }
 
-@PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
-        try {
-            userService.loginUser(loginDTO);
-            return ResponseEntity.ok("Login successful");
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed because user was not found.");
-        } catch (WrongPasswordException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed because of wrong password.");
+        String token = userService.loginUserToken(loginDTO);
+        if (token != null) {
+            return ResponseEntity.ok(token);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
 
-@PostMapping("/requestPassChange")
+    @PostMapping("/profile")
+    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody UserDTO.ProfileRequestDTO request) {
+        String email = request.email();
+        String token = request.token();
+
+        if (userService.validateToken(email, token)) {
+            UserDTO user = userService.getUserByEmail(email);
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
+
+    @PostMapping("/requestPassChange")
     public ResponseEntity<String> requestPasswordChange(@RequestParam String email) {
         userService.askMailRestorePassword(email);
         return ResponseEntity.ok("Password recovery mail sent");

@@ -29,7 +29,6 @@ class ProductRestController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-
     }
     @DeleteMapping("/admin/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long productId) {
