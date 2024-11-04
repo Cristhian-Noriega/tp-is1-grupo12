@@ -8,9 +8,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class ReglaInterpreter {
-    public static List<Regla> createReglas() throws Exception {
+    public static List<Regla> createReglas(String path) throws Exception {
         List<Regla> reglas = new ArrayList<>();
-        JSONArray jsonArray = new JSONArray("rules.json");
+        JSONArray jsonArray = new JSONArray(path);
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject regla = jsonArray.getJSONObject(i);

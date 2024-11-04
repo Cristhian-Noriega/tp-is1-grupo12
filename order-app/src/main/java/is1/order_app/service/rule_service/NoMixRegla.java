@@ -1,6 +1,6 @@
 package is1.order_app.service.rule_service;
 
-import is1.order_app.entities.product.Product;
+import is1.order_app.entities.Product;
 
 import java.util.List;
 
