@@ -1,7 +1,13 @@
 package is1.order_app.controller;
 
+import is1.order_app.dto.OrderDTO;
+import is1.order_app.exceptions.CannotCancelOrderException;
+import is1.order_app.exceptions.OrderNotFoundException;
+import is1.order_app.mapper.OrderMapper;
+import is1.order_app.order_management.command.OrderCommand;
 import is1.order_app.entities.Order;
 import is1.order_app.service.OrderService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +18,34 @@ import java.util.Optional;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
+    private final OrderMapper orderMapper;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, OrderMapper orderMapper) {
         this.orderService = orderService;
+        this.orderMapper = orderMapper;
     }
+
+//    @PostMapping("/createOrder")
+//    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
+//        Order order = orderMapper.toEntity(orderDTO);
+//        Order newOrder = orderService.createOrder(order);
+//        OrderDTO responseDTO = orderMapper.toDTO(newOrder);
+//        return ResponseEntity.ok(responseDTO);
+//    }
 
     @PostMapping("/createOrder")
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderDTO orderDTO) {
+        Order order = orderMapper.toEntity(orderDTO);
+
+        // Verificación temporal
+        System.out.println("Order to be created: " + order);
+
         Order newOrder = orderService.createOrder(order);
-        return ResponseEntity.ok(newOrder);
+        OrderDTO responseDTO = orderMapper.toDTO(newOrder);
+        return ResponseEntity.ok(responseDTO);
     }
+
+
 
     @GetMapping("/getAllOrders")
     public ResponseEntity<List<Order>> getAllOrders() {
@@ -35,31 +59,21 @@ public class OrderController {
         return order.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/cancelOrder")
-    public ResponseEntity<String> cancelOrder(@PathVariable Long orderId) {
+    @PostMapping("/{orderId}/executeCommand")
+    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommand command) {
         try {
-            orderService.cancelOrder(orderId);
-        } catch(OrderNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order couldn't be canceled because the order with that ID wasn't found.");
-        } catch(CannotCancelOrderException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Order can't be canceled any more.");
+            orderService.executeCommand(orderId, command);
+            return ResponseEntity.ok("Command executed successfully.");
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
+        } catch (CannotCancelOrderException | IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
-        return ResponseEntity.ok("order canceled");        
     }
 
-    @DeleteMapping("/deleteOrder")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
-        orderService.deleteOrder(orderId);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/completeOrder")
-    public ResponseEntity<String> completeOrder(@PathVariable Long orderId) {
-        try {
-            orderService.completeOrder(orderId);
-        } catch(OrderNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order couldn't be confirmed because the order with that ID wasn't found.");
-        }
-        return ResponseEntity.ok("order completed");
+    @GetMapping("/{orderId}/availableCommands")
+    public ResponseEntity<List<OrderCommand>> getAvailableCommands(@PathVariable Long orderId) {
+        List<OrderCommand> commands = orderService.getAvailableCommands(orderId);
+        return ResponseEntity.ok(commands);
     }
 }

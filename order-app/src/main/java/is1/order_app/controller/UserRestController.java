@@ -26,7 +26,7 @@ public class UserRestController {
         return ResponseEntity.ok(user);
 }
 
-@PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
         try {
             userService.loginUser(loginDTO);
@@ -38,7 +38,8 @@ public class UserRestController {
         }
     }
 
-@PostMapping("/requestPassChange")
+
+    @PostMapping("/requestPassChange")
     public ResponseEntity<String> requestPasswordChange(@RequestParam String email) {
         userService.askMailRestorePassword(email);
         return ResponseEntity.ok("Password recovery mail sent");
