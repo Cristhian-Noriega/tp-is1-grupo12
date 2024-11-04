@@ -7,7 +7,7 @@ export const LoginPage = () => {
 
 
 if (user != null) {
-  return <Navigate to="/" />;
+  return <Navigate to="/home" />;
 }
   return (
     <div>

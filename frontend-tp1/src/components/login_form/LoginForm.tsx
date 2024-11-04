@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 import { SubmitButton } from '../ui/SubmitButton';
 
 export const LoginForm = ({handleLogin}) => {
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const onSubmit = (event) => {
         event.preventDefault();
-        console.log('Iniciando sesión con:', { username, password });
-        handleLogin(username, password);
-        setUsername("");
+        console.log('Iniciando sesión con:', { email, password });
+        handleLogin(email, password);
+        setEmail("");
         setPassword("");
       };
 
@@ -23,13 +23,13 @@ export const LoginForm = ({handleLogin}) => {
     
     <form onSubmit={onSubmit}>
       <div className="username-box form-box">
-        <div className="username">Username</div>
+        <div className="username">Email</div>
         <input
-          id="username"
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+          id="email"
+          type="email"
+          value={email}
+          name="email"
+          onChange={({ target }) => setEmail(target.value)}
         />
       </div>
       <div className="password-box form-box">
@@ -38,7 +38,7 @@ export const LoginForm = ({handleLogin}) => {
           id="password"
           type="password"
           value={password}
-          name="Password"
+          name="password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>

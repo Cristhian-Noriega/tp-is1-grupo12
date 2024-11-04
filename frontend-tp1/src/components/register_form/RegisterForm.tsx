@@ -3,18 +3,20 @@ import './registerForm.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { SubmitButton } from '../ui/SubmitButton';
 
-export const RegisterForm  = () => {
+export const RegisterForm  = ({handleRegister}) => {
     const [username, setUsername] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [gender, setGender] = useState("");
+    const [age, setAge] = useState("");
     const [address, setAddress] = useState("");
 
     const navigate = useNavigate();
 
     const onSubmit = (event) => {
         event.preventDefault();
+        handleRegister(username, surname, email, password, gender,age, address )
         console.log('Se creo una cuenta con:', { username, surname, email, password, gender, address });
         setUsername("");
         setSurname("");
@@ -44,7 +46,7 @@ export const RegisterForm  = () => {
           id="username"
           type="text"
           value={username}
-          name="Username"
+          name="username"
           onChange={({ target }) => setUsername(target.value)}
         />
       </div>
@@ -55,7 +57,7 @@ export const RegisterForm  = () => {
           id="surname"
           type="text"
           value={surname}
-          name="Apellido"
+          name="surname"
           onChange={({ target }) => setSurname(target.value)}
         />
       </div>
@@ -64,9 +66,9 @@ export const RegisterForm  = () => {
         <div className="email">Email</div>
         <input
           id="email"
-          type="text"
+          type="email"
           value={email}
-          name="Email"
+          name="email"
           onChange={({ target }) => setEmail(target.value)}
         />
       </div>
@@ -77,7 +79,7 @@ export const RegisterForm  = () => {
           id="password"
           type="password"
           value={password}
-          name="Password"
+          name="password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
@@ -101,13 +103,24 @@ export const RegisterForm  = () => {
             Masculino
         </div>
 
+        <div className="age-box">
+        <div className="age">Edad</div>
+        <input
+          id="age"
+          type="text"
+          value={age}
+          name="age"
+          onChange={({ target }) => setAge(target.value)}
+        />
+      </div>  
+
       <div className="address-box">
         <div className="address">Direccion</div>
         <input
           id="address"
           type="text"
           value={address}
-          name="Direccion"
+          name="address"
           onChange={({ target }) => setAddress(target.value)}
         />
       </div>

@@ -19,7 +19,7 @@ public class EmailSenderService {
         message.setFrom("orderappingsoftware@gmail.com");
         message.setTo(receptorMail);
         message.setSubject("Recuperacion de contrasena");
-        String link = "http://localhost:5173/#/password-recovery";
+        String link = "http://172.19.0.5:5173/#/password-recovery";
         message.setText("Recupere su contrasena con el siguiente link:\n" +
                 link +
                 "\nMuchas gracias por usar nuestro servicio");
