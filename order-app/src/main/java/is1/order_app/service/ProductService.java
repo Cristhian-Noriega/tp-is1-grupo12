@@ -81,13 +81,9 @@ public class ProductService {
         return products;
     }
 
-
     private ProductViewDTO getProduct(Product product) throws JsonProcessingException {
         ProductViewDTO response;
         response = productMapper.toProductViewDTO(product);
         return response;
     }
-
-
-
 }

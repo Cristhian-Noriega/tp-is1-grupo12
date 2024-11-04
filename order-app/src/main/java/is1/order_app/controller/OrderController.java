@@ -2,6 +2,10 @@ package is1.order_app.controller;
 
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.dto.OrderRequestDTO;
+import is1.order_app.exceptions.CannotCancelOrderException;
+import is1.order_app.exceptions.OrderNotFoundException;
+import is1.order_app.mapper.OrderMapper;
+import is1.order_app.order_management.command.OrderCommand;
 import is1.order_app.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +17,11 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
+    private final OrderMapper orderMapper;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, OrderMapper orderMapper) {
         this.orderService = orderService;
+        this.orderMapper = orderMapper;
     }
 
     @PostMapping("/create")
@@ -39,23 +45,27 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
-    @GetMapping("/{id}/cancel")
-    public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
-        orderService.cancelOrder(id);
-        //se podria devoler el order dto si se lo necesita, por ahora solo un string
-        return ResponseEntity.ok("Order canceled successfully");
+    @PostMapping("/{orderId}/executeCommand")
+    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommand command) {
+        try {
+            orderService.executeCommand(orderId, command);
+            return ResponseEntity.ok("Command executed successfully.");
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
+        } catch (CannotCancelOrderException | IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{orderId}/availableCommands")
+    public ResponseEntity<List<OrderCommand>> getAvailableCommands(@PathVariable Long orderId) {
+        List<OrderCommand> commands = orderService.getAvailableCommands(orderId);
+        return ResponseEntity.ok(commands);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
-    }
-
-
-    @PutMapping("/{id}/confirm")
-    public ResponseEntity<String> confirmOrder(@PathVariable Long id) {
-        orderService.confirmOrder(id);
-        return ResponseEntity.ok("Order completed successfully");
     }
 }

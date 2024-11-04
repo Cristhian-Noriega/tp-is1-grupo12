@@ -1,12 +1,14 @@
 package is1.order_app.service;
 
 import is1.order_app.dto.OrderDTO;
+import is1.order_app.mapper.OrderMapper;
+import is1.order_app.order_management.command.OrderCommand;
+import is1.order_app.exceptions.OrderNotFoundException;
+import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.CustomerOrder;
 import is1.order_app.entities.OrderState;
 import is1.order_app.exceptions.CannotCancelOrderException;
-import is1.order_app.exceptions.OrderNotFoundException;
-import is1.order_app.mapper.OrderMapper;
 import is1.order_app.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,23 @@ public class OrderService {
         return OrderMapper.toDTO(order);
     }
 
+    public void executeCommand(Long orderId, OrderCommand command) {
+        OrderDTO orderDTO = getOrderById(orderId);
+        CustomerOrder order = OrderMapper.toEntity(orderDTO);
+        command.execute(order);
+        orderRepository.save(order);
+    }
+
+    public List<OrderCommand> getAvailableCommands(Long orderId) {
+        OrderDTO orderDTO = getOrderById(orderId);
+        CustomerOrder order = OrderMapper.toEntity(orderDTO);
+        return OrderCommandFactory.getAvailableCommands(order);
+    }
+
+    public OrderDTO getOrderById(Long id) {
+        return OrderMapper.toDTO(findOrderById(id));
+    }
+
     public List<OrderDTO> getAllOrders() {
         List<OrderDTO> orders = new ArrayList<>();
         for (CustomerOrder order :orderRepository.findAll()){
@@ -38,18 +57,6 @@ public class OrderService {
         return orders;
     }
 
-    public OrderDTO getOrderById(Long id) {
-        return OrderMapper.toDTO(findOrderById(id));
-    }
-
-    public void cancelOrder(Long id) {
-        CustomerOrder order = findOrderById(id);
-        if (!order.canBeCanceled()) {
-            throw new CannotCancelOrderException("The order cannot be cancelled");
-        }
-       order.setState(OrderState.CANCELED);
-        orderRepository.save(order);
-    }
 
     public void deleteOrder(Long id) {
         if (!orderRepository.existsById(id)) {
@@ -58,11 +65,6 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public void confirmOrder(Long id) {
-        CustomerOrder order = findOrderById(id);
-        order.setState(OrderState.CONFIRMED);
-        orderRepository.save(order);
-    }
 
     private CustomerOrder findOrderById(Long id) {
         Optional<CustomerOrder> order = orderRepository.findById(id);

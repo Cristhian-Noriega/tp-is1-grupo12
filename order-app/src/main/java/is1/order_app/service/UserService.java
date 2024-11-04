@@ -12,6 +12,8 @@ import is1.order_app.mapper.UserMapper;
 import is1.order_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -76,7 +78,6 @@ public class UserService {
             throw new WrongPasswordException("Login to " + loginDTO.email() + " failed because of wrong password.");
         }
     }
-    
 
     public void askMailRestorePassword(String email) {
         userRepository.findByEmail(email).ifPresentOrElse(user -> {
@@ -114,8 +115,6 @@ public class UserService {
         Optional<User> userOpt = userRepository.findByEmail(email);
         return userOpt.isPresent() && token.equals(userOpt.get().getAuthToken());
     }
-
-
 }
 
 

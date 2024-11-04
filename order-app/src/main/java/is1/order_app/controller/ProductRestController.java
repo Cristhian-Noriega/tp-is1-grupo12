@@ -10,7 +10,9 @@ import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -29,7 +31,6 @@ class ProductRestController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-
     }
     @DeleteMapping("/admin/{productId}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long productId) {
@@ -62,6 +63,7 @@ class ProductRestController {
         }
 
     }
+
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductViewDTO> getProduct(@PathVariable Long productId) {
