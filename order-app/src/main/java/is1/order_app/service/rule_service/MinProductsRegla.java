@@ -1,6 +1,6 @@
 package is1.order_app.service.rule_service;
 
-import is1.order_app.entities.Product;
+import is1.order_app.entities.OrderItem;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ public class MinProductsRegla implements Regla {
     }
 
     @Override
-    public boolean interpret(List<Product> products, List<Integer> cantidades) {
+    public boolean interpret(List<OrderItem> items) {
         int total = 0;
-        for (int i = 0; i < products.size(); i++) {
-            total += cantidades.get(i);
+        for (OrderItem item : items) {
+            total += item.getQuantity();
         }
         return total >= valor;
     }

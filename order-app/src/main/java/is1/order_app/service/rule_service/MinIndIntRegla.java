@@ -1,5 +1,6 @@
 package is1.order_app.service.rule_service;
 
+import is1.order_app.entities.OrderItem;
 import is1.order_app.entities.Product;
 
 import java.util.List;
@@ -16,10 +17,17 @@ public class MinIndIntRegla implements Regla {
     }
 
     @Override
-    public boolean interpret(List<Product> products, List<Integer> cantidades) {
-        for (Product product : products) {
-            if (product.get(atributo) < valor) {
-                return false;
+    public boolean interpret(List<OrderItem> items) {
+        for (OrderItem item : items) {
+            Object atributoValor = item.get(atributo);
+
+            if (atributoValor instanceof Number) {
+                double valorAtributo = ((Number) atributoValor).doubleValue();
+                if (valorAtributo < valor) {
+                    return false;
+                }
+            } else {
+                throw new IllegalArgumentException("El atributo '" + atributo + "' no es un valor entero.");
             }
         }
         return true;

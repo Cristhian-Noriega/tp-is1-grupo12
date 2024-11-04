@@ -1,6 +1,6 @@
 package is1.order_app.service.rule_service;
 
-import is1.order_app.entities.Product;
+import is1.order_app.entities.OrderItem;
 
 import java.util.List;
 
@@ -18,13 +18,13 @@ public class NoMixRegla implements Regla {
     }
 
     @Override
-    public boolean interpret(List<Product> products, List<Integer> cantidades) {
+    public boolean interpret(List<OrderItem> items) {
         boolean result_1 = false;
         boolean result_2 = false;
-        for (Product product : products) {
-            if (product.get(atributo) == valor_1) {
+        for (OrderItem item : items) {
+            if (item.get(atributo).equals(valor_1)) {
                 result_1 = true;
-            } else if (product.get(atributo) == valor_2) {
+            } else if (item.get(atributo).equals(valor_2)) {
                 result_2 = true;
             }
         }

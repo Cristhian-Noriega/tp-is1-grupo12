@@ -1,5 +1,6 @@
 package is1.order_app.service.rule_service;
 
+import is1.order_app.entities.OrderItem;
 import is1.order_app.entities.Product;
 
 import java.util.List;
@@ -16,9 +17,9 @@ public class NotInRegla implements Regla {
     }
 
     @Override
-    public boolean interpret(List<Product> products, List<Integer> cantidades) {
-        for (Product product : products) {
-            if (product.get(atributo) == valor_atributo) {
+    public boolean interpret(List<OrderItem> items) {
+        for (OrderItem item : items) {
+            if (item.get(atributo).equals(valor_atributo)) {
                 return false;
             }
         }

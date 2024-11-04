@@ -1,6 +1,6 @@
 package is1.order_app.service.rule_service;
 
-import is1.order_app.entities.Product;
+import is1.order_app.entities.OrderItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,11 @@ public class ValidadorPedido {
         this.reglas = ReglaInterpreter.createReglas(path);
     }
 
-    public List<String> validar(List<Product> productos, List<Integer> cantidades) {
+    public List<String> validar(List<OrderItem> productos) {
         List<String> errors = new ArrayList<>();
 
         for (Regla regla : reglas) {
-            if (!regla.interpret(productos, cantidades)) {
+            if (!regla.interpret(productos)) {
                 errors.add(regla.getMensajeError());
             }
         }
