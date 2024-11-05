@@ -5,8 +5,6 @@ import is1.order_app.dto.OrderDTO;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.exceptions.CannotCancelOrderException;
 import is1.order_app.exceptions.OrderNotFoundException;
-import is1.order_app.mapper.OrderMapper;
-import is1.order_app.order_management.command.OrderCommand;
 import is1.order_app.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +16,9 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
-    private final OrderMapper orderMapper;
 
-    public OrderController(OrderService orderService, OrderMapper orderMapper) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.orderMapper = orderMapper;
     }
 
     @PostMapping("/create")

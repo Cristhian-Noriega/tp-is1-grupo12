@@ -19,12 +19,12 @@ public class OrderMapper {
     public OrderMapper(ProductRepository productRepository) {
         OrderMapper.productRepository = productRepository;
     }
-    public static OrderDTO toDTO(CustomerOrder order) {
+    public  OrderDTO toDTO(CustomerOrder order) {
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setId(order.getId());
         orderDTO.setUserId(order.getUserId());
         orderDTO.setItems(order.getItems().stream()
-                .map(OrderMapper::toDTO)
+                .map(this::toDTO)
                 .collect(Collectors.toList())
         );
         orderDTO.setState(order.getState());
@@ -33,7 +33,7 @@ public class OrderMapper {
         return orderDTO;
     }
 
-    public static OrderItemDTO toDTO(OrderItem orderItem) {
+    public  OrderItemDTO toDTO(OrderItem orderItem) {
         OrderItemDTO orderItemDTO = new OrderItemDTO();
         orderItemDTO.setProductId(orderItem.getProduct().getId());
         orderItemDTO.setQuantity(orderItem.getQuantity());
@@ -41,7 +41,7 @@ public class OrderMapper {
         return orderItemDTO;
     }
 
-    public static CustomerOrder toEntity(OrderRequestDTO orderRequestDTO) {
+    public  CustomerOrder toEntity(OrderRequestDTO orderRequestDTO) {
         CustomerOrder order = new CustomerOrder();
         order.setUserId(orderRequestDTO.getUserId());
         List<OrderItem> orderItems = orderRequestDTO.getItems().stream()
@@ -57,13 +57,13 @@ public class OrderMapper {
         return order;
     }
 
-    public static CustomerOrder toEntity(OrderDTO orderDTO) {
+    public  CustomerOrder toEntity(OrderDTO orderDTO) {
         CustomerOrder order = new CustomerOrder();
         order.setId(orderDTO.getId());
         order.setUserId(orderDTO.getUserId());
 
         List<OrderItem> orderItems = orderDTO.getItems().stream()
-                .map(OrderMapper::toEntity)
+                .map(this::toEntity)
                 .collect(Collectors.toList());
         order.setItems(orderItems);
 
@@ -73,7 +73,7 @@ public class OrderMapper {
         return order;
     }
 
-    public static OrderItem toEntity(OrderItemDTO orderItemDTO) {
+    public  OrderItem toEntity(OrderItemDTO orderItemDTO) {
         OrderItem orderItem = new OrderItem();
         Product product = productRepository.findById(orderItemDTO.getProductId())
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));

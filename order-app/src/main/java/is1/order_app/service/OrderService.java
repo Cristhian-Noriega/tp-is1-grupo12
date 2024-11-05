@@ -41,7 +41,7 @@ public class OrderService {
     }
     public List<OrderCommandDTO> getAvailableCommands(Long orderId) {
         OrderDTO orderDTO = getOrderById(orderId);
-        CustomerOrder order = OrderMapper.toEntity(orderDTO);
+        CustomerOrder order = orderMapper.toEntity(orderDTO);
         return OrderCommandFactory.getAvailableCommands(order);
     }
 
