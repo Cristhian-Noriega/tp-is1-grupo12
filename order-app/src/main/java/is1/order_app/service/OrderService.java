@@ -8,8 +8,6 @@ import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.CustomerOrder;
-import is1.order_app.entities.OrderState;
-import is1.order_app.exceptions.CannotCancelOrderException;
 import is1.order_app.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -37,11 +35,7 @@ public class OrderService {
     @Transactional
     public void executeCommand(Long orderId, String commandName) {
         CustomerOrder order = findOrderById(orderId);
-
-        // Crear el comando a partir del nombre
         OrderCommand command = OrderCommandFactory.createCommand(commandName);
-
-        // Ejecutar el comando
         command.execute(order);
         orderRepository.save(order);
     }

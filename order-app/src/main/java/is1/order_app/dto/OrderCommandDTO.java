@@ -7,10 +7,11 @@ import lombok.Data;
 public class OrderCommandDTO {
     private String commandName;
 
+    public OrderCommandDTO() {}
+
     public OrderCommandDTO(String commandName) {
         this.commandName = commandName;
     }
-    public OrderCommandDTO() {}
 
     public String getCommandName() {
         return commandName;

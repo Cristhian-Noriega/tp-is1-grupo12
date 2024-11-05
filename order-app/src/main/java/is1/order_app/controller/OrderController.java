@@ -45,32 +45,6 @@ public class OrderController {
     public ResponseEntity<OrderDTO> getOrder(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
-
-//    @PostMapping("/{orderId}/executeCommand")
-//    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommand command) {
-//        try {
-//            orderService.executeCommand(orderId, command);
-//            return ResponseEntity.ok("Command executed successfully.");
-//        } catch (OrderNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
-//        } catch (CannotCancelOrderException | IllegalStateException e) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-//        }
-//    }
-//    @PostMapping("/{orderId}/executeCommand")
-//    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommand command) {
-//        try {
-//            orderService.executeCommand(orderId, command);
-//            return ResponseEntity.ok("Command executed successfully.");
-//        } catch (OrderNotFoundException e) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
-//        } catch (CannotCancelOrderException | IllegalStateException e) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
-//        } catch (Exception e) {
-//            e.printStackTrace(); // Log the full stack trace for unexpected errors
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
-//        }
-//    }
     @PostMapping("/{orderId}/executeCommand")
     public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommandDTO commandDTO) {
         try {
@@ -83,14 +57,11 @@ public class OrderController {
         }
     }
 
-
-
     @GetMapping("/{orderId}/availableCommands")
     public ResponseEntity<List<OrderCommandDTO>> getAvailableCommands(@PathVariable Long orderId) {
         List<OrderCommandDTO> commands = orderService.getAvailableCommands(orderId);
         return ResponseEntity.ok(commands);
     }
-
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
