@@ -1,5 +1,6 @@
 package is1.order_app.controller;
 
+import is1.order_app.dto.OrderCommandDTO;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.exceptions.CannotCancelOrderException;
@@ -45,23 +46,51 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
 
+//    @PostMapping("/{orderId}/executeCommand")
+//    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommand command) {
+//        try {
+//            orderService.executeCommand(orderId, command);
+//            return ResponseEntity.ok("Command executed successfully.");
+//        } catch (OrderNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
+//        } catch (CannotCancelOrderException | IllegalStateException e) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+//        }
+//    }
+//    @PostMapping("/{orderId}/executeCommand")
+//    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommand command) {
+//        try {
+//            orderService.executeCommand(orderId, command);
+//            return ResponseEntity.ok("Command executed successfully.");
+//        } catch (OrderNotFoundException e) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
+//        } catch (CannotCancelOrderException | IllegalStateException e) {
+//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+//        } catch (Exception e) {
+//            e.printStackTrace(); // Log the full stack trace for unexpected errors
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+//        }
+//    }
     @PostMapping("/{orderId}/executeCommand")
-    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommand command) {
+    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommandDTO commandDTO) {
         try {
-            orderService.executeCommand(orderId, command);
+            orderService.executeCommand(orderId, commandDTO.getCommandName());
             return ResponseEntity.ok("Command executed successfully.");
         } catch (OrderNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
-        } catch (CannotCancelOrderException | IllegalStateException e) {
+        } catch (CannotCancelOrderException | IllegalStateException | IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
 
+
+
     @GetMapping("/{orderId}/availableCommands")
-    public ResponseEntity<List<OrderCommand>> getAvailableCommands(@PathVariable Long orderId) {
-        List<OrderCommand> commands = orderService.getAvailableCommands(orderId);
+    public ResponseEntity<List<OrderCommandDTO>> getAvailableCommands(@PathVariable Long orderId) {
+        List<OrderCommandDTO> commands = orderService.getAvailableCommands(orderId);
         return ResponseEntity.ok(commands);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {

@@ -4,7 +4,6 @@ package is1.order_app.controller;
 import is1.order_app.dto.ProductDTO;
 import is1.order_app.dto.StockChangeDTO;
 import is1.order_app.dto.ProductViewDTO;
-import is1.order_app.entities.product.EnumCategory;
 import is1.order_app.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -62,9 +61,7 @@ class ProductRestController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-
     }
-
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductViewDTO> getProduct(@PathVariable Long productId) {
