@@ -1,11 +1,10 @@
 package is1.order_app.controller;
 
+import is1.order_app.dto.OrderCommandDTO;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.exceptions.CannotCancelOrderException;
 import is1.order_app.exceptions.OrderNotFoundException;
-import is1.order_app.mapper.OrderMapper;
-import is1.order_app.order_management.command.OrderCommand;
 import is1.order_app.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +16,9 @@ import java.util.List;
 @RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
-    private final OrderMapper orderMapper;
 
-    public OrderController(OrderService orderService, OrderMapper orderMapper) {
+    public OrderController(OrderService orderService) {
         this.orderService = orderService;
-        this.orderMapper = orderMapper;
     }
 
     @PostMapping("/create")
@@ -44,22 +41,21 @@ public class OrderController {
     public ResponseEntity<OrderDTO> getOrder(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
-
     @PostMapping("/{orderId}/executeCommand")
-    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommand command) {
+    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommandDTO commandDTO) {
         try {
-            orderService.executeCommand(orderId, command);
+            orderService.executeCommand(orderId, commandDTO.getCommandName());
             return ResponseEntity.ok("Command executed successfully.");
         } catch (OrderNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
-        } catch (CannotCancelOrderException | IllegalStateException e) {
+        } catch (CannotCancelOrderException | IllegalStateException | IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
     }
 
     @GetMapping("/{orderId}/availableCommands")
-    public ResponseEntity<List<OrderCommand>> getAvailableCommands(@PathVariable Long orderId) {
-        List<OrderCommand> commands = orderService.getAvailableCommands(orderId);
+    public ResponseEntity<List<OrderCommandDTO>> getAvailableCommands(@PathVariable Long orderId) {
+        List<OrderCommandDTO> commands = orderService.getAvailableCommands(orderId);
         return ResponseEntity.ok(commands);
     }
 
