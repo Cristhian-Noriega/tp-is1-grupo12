@@ -21,7 +21,7 @@ const update = async (id, newObject) => {
 };
 
 const remove = async (id) => {
-  const response = await axios.delete(`${baseUrl}/${id}`);
+  const response = await axios.delete(`admin/${id}`);
   return response.data;
 };
 
