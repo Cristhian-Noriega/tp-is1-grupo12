@@ -61,9 +61,7 @@ class ProductRestController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-
     }
-
 
     @GetMapping("/{productId}")
     public ResponseEntity<ProductViewDTO> getProduct(@PathVariable Long productId) {
