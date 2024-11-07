@@ -1,3 +1,7 @@
+
+
+
+
 package is1.order_app.entities;
 
 import jakarta.persistence.*;
@@ -29,7 +33,8 @@ public class CustomerOrder {
     public CustomerOrder() {}
 
     @PrePersist
-    public boolean initializeOrder() {        if (confirmationTime == null) {
+    public boolean initializeOrder() {
+        if (confirmationTime == null) {
             this.confirmationTime = LocalDateTime.now();
         }
         if (state == null) {
@@ -49,3 +54,5 @@ public class CustomerOrder {
     }
 
 }
+
+

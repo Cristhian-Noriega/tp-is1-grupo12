@@ -78,6 +78,8 @@ public class OrderService {
     }
 
     public boolean confirmOrder(CustomerOrder order) {
+        ValidadorPedido validador = new ValidadorPedido("src/main/resources/rules.json");
+        validador.validar(orderMapper.toDTO(order).getItems());
         if (order.initializeOrder() == false) {
             return false; 
         }
