@@ -33,6 +33,7 @@ public class OrderService {
     public OrderDTO createOrder(OrderRequestDTO orderRequestDTO) {
         CustomerOrder order = orderMapper.toEntity(orderRequestDTO);
         order = orderRepository.save(order);
+        this.confirmOrder(order);
         return orderMapper.toDTO(order); // Usar la instancia inyectada
     }
 
@@ -76,8 +77,7 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public boolean confirmOrder(Long id) {
-        CustomerOrder order = this.findOrderById(id);
+    public boolean confirmOrder(CustomerOrder order) {
         if (order.initializeOrder() == false) {
             return false; 
         }

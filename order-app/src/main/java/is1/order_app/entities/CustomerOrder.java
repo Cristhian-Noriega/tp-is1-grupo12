@@ -29,12 +29,12 @@ public class CustomerOrder {
     public CustomerOrder() {}
 
     @PrePersist
-    public boolean initializeOrder() {
-        if (confirmationTime == null || state == null) {
-            return false;
+    public boolean initializeOrder() {        if (confirmationTime == null) {
+            this.confirmationTime = LocalDateTime.now();
         }
-        this.confirmationTime = LocalDateTime.now();
-        this.state = OrderState.CONFIRMED;
+        if (state == null) {
+            this.state = OrderState.CONFIRMED;
+        }
         return true;
     }
 

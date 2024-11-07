@@ -18,7 +18,7 @@ public class EmailSenderService {
 
     public void sendMail(String recipientEmailAddress, EmailSenderServiceMail mailType) {
         SimpleMailMessage message=new SimpleMailMessage();
-        message.setFrom(senderEmailAddress);
+        message.setFrom(this.senderEmailAddress);
         message.setTo(recipientEmailAddress);
         mailType.writeMessage(message);
         mailSender.send(message);
