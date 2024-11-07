@@ -10,20 +10,25 @@ public class EmailSenderService {
     
     private final JavaMailSender mailSender;
 
-    public EmailSenderService(JavaMailSender mailSender){
+	private final String senderEmailAddress = "orderappingsoftware@gmail.com";
+
+    public EmailSenderService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
-    public void restorePasswordMail(String receptorMail) {
+    public void sendMail(String recipientEmailAddress, EmailSenderServiceMail mailType) {
         SimpleMailMessage message=new SimpleMailMessage();
-        message.setFrom("orderappingsoftware@gmail.com");
-        message.setTo(receptorMail);
-        message.setSubject("Recuperacion de contrasena");
-        String link = "http://localhost:5173/#/password-recovery";
-        message.setText("Recupere su contrasena con el siguiente link:\n" +
-                link +
-                "\nMuchas gracias por usar nuestro servicio");
-
+        message.setFrom(senderEmailAddress);
+        message.setTo(recipientEmailAddress);
+        mailType.writeMessage(message);
         mailSender.send(message);
+    }
+
+    public void sendPassworChangedMail(String recipientEmailAddress) {
+        this.sendMail(recipientEmailAddress, new PasswordChangeMail());
+    }
+
+    public void sendOrderConfirmationMail(String recipientEmailAddress) {
+        this.sendMail(recipientEmailAddress, new OrderConfirmationMail());
     }
 }
