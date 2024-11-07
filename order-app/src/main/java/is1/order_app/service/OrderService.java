@@ -72,4 +72,14 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+    public List<OrderDTO> getOrdersByUserId(String userId) {
+        List<CustomerOrder> orders = orderRepository.findByUserId(userId);
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+
+        for (CustomerOrder order : orders) {
+            orderDTOS.add(orderMapper.toDTO(order));
+        }
+
+        return orderDTOS;
+    }
 }
