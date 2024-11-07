@@ -24,4 +24,8 @@ public class OrderItem {
         this.product = product;
         this.quantity = quantity;
     }
+
+    public Object get(String atributo) {
+        return this.product.get(atributo);
+    }
 }
