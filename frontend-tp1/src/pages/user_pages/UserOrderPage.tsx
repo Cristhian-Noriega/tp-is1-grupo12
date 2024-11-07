@@ -9,6 +9,7 @@ export const UserOrderPage = () => {
     <div className='order-page-wrapper'>
         <UserLayout/>
         <UserOrdersTable/>
+        
     </div>
   );
 };

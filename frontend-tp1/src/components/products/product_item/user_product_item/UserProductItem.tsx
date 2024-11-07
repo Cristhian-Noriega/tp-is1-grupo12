@@ -25,7 +25,6 @@ export const UserProductItem = ({ product, onShowDetails}) => {
      
     addToOrder(productSummary);
   };
-  
 
   return (
     <tr>

@@ -10,6 +10,7 @@ import { ChangePasswordPage } from './pages/common_pages/ChangePasswordPage'
 import { OrderProvider } from './context/OrderProvider'
 import { ProductsSelectionPage } from './pages/user_pages/ProductsSelectionPage'
 import { UserOrderPage } from './pages/user_pages/UserOrderPage'
+import { UserConfirmedOrdersPage } from './pages/user_pages/UserConfirmedOrdersPage'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/admin-products" element={<ProductsAdministrationPage/>} />
         <Route path="/user-products" element={<ProductsSelectionPage/>} />
         <Route path="/user-orders" element={<UserOrderPage/>} />
+        <Route path="/user-confirmed-orders" element={<UserConfirmedOrdersPage/>} />
 
         <Route path="/password-recovery" element={<ChangePasswordPage/>} />
         <Route path="/password-recovery-confirmation" element={<ChangePasswordConfirmationPage />} />
