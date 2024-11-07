@@ -42,7 +42,7 @@ export const RegisterForm  = ({handleRegister}) => {
     <form onSubmit={onSubmit}>
       <div className="name-box">
         <div className="username">Username</div>
-        <input
+        <input className='input-register-form'
           id="username"
           type="text"
           value={username}
@@ -53,7 +53,7 @@ export const RegisterForm  = ({handleRegister}) => {
 
       <div className="surname-box">
         <div className="surname">Apellido</div>
-        <input
+        <input className='input-register-form'
           id="surname"
           type="text"
           value={surname}
@@ -64,7 +64,7 @@ export const RegisterForm  = ({handleRegister}) => {
 
       <div className="email-box">
         <div className="email">Email</div>
-        <input
+        <input className='input-register-form'
           id="email"
           type="email"
           value={email}
@@ -75,7 +75,7 @@ export const RegisterForm  = ({handleRegister}) => {
 
       <div className="password-box">
         <div className="password">Contraseña</div>
-        <input
+        <input className='input-register-form'
           id="password"
           type="password"
           value={password}
@@ -86,7 +86,7 @@ export const RegisterForm  = ({handleRegister}) => {
       
       <div className="gender-box">
         <div className="Gender">Género</div>
-            <input
+            <input className='input-register-form'
                 type="radio"
                 value="Femenino"
                 checked={gender === "Femenino"}
@@ -94,7 +94,7 @@ export const RegisterForm  = ({handleRegister}) => {
             />
             Femenino
 
-            <input
+            <input className='input-register-form'
                 type="radio"
                 value="Masculino"
                 checked={gender === "Masculino"}
@@ -105,7 +105,7 @@ export const RegisterForm  = ({handleRegister}) => {
 
         <div className="age-box">
         <div className="age">Edad</div>
-        <input
+        <input className='input-register-form'
           id="age"
           type="text"
           value={age}
@@ -116,7 +116,7 @@ export const RegisterForm  = ({handleRegister}) => {
 
       <div className="address-box">
         <div className="address">Direccion</div>
-        <input
+        <input className='input-register-form'
           id="address"
           type="text"
           value={address}

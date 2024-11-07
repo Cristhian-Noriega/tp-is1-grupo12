@@ -1,12 +1,18 @@
 import axios from "axios";
 const baseUrl = "http://localhost:8080/products/admin";
 
+let token = null;
+
+const setToken = (newToken) => {
+  token = `bearer ${newToken}`;
+};
+
 const create = async (productObject) => {
   const config = {
     headers: { Authorization: token },
   };
 
-  const response = await axios.post(baseUrl, productObject, config);
+  const response = await axios.post(baseUrl, productObject,config);
   return response.data;
 };
 
@@ -21,6 +27,7 @@ const update = async (id, newObject) => {
 };
 
 export default {
+  setToken,
   create,
   update,
   remove,

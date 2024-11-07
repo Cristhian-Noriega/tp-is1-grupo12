@@ -4,6 +4,9 @@ import { ProductTable } from "../components/products/product_table/ProductTable"
 import { useEffect } from "react";
 import productsService from "../services/products";
 import { productsUtils } from "../utils/productsUtils";
+import productsAdminService from "../services/productsAdmin";
+import { useNavigate } from "react-router-dom";
+
 export const HomePage = () => {
   const { products, setProducts, user, setUser } = productsUtils();
 
@@ -13,6 +16,7 @@ export const HomePage = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
+      productsAdminService.setToken(user)
     }
   }, []);
 
@@ -20,10 +24,23 @@ export const HomePage = () => {
     productsService.getAll().then((products) => setProducts(products));
   }, []);
 
+
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    window.localStorage.clear();
+    
+    setUser(null);
+    navigate('/login');
+    };
+
   return (
     <div className="home-page-wrapper">
       <NavSideBar />
       <ProductTable products={products} />
+      <button
+      onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 };

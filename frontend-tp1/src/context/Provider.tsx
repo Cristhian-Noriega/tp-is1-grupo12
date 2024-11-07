@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Context } from "./Context";
 
 export function Provider({ children }) {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState("");
     const [products, setProducts] = useState([]);
   
     return (
