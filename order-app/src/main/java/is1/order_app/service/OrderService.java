@@ -76,11 +76,12 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public boolean confirmOrder(Long id, String email) {
+    public boolean confirmOrder(Long id) {
         CustomerOrder order = this.findOrderById(id);
         if (order.initializeOrder() == false) {
             return false; 
         }
+        String email = order.getUserAdress();
         this.emailSenderService.sendOrderConfirmationMail(email);
         return true;
     }

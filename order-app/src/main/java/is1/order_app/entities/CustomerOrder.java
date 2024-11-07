@@ -38,10 +38,14 @@ public class CustomerOrder {
         return true;
     }
 
+    public String getUserAdress() {
+        return this.userId;
+    }
+
     public boolean canBeCanceled() {
         return state == OrderState.CONFIRMED &&
                 confirmationTime != null &&
                 confirmationTime.plusHours(24).isAfter(LocalDateTime.now());
     }
-    
+
 }
