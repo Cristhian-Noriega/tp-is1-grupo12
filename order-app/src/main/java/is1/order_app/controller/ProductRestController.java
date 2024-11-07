@@ -83,4 +83,18 @@ class ProductRestController {
         }
 
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductViewDTO>> getProductListFiltered(@RequestParam(required = false) String name,
+                                                                       @RequestParam(required = false) String brand,
+                                                                       @RequestParam(required = false) Integer stock,
+                                                                       @RequestParam(required = false) String description,
+                                                                       @RequestParam(required = false) String attributes) {
+        try{
+            return ResponseEntity.ok(productService.getProductListFiltered(name,brand,stock,description,attributes));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+
+    }
 }
