@@ -15,14 +15,18 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class OrderService {
+
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper; // Agregar OrderMapper como dependencia
+    private final EmailSenderService emailSenderService;
 
-    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper) {
+    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper; // Inyectar OrderMapper
+        this.emailSenderService = emailSenderService;
     }
 
     @Transactional
@@ -70,6 +74,15 @@ public class OrderService {
             throw new OrderNotFoundException("The order with id " + id + " not exists");
         }
         orderRepository.deleteById(id);
+    }
+
+    public boolean confirmOrder(Long id, String email) {
+        CustomerOrder order = this.findOrderById(id);
+        if (order.initializeOrder() == false) {
+            return false; 
+        }
+        this.emailSenderService.sendOrderConfirmationMail(email);
+        return true;
     }
 
 }

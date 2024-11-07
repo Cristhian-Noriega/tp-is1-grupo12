@@ -6,9 +6,12 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import is1.order_app.service.EmailSenderService;
+
 @Entity
 @Data
 public class CustomerOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,13 +29,13 @@ public class CustomerOrder {
     public CustomerOrder() {}
 
     @PrePersist
-    public void initializeOrder() {
-        if (confirmationTime == null) {
-            this.confirmationTime = LocalDateTime.now();
+    public boolean initializeOrder() {
+        if (confirmationTime == null || state == null) {
+            return false;
         }
-        if (state == null) {
-            this.state = OrderState.CONFIRMED;
-        }
+        this.confirmationTime = LocalDateTime.now();
+        this.state = OrderState.CONFIRMED;
+        return true;
     }
 
     public boolean canBeCanceled() {
@@ -40,4 +43,5 @@ public class CustomerOrder {
                 confirmationTime != null &&
                 confirmationTime.plusHours(24).isAfter(LocalDateTime.now());
     }
+    
 }
