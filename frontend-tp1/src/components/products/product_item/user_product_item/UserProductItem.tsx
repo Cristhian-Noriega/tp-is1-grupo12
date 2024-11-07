@@ -1,6 +1,5 @@
 import './userProductItem.css';
 const addButton = "/public/assets/add.svg";
-const deleteButton = "/public/assets/delete.svg";
 const infoButton = "/public/assets/info.svg";
 import { OrderContext} from '../../../../context/OrderContext';
 import { useContext, useState } from 'react';
@@ -11,6 +10,11 @@ export const UserProductItem = ({ product, onShowDetails}) => {
   const { addToOrder } = useContext(OrderContext);
 
   const handleAddToOrder = () => {
+    if (productQuantity > product.stock) {
+      alert("No hay suficiente stock disponible.");
+      return;
+    }
+
     console.log(product);  // Verifica que el producto es el esperado
     const productSummary = {
       id: product.id,
@@ -18,6 +22,7 @@ export const UserProductItem = ({ product, onShowDetails}) => {
       quantity: productQuantity,
     };
 
+     
     addToOrder(productSummary);
   };
   
@@ -35,7 +40,7 @@ export const UserProductItem = ({ product, onShowDetails}) => {
       </td>
       <td>
       <div className="product-form-field">
-          <label>Cantidad</label>
+          <label>Agregar producto a mi orden</label>
           <input
             type="number"
             value={productQuantity}
