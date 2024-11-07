@@ -12,6 +12,8 @@ import is1.order_app.mapper.UserMapper;
 import is1.order_app.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,29 +59,22 @@ public class UserService {
         return userDTO.get();
     }
 
+    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
+        return user.get().getPassword().equals(possiblePassword);
+    }
 
-    public String loginUserToken(LoginDTO loginDTO) {
+    public String loginUser(LoginDTO loginDTO) {
         Optional<User> userOpt = userRepository.findByEmail(loginDTO.email());
-        if (userOpt.isPresent() && userOpt.get().getPassword().equals(loginDTO.password())) {
+        if (userOpt.isEmpty()) {
+            throw new UserNotFoundException("User not found with email " + loginDTO.email());
+        }
+        if (this.confirmPassword(userOpt, loginDTO.password())) {
             User user = userOpt.get();
             String token = generateToken(user.getEmail());
             user.setAuthToken(token);
             userRepository.save(user);
             return token;
-        }
-        return null;
-    }
-
-    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
-        return user.get().getPassword().equals(possiblePassword);
-    }
-
-    public void loginUser(LoginDTO loginDTO) {
-        Optional<User> user = userRepository.findByEmail(loginDTO.email());
-        if (user.isEmpty()) {
-            throw new UserNotFoundException("User not found with email " + loginDTO.email());
-        }
-        if (!this.confirmPassword(user, loginDTO.password())) {
+        } else {
             throw new WrongPasswordException("Login to " + loginDTO.email() + " failed because of wrong password.");
         }
     }
@@ -120,8 +115,6 @@ public class UserService {
         Optional<User> userOpt = userRepository.findByEmail(email);
         return userOpt.isPresent() && token.equals(userOpt.get().getAuthToken());
     }
-
-
 }
 
 

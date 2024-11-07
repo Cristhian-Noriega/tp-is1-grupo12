@@ -1,7 +1,10 @@
 package is1.order_app.controller;
 
+import is1.order_app.dto.OrderCommandDTO;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.dto.OrderRequestDTO;
+import is1.order_app.exceptions.CannotCancelOrderException;
+import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,24 +41,27 @@ public class OrderController {
     public ResponseEntity<OrderDTO> getOrder(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrderById(id));
     }
+    @PostMapping("/{orderId}/executeCommand")
+    public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommandDTO commandDTO) {
+        try {
+            orderService.executeCommand(orderId, commandDTO.getCommandName());
+            return ResponseEntity.ok("Command executed successfully.");
+        } catch (OrderNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
+        } catch (CannotCancelOrderException | IllegalStateException | IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+        }
+    }
 
-    @GetMapping("/{id}/cancel")
-    public ResponseEntity<String> cancelOrder(@PathVariable Long id) {
-        orderService.cancelOrder(id);
-        //se podria devoler el order dto si se lo necesita, por ahora solo un string
-        return ResponseEntity.ok("Order canceled successfully");
+    @GetMapping("/{orderId}/availableCommands")
+    public ResponseEntity<List<OrderCommandDTO>> getAvailableCommands(@PathVariable Long orderId) {
+        List<OrderCommandDTO> commands = orderService.getAvailableCommands(orderId);
+        return ResponseEntity.ok(commands);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
-    }
-
-
-    @PutMapping("/{id}/confirm")
-    public ResponseEntity<String> confirmOrder(@PathVariable Long id) {
-        orderService.confirmOrder(id);
-        return ResponseEntity.ok("Order completed successfully");
     }
 }
