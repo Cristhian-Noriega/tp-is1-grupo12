@@ -1,36 +1,46 @@
 import { Button } from '../../ui/Button';
 import './confirmedOrdersList.css'
 
-
-// Mock de datos de órdenes (puedes moverlo a un archivo separado si lo prefieres)
+// Mock de datos de órdenes actualizado
 const mockOrders = [
   {
+    id: 1,
     userId: "john",
     items: [
       { productId: 102, quantity: 2 },
       { productId: 105, quantity: 1 },
     ],
+    state: "CONFIRMED",
+    confirmationTime: "2024-11-07T05:09:48.133597",
   },
   {
+    id: 2,
     userId: "alice",
     items: [
       { productId: 204, quantity: 3 },
       { productId: 207, quantity: 4 },
     ],
+    state: "CONFIRMED",
+    confirmationTime: "2024-11-07T15:44:10.135487",
   },
 ];
 
 export const ConfirmedOrdersList = () => {
-    const cancelOrder = () => {
-        console.log("orden cancelada")
-        //usar el service cancel order
-        // si no ocurre ningun error entonces puedo eliminar esta orden del front
-    }
+  const cancelOrder = (orderId) => {
+    console.log(`Orden con ID ${orderId} cancelada`);
+    // Aquí iría la lógica para cancelar la orden usando el servicio
+    // Si la cancelación es exitosa, puedes eliminar esta orden del front
+  };
+
   return (
     <div className='orders-wrapper'>
-      {mockOrders.map((order, index) => (
-        <div key={index} className='orders-boxes'>
-          <h3>Usuario: {order.userId}</h3>
+      {mockOrders.map((order) => (
+        <div key={order.id} className='orders-boxes'>
+          <h3>Orden ID: {order.id}</h3>
+          <p><strong>Usuario:</strong> {order.userId ? order.userId : "Sin usuario"}</p>
+          <p><strong>Estado:</strong> {order.state}</p>
+          <p><strong>Hora de Confirmación:</strong> {new Date(order.confirmationTime).toLocaleString()}</p>
+          <h4>Productos:</h4>
           <ul>
             {order.items.map((item, itemIndex) => (
               <li key={itemIndex}>
@@ -39,13 +49,12 @@ export const ConfirmedOrdersList = () => {
             ))}
           </ul>
           <Button
-          text="Cancelar Orden" 
-           backgroundColor="#FF6644"
+            text="Cancelar Orden"
+            backgroundColor="#FF6644"
             backgroundColorHover="#FF0000"
-            handleAction={cancelOrder}/>
+            handleAction={() => cancelOrder(order.id)} />
         </div>
       ))}
     </div>
   );
 };
-

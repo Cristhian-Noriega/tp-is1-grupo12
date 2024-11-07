@@ -11,6 +11,7 @@ import { OrderProvider } from './context/OrderProvider'
 import { ProductsSelectionPage } from './pages/user_pages/ProductsSelectionPage'
 import { UserOrderPage } from './pages/user_pages/UserOrderPage'
 import { UserConfirmedOrdersPage } from './pages/user_pages/UserConfirmedOrdersPage'
+import { AdminOrdersPage } from './pages/admin_pages/AdminOrdersPage'
 
 
 function App() {
@@ -24,14 +25,16 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forget-password" element={<ForgetPasswordPage />} />
+        <Route path="/password-recovery" element={<ChangePasswordPage/>} />
+        <Route path="/password-recovery-confirmation" element={<ChangePasswordConfirmationPage />} />
 
-        <Route path="/admin-products" element={<ProductsAdministrationPage/>} />
         <Route path="/user-products" element={<ProductsSelectionPage/>} />
         <Route path="/user-orders" element={<UserOrderPage/>} />
         <Route path="/user-confirmed-orders" element={<UserConfirmedOrdersPage/>} />
 
-        <Route path="/password-recovery" element={<ChangePasswordPage/>} />
-        <Route path="/password-recovery-confirmation" element={<ChangePasswordConfirmationPage />} />
+        <Route path="/admin-products" element={<ProductsAdministrationPage/>} />
+        <Route path="/admin-orders" element={<AdminOrdersPage/>} />
+  
 
         </Routes>
         </HashRouter>
