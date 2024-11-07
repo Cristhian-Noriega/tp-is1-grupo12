@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import './adminNavSideBar.css';
+import './userNavSideBar.css';
 
 const iconProducts = "/public/assets/caja_productos.svg";
 const iconOrder = "public/assets/bolsa_productos.svg"
@@ -19,6 +19,12 @@ export const UserNavSideBar = () => {
         <Link to="/user-orders">
         <div className='nav-item-box'>
           <img src={iconOrder} alt="Users Icon" className="nav-icon" /> Pedidos
+        </div>
+        </Link>
+
+        <Link to="/user-confirmed-orders">
+        <div className='nav-item-box'>
+          <img src={iconOrder} alt="Users Icon" className="nav-icon" /> Pedidos Confirmados
         </div>
         </Link>
 

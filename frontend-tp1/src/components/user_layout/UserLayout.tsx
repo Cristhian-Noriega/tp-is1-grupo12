@@ -1,10 +1,9 @@
-import React from 'react'
-import { NavSideBar } from '../nav_side_bar/admin_nav_side_bar/AdminNavSideBar'
+import { UserNavSideBar } from '../nav_side_bar/user_nav_side_bar/UserNavSideBar'
 
 export const UserLayout = () => {
   return (
     <div>
-        <NavSideBar/>
+        <UserNavSideBar/>
     </div>
   )
 }

@@ -4,14 +4,14 @@ import productsService from "../../services/products";
 import { productsUtils } from "../../utils/productsUtils";
 import productsAdminService from "../../services/productsAdmin";
 import { useNavigate } from "react-router-dom";
-import { AdminLayout } from "../../components/admin_layout/AdminLayout";
 
 import { UserProductTable } from "../../components/products/product_table/UserProductTable";
+import { UserLayout } from "../../components/user_layout/UserLayout";
 
 
 export const ProductsSelectionPage = () => {
   
-  const { products, setProducts, user, setUser } = productsUtils();
+  const { products, setProducts, setUser } = productsUtils();
 
   
   useEffect(() => {
@@ -39,7 +39,7 @@ export const ProductsSelectionPage = () => {
 
   return (
     <div className="product-page-wrapper">
-      <AdminLayout/>
+      <UserLayout/>
       <UserProductTable products={products} />
       <button
       onClick={handleLogout}>

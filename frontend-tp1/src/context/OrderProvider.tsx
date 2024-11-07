@@ -4,15 +4,15 @@ import { OrderContext } from "./OrderContext";
 export const OrderProvider = ({ children }) => {
   const [order, setOrder] = useState([]);
 
-  const addToOrder = (product) => {
+  const addToOrder = (productSummary) => {
     console.log("adding order")
-    setOrder((prevOrder) => [...prevOrder, product]);
-    console.log(product)
+    setOrder((prevOrder) => [...prevOrder, productSummary]);
+    console.log(productSummary)
     console.log(order)
   };
 
-  const removeFromOrder = (productId) => {
-    setOrder(order.filter(item => item.id !== productId));
+  const removeProductFromOrder = (productId) => {
+    setOrder(order.filter(product => product.id !== productId));
   };
 
   const clearOrder = () => {
@@ -20,7 +20,7 @@ export const OrderProvider = ({ children }) => {
   };
 
   return (
-    <OrderContext.Provider value={{ order, addToOrder, removeFromOrder, clearOrder }}>
+    <OrderContext.Provider value={{ order, addToOrder, removeProductFromOrder, clearOrder }}>
       {children}
     </OrderContext.Provider>
   );

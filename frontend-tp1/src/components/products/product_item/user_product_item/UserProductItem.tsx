@@ -6,26 +6,21 @@ import { OrderContext} from '../../../../context/OrderContext';
 import { useContext, useState } from 'react';
 
 export const UserProductItem = ({ product, onShowDetails}) => {
-  const [quantity, setQuantity] = useState(1);
+  const [productQuantity, setProductQuantity] = useState(1);
 
   const { addToOrder } = useContext(OrderContext);
 
   const handleAddToOrder = () => {
     console.log(product);  // Verifica que el producto es el esperado
-    addToOrder(product);
+    const productSummary = {
+      id: product.id,
+      name: product.name,
+      quantity: productQuantity,
+    };
+
+    addToOrder(productSummary);
   };
   
-
-  const incrementQuantity = () => {
-    setQuantity(quantity + 1);
-  };
-
-  const decrementQuantity = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
-    }
-  };
-
 
   return (
     <tr>
@@ -39,10 +34,14 @@ export const UserProductItem = ({ product, onShowDetails}) => {
       {product.state === 'canceled' && 'Cancelado'}
       </td>
       <td>
-        <div className="quantity-control">
-          <button onClick={decrementQuantity} className="quantity-button">−</button>
-          <span className="quantity-display">{quantity}</span>
-          <button onClick={incrementQuantity} className="quantity-button">+</button>
+      <div className="product-form-field">
+          <label>Cantidad</label>
+          <input
+            type="number"
+            value={productQuantity}
+            onChange={(e) => setProductQuantity(Number(e.target.value))}
+            className="product-form-input"
+          />
         </div>
         <button className='action-button' onClick={handleAddToOrder}><img src={addButton} alt="BOTON AGREGAR" className="nav-icon" /></button>
         <button className='action-button' onClick={() => onShowDetails(product)}><img src={infoButton} alt="BOTON INFO" className="nav-icon" /></button>
