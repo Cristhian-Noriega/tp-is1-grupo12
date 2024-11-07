@@ -1,17 +1,14 @@
-/* Contenedor principal de la barra de navegación */
 .nav-side-bar-wrapper {
     width: 250px;
-    background-color: #2c2c2c; /* Color oscuro para el fondo */
+    background-color: #2c2c2c; 
     color: #fff;
     padding: 20px;
   }
   
-  /* Contenedor de cada sección del menú */
   .nav-section {
     margin-top: 20px;
   }
   
-  /* Contenedor de cada ítem en el menú */
   .nav-item-box {
     display: flex;
     align-items: center;
@@ -23,15 +20,13 @@
     transition: color 0.3s;
   }
   
-  /* Cambia el color al pasar el ratón */
   .nav-item-box:hover {
     color: #fff;
   }
-  
-  /* Estilos para los iconos */
+
   .nav-icon {
     margin-right: 10px;
-    width: 26px;  /* Ajusta el tamaño del icono */
+    width: 26px;  
     height: 26px;
   }
   

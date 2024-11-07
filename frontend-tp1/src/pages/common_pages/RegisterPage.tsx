@@ -1,5 +1,5 @@
-import { registerUtils } from '../utils/registerUtils';
-import { RegisterForm } from '../components/register_form/RegisterForm'
+import { registerUtils } from '../../utils/registerUtils';
+import { RegisterForm } from '../../components/register_form/RegisterForm'
 
 export const RegisterPage = () => {
   const {handleRegister} = registerUtils();

@@ -1,27 +1,32 @@
-import './navSideBar.css';
+import { Link } from 'react-router-dom';
+import './adminNavSideBar.css';
 
-// Definimos cada ruta de los iconos
-const iconHome = "public/assets/home.svg";
 const iconProducts = "/public/assets/caja_productos.svg";
 const iconOrder = "public/assets/bolsa_productos.svg"
 const iconUsers = "public/assets/user.svg";
 
-export const NavSideBar = () => {
+export const UserNavSideBar = () => {
   return (
     <div className='nav-side-bar-wrapper'>
       <div className='nav-section'>
-        <div className='nav-item-box'>
-          <img src={iconHome} alt="Home Icon" className="nav-icon" /> Home
-        </div>
+        
+        <Link to="/user-products">
         <div className='nav-item-box'>
           <img src={iconProducts} alt="Users Icon" className="nav-icon" /> Productos
         </div>
+        </Link>
+
+        <Link to="/user-orders">
         <div className='nav-item-box'>
           <img src={iconOrder} alt="Users Icon" className="nav-icon" /> Pedidos
         </div>
+        </Link>
+
+        <Link to="/user-profile">
         <div className='nav-item-box'>
           <img src={iconUsers} alt="Users Icon" className="nav-icon" /> Usuario
         </div>
+        </Link>
       </div>
     </div>
   );
