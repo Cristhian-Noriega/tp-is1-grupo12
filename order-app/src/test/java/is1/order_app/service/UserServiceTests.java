@@ -1,6 +1,5 @@
 package is1.order_app.service;
 
-import is1.order_app.service.UserService;
 import is1.order_app.controller.UserRestController;
 import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.dto.LoginDTO;
@@ -8,7 +7,6 @@ import is1.order_app.dto.LoginDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 

@@ -9,6 +9,8 @@ import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.CustomerOrder;
 import is1.order_app.repository.OrderRepository;
+import is1.order_app.service.email_sender_service.EmailSenderService;
+import is1.order_app.service.email_sender_service.OrderConfirmationMail;
 import is1.order_app.service.rule_service.ValidadorPedido;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -87,7 +89,7 @@ public class OrderService {
         }
 
         String email = order.getUserAdress();
-        this.emailSenderService.sendOrderConfirmationMail(email);
+        emailSenderService.sendMail(email, new OrderConfirmationMail());
         return true;
     }
 

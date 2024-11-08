@@ -10,8 +10,6 @@ import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import is1.order_app.service.EmailSenderService;
-
 @Entity
 @Data
 public class CustomerOrder {

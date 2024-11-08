@@ -10,6 +10,7 @@ import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.entities.User;
 import is1.order_app.mapper.UserMapper;
 import is1.order_app.repository.UserRepository;
+import is1.order_app.service.email_sender_service.EmailSenderService;
 import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
@@ -17,8 +18,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 @Service
 public class UserService {
