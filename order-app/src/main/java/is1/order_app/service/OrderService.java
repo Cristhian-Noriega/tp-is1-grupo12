@@ -86,7 +86,6 @@ public class OrderService {
     }
 
     public boolean confirmOrder(CustomerOrder order) {
-<<<<<<< HEAD
         List<String> listaDeErrores = this.validadorPedido.validar(order.getItems());
         if (!(listaDeErrores.isEmpty())) {
             return false;
