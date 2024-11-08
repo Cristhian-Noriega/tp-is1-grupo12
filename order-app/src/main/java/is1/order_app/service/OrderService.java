@@ -22,18 +22,20 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper; // Agregar OrderMapper como dependencia
     private final EmailSenderService emailSenderService;
+    private ValidadorPedido validadorPedido;
 
     public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper; // Inyectar OrderMapper
         this.emailSenderService = emailSenderService;
+        this.validadorPedido = new ValidadorPedido("src/main/resources/rules.json");
     }
 
     @Transactional
     public OrderDTO createOrder(OrderRequestDTO orderRequestDTO) {
         CustomerOrder order = orderMapper.toEntity(orderRequestDTO);
-        order = orderRepository.save(order);
         this.confirmOrder(order);
+        order = orderRepository.save(order);
         return orderMapper.toDTO(order); // Usar la instancia inyectada
     }
 
@@ -78,8 +80,10 @@ public class OrderService {
     }
 
     public boolean confirmOrder(CustomerOrder order) {
-        ValidadorPedido validador = new ValidadorPedido("src/main/resources/rules.json");
-        validador.validar(orderMapper.toDTO(order).getItems());
+        List<String> listaDeErrores = validador.validar(order.getItems());
+        if (!(listaDeErrores.isEmpty())) {
+            return false;
+        }
         if (order.initializeOrder() == false) {
             return false; 
         }

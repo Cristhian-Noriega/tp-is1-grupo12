@@ -33,14 +33,13 @@ public class CustomerOrder {
     public CustomerOrder() {}
 
     @PrePersist
-    public boolean initializeOrder() {
+    public void initializeOrder() {
         if (confirmationTime == null) {
             this.confirmationTime = LocalDateTime.now();
         }
         if (state == null) {
             this.state = OrderState.CONFIRMED;
         }
-        return true;
     }
 
     public String getUserAdress() {
