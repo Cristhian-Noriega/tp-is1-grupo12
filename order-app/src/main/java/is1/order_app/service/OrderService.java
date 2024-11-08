@@ -9,6 +9,7 @@ import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.CustomerOrder;
 import is1.order_app.repository.OrderRepository;
+import is1.order_app.service.rule_service.ValidadorPedido;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -20,15 +21,15 @@ import java.util.Optional;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderMapper orderMapper; // Agregar OrderMapper como dependencia
+    private final OrderMapper orderMapper;
     private final EmailSenderService emailSenderService;
-    private ValidadorPedido validadorPedido;
+    private final ValidadorPedido validadorPedido;
 
-    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService) {
+    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService, ValidadorPedido validadorPedido) {
         this.orderRepository = orderRepository;
-        this.orderMapper = orderMapper; // Inyectar OrderMapper
+        this.orderMapper = orderMapper;
         this.emailSenderService = emailSenderService;
-        this.validadorPedido = new ValidadorPedido("src/main/resources/rules.json");
+        this.validadorPedido = validadorPedido;
     }
 
     @Transactional
@@ -36,7 +37,7 @@ public class OrderService {
         CustomerOrder order = orderMapper.toEntity(orderRequestDTO);
         this.confirmOrder(order);
         order = orderRepository.save(order);
-        return orderMapper.toDTO(order); // Usar la instancia inyectada
+        return orderMapper.toDTO(order);
     }
 
     @Transactional
@@ -80,16 +81,25 @@ public class OrderService {
     }
 
     public boolean confirmOrder(CustomerOrder order) {
-        List<String> listaDeErrores = validador.validar(order.getItems());
+        List<String> listaDeErrores = validadorPedido.validar(order.getItems());
         if (!(listaDeErrores.isEmpty())) {
             return false;
         }
-        if (order.initializeOrder() == false) {
-            return false; 
-        }
+
         String email = order.getUserAdress();
         this.emailSenderService.sendOrderConfirmationMail(email);
         return true;
+    }
+
+    public List<OrderDTO> getOrdersByUserId(String userId) {
+        List<CustomerOrder> orders = orderRepository.findByUserId(userId);
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+
+        for (CustomerOrder order : orders) {
+            orderDTOS.add(orderMapper.toDTO(order));
+        }
+
+        return orderDTOS;
     }
 
 }

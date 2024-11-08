@@ -1,4 +1,4 @@
-package is1.order_app.service;
+package is1.order_app.service.EmailSenderServiceMails;
 
 import org.springframework.mail.SimpleMailMessage;
 
