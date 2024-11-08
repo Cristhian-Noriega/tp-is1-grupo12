@@ -1,6 +1,7 @@
 package is1.order_app.service;
 
 import is1.order_app.dto.OrderCommandDTO;
+import is1.order_app.service.rule_service.ValidadorPedido;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.mapper.OrderMapper;
 import is1.order_app.order_management.command.OrderCommand;
@@ -28,7 +29,9 @@ public class OrderService {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper; // Inyectar OrderMapper
         this.emailSenderService = emailSenderService;
-        this.validadorPedido = new ValidadorPedido("src/main/resources/rules.json");
+        try {
+            this.validadorPedido = new ValidadorPedido("src/main/resources/rules.json");
+        } catch (Exception e) {}
     }
 
     @Transactional
@@ -80,16 +83,24 @@ public class OrderService {
     }
 
     public boolean confirmOrder(CustomerOrder order) {
-        List<String> listaDeErrores = validador.validar(order.getItems());
+        List<String> listaDeErrores = this.validadorPedido.validar(order.getItems());
         if (!(listaDeErrores.isEmpty())) {
             return false;
         }
-        if (order.initializeOrder() == false) {
-            return false; 
-        }
+        order.initializeOrder();
         String email = order.getUserAdress();
         this.emailSenderService.sendOrderConfirmationMail(email);
         return true;
     }
 
+    public List<OrderDTO> getOrdersByUserId(String userId) {
+        List<CustomerOrder> orders = orderRepository.findByUserId(userId);
+        List<OrderDTO> orderDTOS = new ArrayList<>();
+        for (CustomerOrder order : orders) {
+            orderDTOS.add(orderMapper.toDTO(order));
+        }
+        return orderDTOS;
+    }
+
 }
+

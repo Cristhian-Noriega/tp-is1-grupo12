@@ -1,8 +1,11 @@
 package is1.order_app.service;
 
+import is1.order_app.service.mails.*;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +19,7 @@ public class EmailSenderService {
         this.mailSender = mailSender;
     }
 
-    public void sendMail(String recipientEmailAddress, EmailSenderServiceMail mailType) {
+    public void sendMail(String recipientEmailAddress, EmailWriter mailType) {
         SimpleMailMessage message=new SimpleMailMessage();
         message.setFrom(this.senderEmailAddress);
         message.setTo(recipientEmailAddress);
@@ -25,10 +28,15 @@ public class EmailSenderService {
     }
 
     public void sendPassworChangedMail(String recipientEmailAddress) {
-        this.sendMail(recipientEmailAddress, new PasswordChangeMail());
+        this.sendMail(recipientEmailAddress, new PasswordChangeMailWriter());
     }
 
     public void sendOrderConfirmationMail(String recipientEmailAddress) {
-        this.sendMail(recipientEmailAddress, new OrderConfirmationMail());
+        this.sendMail(recipientEmailAddress, new OrderConfirmationMailWriter());
     }
+
+    public void sendOrderUpdateMailWriter(String recipientEmailAddress, String orderState, int orderId) {
+        this.sendMail(recipientEmailAddress, new OrderUpdateMailWriter(orderState, orderId));
+    }
+    
 }

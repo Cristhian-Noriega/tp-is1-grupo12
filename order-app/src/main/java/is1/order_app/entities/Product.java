@@ -49,4 +49,31 @@ public class Product {
         this.productExtraAtributtes = convertMapforDB(productExtraAtributtes);
     }
 
+    public Object get(String atributo) {
+        switch (atributo) {
+            case "name": return name;
+            case "stock": return stock;
+            case "brand": return brand;
+            case "description": return description;
+        }
+
+        Map<String, Object> extraAttributesMap = parseProductExtraAttributes();
+        return extraAttributesMap.getOrDefault(atributo, null);
+    }
+
+    private Map<String, Object> parseProductExtraAttributes() {
+        Map<String, Object> attributesMap = new HashMap<>();
+
+        if (productExtraAtributtes != null && !productExtraAtributtes.isEmpty()) {
+            String[] entries = productExtraAtributtes.split(", ");
+
+            for (String entry : entries) {
+                String[] keyValue = entry.split(": ");
+                if (keyValue.length == 2) {
+                    attributesMap.put(keyValue[0], keyValue[1]);
+                }
+            }
+        }
+        return attributesMap;
+    }
 }
