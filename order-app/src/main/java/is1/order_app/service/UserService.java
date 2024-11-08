@@ -10,7 +10,7 @@ import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.entities.User;
 import is1.order_app.mapper.UserMapper;
 import is1.order_app.repository.UserRepository;
-import is1.order_app.service.EmailSenderService;
+import is1.order_app.service.mails_sevice.EmailSenderService;
 
 import org.springframework.stereotype.Service;
 import java.security.MessageDigest;

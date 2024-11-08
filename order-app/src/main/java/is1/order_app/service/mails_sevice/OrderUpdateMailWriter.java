@@ -1,6 +1,4 @@
-package is1.order_app.service;
-
-import org.springframework.mail.SimpleMailMessage;
+package is1.order_app.service.mails_sevice;
 
 public class OrderUpdateMailWriter extends EmailWriter {
 

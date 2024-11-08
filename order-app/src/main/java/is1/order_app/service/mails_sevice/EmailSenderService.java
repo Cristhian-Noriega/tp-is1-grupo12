@@ -1,11 +1,7 @@
-package is1.order_app.service;
-
-import is1.order_app.service.mails.*;
+package is1.order_app.service.mails_sevice;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.stereotype.Service;
 
 @Service

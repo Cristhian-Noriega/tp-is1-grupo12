@@ -10,8 +10,7 @@ import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.CustomerOrder;
 import is1.order_app.repository.OrderRepository;
-import is1.order_app.service.EmailSenderService;
-import is1.order_app.service.rule_service.ValidadorPedido;
+import is1.order_app.service.mails_sevice.EmailSenderService;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;

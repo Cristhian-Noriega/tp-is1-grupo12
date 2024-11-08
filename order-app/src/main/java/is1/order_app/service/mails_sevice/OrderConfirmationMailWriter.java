@@ -1,6 +1,5 @@
-package is1.order_app.service;
+package is1.order_app.service.mails_sevice;
 
-import org.springframework.mail.SimpleMailMessage;
 
 public class OrderConfirmationMailWriter extends EmailWriter {
 
