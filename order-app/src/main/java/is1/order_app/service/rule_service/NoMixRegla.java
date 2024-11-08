@@ -22,9 +22,13 @@ public class NoMixRegla implements Regla {
         boolean result_1 = false;
         boolean result_2 = false;
         for (OrderItem item : items) {
-            if (item.get(atributo).equals(valor_1)) {
+            Object atributoValor = item.get(atributo);
+            if (atributoValor == null) {
+                continue;
+            }
+            if (atributoValor.equals(valor_1)) {
                 result_1 = true;
-            } else if (item.get(atributo).equals(valor_2)) {
+            } else if (atributoValor.equals(valor_2)) {
                 result_2 = true;
             }
         }

@@ -62,4 +62,93 @@ public class ValidadorPedidoTest {
 
         assertEquals(0, errores.size());
     }
+
+    @Test
+    public void testValidar_orNoFalla() {
+        Product producto1 = new Product();
+        producto1.setName("Lapiz Labial");
+        HashMap<String,Object> extraAttributes = new HashMap<>();
+        extraAttributes.put("categoria", "cosmetica");
+        extraAttributes.put("color", "rojo");
+        producto1.setProductExtraAtributtes(extraAttributes);
+
+        OrderItem item1 = new OrderItem(producto1, 2);
+        // falla que hay menos de 4 productos, pero pasa que el producto no es verde
+        List<OrderItem> productos = Arrays.asList(item1);
+
+        List<String> errores = validador.validar(productos);
+
+        assertEquals(0, errores.size());
+    }
+
+    @Test
+    public void testValidar_orFalla() {
+        Product producto1 = new Product();
+        producto1.setName("Lapiz Labial");
+        HashMap<String,Object> extraAttributes = new HashMap<>();
+        extraAttributes.put("categoria", "cosmetica");
+        extraAttributes.put("color", "verde");
+        producto1.setProductExtraAtributtes(extraAttributes);
+
+        OrderItem item1 = new OrderItem(producto1, 2);
+
+        List<OrderItem> productos = Arrays.asList(item1);
+
+        List<String> errores = validador.validar(productos);
+
+        assertEquals(1, errores.size());
+    }
+
+    @Test
+    public void testValidar_andNoFalla() {
+        Product producto1 = new Product();
+        producto1.setName("Lapiz Labial");
+        HashMap<String,Object> extraAttributes = new HashMap<>();
+        extraAttributes.put("categoria", "cosmetica");
+        extraAttributes.put("color", "rojo");
+        producto1.setProductExtraAtributtes(extraAttributes);
+
+        Product producto2 = new Product();
+        producto2.setName("rimel");
+        HashMap<String,Object> extraAttributes2 = new HashMap<>();
+        extraAttributes2.put("categoria", "cosmetica");
+        extraAttributes2.put("color", "negro");
+        producto2.setProductExtraAtributtes(extraAttributes2);
+
+        OrderItem item1 = new OrderItem(producto1, 4);
+        OrderItem item2 = new OrderItem(producto2, 2);
+
+        List<OrderItem> productos = Arrays.asList(item1, item2);
+
+        List<String> errores = validador.validar(productos);
+
+        assertEquals(0, errores.size());
+    }
+
+    @Test
+    public void testValidar_andFalla() {
+        Product producto1 = new Product();
+        producto1.setName("Lapiz Labial");
+        HashMap<String,Object> extraAttributes = new HashMap<>();
+        extraAttributes.put("categoria", "cosmetica");
+        extraAttributes.put("color", "rojo");
+        producto1.setProductExtraAtributtes(extraAttributes);
+
+        Product producto2 = new Product();
+        producto2.setName("rimel");
+        HashMap<String,Object> extraAttributes2 = new HashMap<>();
+        extraAttributes2.put("categoria", "cosmetica");
+        extraAttributes2.put("color", "azul");
+        producto2.setProductExtraAtributtes(extraAttributes2);
+
+        OrderItem item1 = new OrderItem(producto1, 4);
+        OrderItem item2 = new OrderItem(producto2, 2);
+
+        List<OrderItem> productos = Arrays.asList(item1, item2);
+
+        List<String> errores = validador.validar(productos);
+
+        //no se cumple el no mix de rojo / azul
+        assertEquals(1, errores.size());
+    }
 }

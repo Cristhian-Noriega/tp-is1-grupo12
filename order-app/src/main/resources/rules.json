@@ -53,11 +53,51 @@
   {
     "regla": "min_products",
     "valor": 4,
-    "mensaje_error": "Debon haber minimo 4 productos en el pedido"
+    "mensaje_error": "Deben haber minimo 4 productos en el pedido"
   },
   {
     "regla": "max_products",
     "valor": 20,
-    "mensaje_error": "Debon haber como mucho 20 productos en el pedido"
+    "mensaje_error": "Deben haber como mucho 20 productos en el pedido"
+  },
+  {
+    "regla": "or",
+    "reglas": [
+      {
+        "regla": "<=_str",
+        "atributo_afectado": "color",
+        "valor_atributo": "violeta",
+        "valor": 10,
+        "mensaje_error": "Máximo 10 productos de color violeta."
+      },
+      {
+        "regla": "<=_str",
+        "atributo_afectado": "color",
+        "valor_atributo": "naranja",
+        "valor": 10,
+        "mensaje_error": "Máximo 10 productos de color naranja."
+      }
+    ],
+    "mensaje_error": "No se cumple ninguna de las reglas internas: "
+  },
+  {
+    "regla": "and",
+    "reglas": [
+      {
+        "regla": "<=_str",
+        "atributo_afectado": "color",
+        "valor_atributo": "violeta",
+        "valor": 10,
+        "mensaje_error": "Máximo 10 productos de color violeta."
+      },
+      {
+        "regla": "<=_str",
+        "atributo_afectado": "color",
+        "valor_atributo": "naranja",
+        "valor": 10,
+        "mensaje_error": "Máximo 10 productos de color naranja."
+      }
+    ],
+    "mensaje_error": "No se cumplen todas las reglas internas: "
   }
 ]
