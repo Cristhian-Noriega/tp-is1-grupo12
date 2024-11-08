@@ -22,6 +22,9 @@ public class MinimoStringRegla implements Regla {
         long total = 0;
         for (OrderItem item : items) {
             Object atributoValor = item.get(atributo);
+            if (atributoValor == null) {
+                continue;
+            }
             if (valor.equals(atributoValor)) {
                 total += item.getQuantity();
             }

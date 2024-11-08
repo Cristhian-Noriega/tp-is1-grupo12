@@ -19,7 +19,11 @@ public class MaxTotIntRegla implements Regla {
     public boolean interpret(List<OrderItem> items) {
         Double total = 0.0;
         for (OrderItem item : items) {
-            double valorAtributo = Double.parseDouble((String) item.get(atributo));
+            Object atributoValor = item.get(atributo);
+            if (atributoValor == null) {
+                continue;
+            }
+            double valorAtributo = Double.parseDouble((String) atributoValor);
             total += valorAtributo * item.getQuantity();
         }
         return total <= valor;

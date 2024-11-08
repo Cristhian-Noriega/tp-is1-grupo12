@@ -18,7 +18,11 @@ public class MinIndIntRegla implements Regla {
     @Override
     public boolean interpret(List<OrderItem> items) {
         for (OrderItem item : items) {
-            double valorAtributo = Double.parseDouble((String) item.get(atributo));
+            Object atributoValor = item.get(atributo);
+            if (atributoValor == null) {
+                continue;
+            }
+            double valorAtributo = Double.parseDouble((String) atributoValor);
             if (valorAtributo < valor) {
                 return false;
             }

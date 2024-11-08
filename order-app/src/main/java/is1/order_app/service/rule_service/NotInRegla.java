@@ -18,7 +18,11 @@ public class NotInRegla implements Regla {
     @Override
     public boolean interpret(List<OrderItem> items) {
         for (OrderItem item : items) {
-            if (item.get(atributo).equals(valor_atributo)) {
+            Object atributoValor = item.get(atributo);
+            if (atributoValor == null) {
+                continue;
+            }
+            if (atributoValor.equals(valor_atributo)) {
                 return false;
             }
         }
