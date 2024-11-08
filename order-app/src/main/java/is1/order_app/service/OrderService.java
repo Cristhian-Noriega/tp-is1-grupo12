@@ -10,12 +10,11 @@ import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.CustomerOrder;
 import is1.order_app.repository.OrderRepository;
-import is1.order_app.service.email_sender_service.EmailSenderService;
-import is1.order_app.service.email_sender_service.OrderConfirmationMail;
+import is1.order_app.service.EmailSenderService;
 import is1.order_app.service.rule_service.ValidadorPedido;
+
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +25,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final EmailSenderService emailSenderService;
-    private final ValidadorPedido validadorPedido;
+    private ValidadorPedido validadorPedido;
 
     public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService, ValidadorPedido validadorPedido) {
         this.orderRepository = orderRepository;
