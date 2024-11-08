@@ -88,7 +88,7 @@ public class OrderService {
         if (!(listaDeErrores.isEmpty())) {
             return false;
         }
-        order.initializeOrder();
+
         String email = order.getUserAdress();
         this.emailSenderService.sendOrderConfirmationMail(email);
         return true;
