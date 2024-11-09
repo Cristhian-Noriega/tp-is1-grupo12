@@ -25,15 +25,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final EmailSenderService emailSenderService;
-    private ValidadorPedido validadorPedido;
+    private final ValidadorPedido validadorPedido;
 
-    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService, ValidadorPedido validadorPedido) {
+    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService) throws Exception  {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.emailSenderService = emailSenderService;
-        try {
-            this.validadorPedido = new ValidadorPedido("src/main/resources/rules.json");
-        } catch (Exception e) {}
+        this.validadorPedido = new ValidadorPedido("/usr/local/lib/resources/rules.json");
     }
 
     @Transactional
