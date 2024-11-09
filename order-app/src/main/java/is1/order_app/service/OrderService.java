@@ -5,12 +5,13 @@ import is1.order_app.service.rule_service.ValidadorPedido;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.mapper.OrderMapper;
 import is1.order_app.order_management.command.OrderCommand;
-import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.CustomerOrder;
 import is1.order_app.repository.OrderRepository;
 import is1.order_app.service.mails_sevice.EmailSenderService;
+import is1.order_app.exceptions.OrderNotFoundException;
+import is1.order_app.exceptions.OrderValidatorErrorsException;
 
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -83,15 +84,14 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public boolean confirmOrder(CustomerOrder order) {
+    public void confirmOrder(CustomerOrder order) {
         List<String> listaDeErrores = this.validadorPedido.validar(order.getItems());
         if (!(listaDeErrores.isEmpty())) {
-            return false;
+            throw new OrderValidatorErrorsException(listaDeErrores);
         }
 
         String email = order.getUserAdress();
         this.emailSenderService.sendOrderConfirmationMail(email);
-        return true;
     }
 
     public List<OrderDTO> getOrdersByUserId(String userId) {
