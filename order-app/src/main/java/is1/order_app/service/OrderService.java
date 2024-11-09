@@ -14,6 +14,7 @@ import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.exceptions.OrderValidatorErrorsException;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,11 @@ public class OrderService {
     private final EmailSenderService emailSenderService;
     private final ValidadorPedido validadorPedido;
 
-    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService) throws Exception  {
+    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService, ValidadorPedido validadorPedido) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
         this.emailSenderService = emailSenderService;
-        this.validadorPedido = new ValidadorPedido("/usr/local/lib/resources/rules.json");
+        this.validadorPedido = validadorPedido;
     }
 
     @Transactional
