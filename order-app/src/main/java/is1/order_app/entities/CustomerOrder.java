@@ -1,3 +1,7 @@
+
+
+
+
 package is1.order_app.entities;
 
 import jakarta.persistence.*;
@@ -11,6 +15,7 @@ import java.util.List;
 @Getter
 @Data
 public class CustomerOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,9 +42,16 @@ public class CustomerOrder {
         }
     }
 
+    public String getUserAdress() {
+        return this.userId;
+    }
+
     public boolean canBeCanceled() {
         return state == OrderState.CONFIRMED &&
                 confirmationTime != null &&
                 confirmationTime.plusHours(24).isAfter(LocalDateTime.now());
     }
+
 }
+
+

@@ -1,34 +1,43 @@
 package is1.order_app.service;
 
 import is1.order_app.dto.OrderCommandDTO;
+import is1.order_app.repository.ProductRepository;
+import is1.order_app.service.rule_service.ValidadorPedido;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.entities.OrderItem;
 import is1.order_app.entities.OrderState;
 import is1.order_app.entities.Product;
 import is1.order_app.mapper.OrderMapper;
 import is1.order_app.order_management.command.OrderCommand;
-import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.CustomerOrder;
 import is1.order_app.repository.OrderRepository;
-import is1.order_app.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
+import is1.order_app.service.mails_sevice.EmailSenderService;
+import is1.order_app.exceptions.OrderNotFoundException;
+import is1.order_app.exceptions.OrderValidatorErrorsException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class OrderService {
-    private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
-    private final OrderMapper orderMapper; // Agregar OrderMapper como dependencia
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository, OrderMapper orderMapper) {
+    private final OrderRepository orderRepository;
+    private final OrderMapper orderMapper;
+    private final EmailSenderService emailSenderService;
+    private final ValidadorPedido validadorPedido;
+
+    private final ProductRepository productRepository;
+
+    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService, ValidadorPedido validadorPedido, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
-        this.productRepository = productRepository;
         this.orderMapper = orderMapper;
+        this.emailSenderService = emailSenderService;
+        this.validadorPedido = validadorPedido;
+        this.productRepository = productRepository;
     }
 
     @Transactional
@@ -49,6 +58,7 @@ public class OrderService {
         order = orderRepository.save(order);
         return orderMapper.toDTO(order);
     }
+
 
     @Transactional
     public void executeCommand(Long orderId, String commandName) {
@@ -90,14 +100,22 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+    public void confirmOrder(CustomerOrder order) {
+        List<String> listaDeErrores = this.validadorPedido.validar(order.getItems());
+        if (!(listaDeErrores.isEmpty())) {
+            throw new OrderValidatorErrorsException(listaDeErrores);
+        }
+
+        String email = order.getUserAdress();
+        this.emailSenderService.sendOrderConfirmationMail(email);
+    }
+
     public List<OrderDTO> getOrdersByUserId(String userId) {
         List<CustomerOrder> orders = orderRepository.findByUserId(userId);
         List<OrderDTO> orderDTOS = new ArrayList<>();
-
         for (CustomerOrder order : orders) {
             orderDTOS.add(orderMapper.toDTO(order));
         }
-
         return orderDTOS;
     }
 
@@ -180,5 +198,5 @@ public class OrderService {
                 .map(orderMapper::toDTO)
                 .toList();
     }
-
 }
+

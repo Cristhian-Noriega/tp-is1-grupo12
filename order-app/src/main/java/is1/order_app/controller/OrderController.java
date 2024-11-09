@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
+
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
@@ -36,17 +37,18 @@ public class OrderController {
 
     @GetMapping()
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
-        return ResponseEntity.ok(orderService.getAllOrders());
+        return ResponseEntity.ok(this.orderService.getAllOrders());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrder(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrderById(id));
+        return ResponseEntity.ok(this.orderService.getOrderById(id));
     }
+    
     @PostMapping("/{orderId}/executeCommand")
     public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommandDTO commandDTO) {
         try {
-            orderService.executeCommand(orderId, commandDTO.getCommandName());
+            this.orderService.executeCommand(orderId, commandDTO.getCommandName());
             return ResponseEntity.ok("Command executed successfully.");
         } catch (OrderNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
@@ -57,13 +59,13 @@ public class OrderController {
 
     @GetMapping("/{orderId}/availableCommands")
     public ResponseEntity<List<OrderCommandDTO>> getAvailableCommands(@PathVariable Long orderId) {
-        List<OrderCommandDTO> commands = orderService.getAvailableCommands(orderId);
+        List<OrderCommandDTO> commands = this.orderService.getAvailableCommands(orderId);
         return ResponseEntity.ok(commands);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+        this.orderService.deleteOrder(id);
         return ResponseEntity.noContent().build();
     }
 
