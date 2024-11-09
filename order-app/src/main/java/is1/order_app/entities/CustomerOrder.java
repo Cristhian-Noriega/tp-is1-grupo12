@@ -2,11 +2,13 @@ package is1.order_app.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
+@Getter
 @Data
 public class CustomerOrder {
     @Id
