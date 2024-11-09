@@ -33,27 +33,12 @@ public class UserService {
     }
 
     public UserDTO registerUser(UserRegistrationDTO registration) {
-        try {
-            // Check for duplicate email
-            Optional<User> existingUser = userRepository.findByEmail(registration.email());
-            if (existingUser.isPresent()) {
-                throw new DuplicatedUserEmailException("The email is already taken");
-            }
-
-            // Map to entity and save
-            User user = userMapper.toEntity(registration);
-            userRepository.save(user);
-
-            // Return the DTO
-            return userMapper.toDTO(user);
-
-        } catch (Exception e) {
-            // Print the stack trace to the console
-            e.printStackTrace();
-
-            // Re-throw the exception to return a 500 response
-            throw e;
-        }
+        userRepository.findByEmail(registration.email()).ifPresent(user -> {
+            throw new DuplicatedUserEmailException("The email is already taken");
+        });
+        User user = userMapper.toEntity(registration);
+        userRepository.save(user);
+        return userMapper.toDTO(user);
     }
 
     public List<UserDTO> getAllUsers() {
@@ -70,8 +55,8 @@ public class UserService {
         return userDTO.get();
     }
 
-    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
-        return user.get().getPassword().equals(possiblePassword);
+    private boolean confirmPassword(User user, String possiblePassword) {
+        return user.getPassword().equals(possiblePassword);
     }
 
     public String loginUser(LoginDTO loginDTO) {
@@ -79,7 +64,7 @@ public class UserService {
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException("User not found with email " + loginDTO.email());
         }
-        if (this.confirmPassword(userOpt, loginDTO.password())) {
+        if (this.confirmPassword(userOpt.get(), loginDTO.password())) {
             User user = userOpt.get();
             String token = generateToken(user.getEmail());
             user.setAuthToken(token);
