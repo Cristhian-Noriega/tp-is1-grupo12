@@ -33,12 +33,27 @@ public class UserService {
     }
 
     public UserDTO registerUser(UserRegistrationDTO registration) {
-        userRepository.findByEmail(registration.email()).ifPresent(user -> {
-            throw new DuplicatedUserEmailException("The email is already taken");
-        });
-        User user = userMapper.toEntity(registration);
-        User savedUser = userRepository.save(user);
-        return userMapper.toDTO(user);
+        try {
+            // Check for duplicate email
+            Optional<User> existingUser = userRepository.findByEmail(registration.email());
+            if (existingUser.isPresent()) {
+                throw new DuplicatedUserEmailException("The email is already taken");
+            }
+
+            // Map to entity and save
+            User user = userMapper.toEntity(registration);
+            userRepository.save(user);
+
+            // Return the DTO
+            return userMapper.toDTO(user);
+
+        } catch (Exception e) {
+            // Print the stack trace to the console
+            e.printStackTrace();
+
+            // Re-throw the exception to return a 500 response
+            throw e;
+        }
     }
 
     public List<UserDTO> getAllUsers() {
@@ -76,9 +91,7 @@ public class UserService {
     }
 
     public void askMailRestorePassword(String email) {
-        userRepository.findByEmail(email).ifPresentOrElse(user -> {
-            emailSenderService.sendPassworChangedMail(email);
-        }, () -> {
+        userRepository.findByEmail(email).ifPresentOrElse(user -> emailSenderService.sendPassworChangedMail(email), () -> {
             throw new UserNotFoundException("User not found with email " + email);
         });
     }
