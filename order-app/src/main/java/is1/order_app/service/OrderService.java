@@ -1,35 +1,46 @@
 package is1.order_app.service;
 
 import is1.order_app.dto.OrderCommandDTO;
+import is1.order_app.service.rule_service.ValidadorPedido;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.mapper.OrderMapper;
 import is1.order_app.order_management.command.OrderCommand;
-import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.CustomerOrder;
 import is1.order_app.repository.OrderRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
+import is1.order_app.service.mails_sevice.EmailSenderService;
+import is1.order_app.exceptions.OrderNotFoundException;
+import is1.order_app.exceptions.OrderValidatorErrorsException;
 
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class OrderService {
-    private final OrderRepository orderRepository;
-    private final OrderMapper orderMapper; // Agregar OrderMapper como dependencia
 
-    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper) {
+    private final OrderRepository orderRepository;
+    private final OrderMapper orderMapper;
+    private final EmailSenderService emailSenderService;
+    private final ValidadorPedido validadorPedido;
+
+    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, EmailSenderService emailSenderService, ValidadorPedido validadorPedido) {
         this.orderRepository = orderRepository;
-        this.orderMapper = orderMapper; // Inyectar OrderMapper
+        this.orderMapper = orderMapper;
+        this.emailSenderService = emailSenderService;
+        this.validadorPedido = validadorPedido;
     }
 
     @Transactional
     public OrderDTO createOrder(OrderRequestDTO orderRequestDTO) {
         CustomerOrder order = orderMapper.toEntity(orderRequestDTO);
+        this.confirmOrder(order);
         order = orderRepository.save(order);
-        return orderMapper.toDTO(order); // Usar la instancia inyectada
+        return orderMapper.toDTO(order);
     }
 
     @Transactional
@@ -72,14 +83,24 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+    public void confirmOrder(CustomerOrder order) {
+        List<String> listaDeErrores = this.validadorPedido.validar(order.getItems());
+        if (!(listaDeErrores.isEmpty())) {
+            throw new OrderValidatorErrorsException(listaDeErrores);
+        }
+
+        String email = order.getUserAdress();
+        this.emailSenderService.sendOrderConfirmationMail(email);
+    }
+
     public List<OrderDTO> getOrdersByUserId(String userId) {
         List<CustomerOrder> orders = orderRepository.findByUserId(userId);
         List<OrderDTO> orderDTOS = new ArrayList<>();
-
         for (CustomerOrder order : orders) {
             orderDTOS.add(orderMapper.toDTO(order));
         }
-
         return orderDTOS;
     }
+    
 }
+

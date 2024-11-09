@@ -10,21 +10,18 @@ import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.entities.User;
 import is1.order_app.mapper.UserMapper;
 import is1.order_app.repository.UserRepository;
-import org.springframework.stereotype.Service;
+import is1.order_app.service.mails_sevice.EmailSenderService;
 
+import org.springframework.stereotype.Service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-
-
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final EmailSenderService emailSenderService;
     private final UserMapper userMapper;
@@ -39,7 +36,6 @@ public class UserService {
         userRepository.findByEmail(registration.email()).ifPresent(user -> {
             throw new DuplicatedUserEmailException("The email is already taken");
         });
-
         User user = userMapper.toEntity(registration);
         User savedUser = userRepository.save(user);
         return userMapper.toDTO(user);
@@ -81,7 +77,7 @@ public class UserService {
 
     public void askMailRestorePassword(String email) {
         userRepository.findByEmail(email).ifPresentOrElse(user -> {
-            emailSenderService.restorePasswordMail(email);
+            emailSenderService.sendPassworChangedMail(email);
         }, () -> {
             throw new UserNotFoundException("User not found with email " + email);
         });
@@ -115,6 +111,7 @@ public class UserService {
         Optional<User> userOpt = userRepository.findByEmail(email);
         return userOpt.isPresent() && token.equals(userOpt.get().getAuthToken());
     }
+    
 }
 
 
