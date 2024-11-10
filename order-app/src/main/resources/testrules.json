@@ -1,0 +1,50 @@
+[
+  {
+    "regla": "<=_str",
+    "atributo_afectado": "categoria",
+    "valor_atributo": "electronica",
+    "valor": 5,
+    "mensaje_error": "No puede haber más de 5 productos de la categoría Electrónica"
+  },
+  {
+    "regla": "<=_int",
+    "atributo_afectado": "precio",
+    "valor": 1000,
+    "mensaje_error": "El total no puede exceder los 1000"
+  },
+  {
+    "regla": "or",
+    "reglas": [
+      {
+        "regla": "not_in",
+        "atributo_afectado": "color",
+        "valor_atributo": "verde",
+        "mensaje_error": "No deben haber productos de color verde."
+      },
+      {
+        "regla": "min_products",
+        "valor": 4,
+        "mensaje_error": "Deben haber minimo 4 productos en el pedido"
+      }
+    ],
+    "mensaje_error": "No se cumple ninguna de las reglas internas: "
+  },
+  {
+    "regla": "and",
+    "reglas": [
+      {
+        "regla": "max_products",
+        "valor": 6,
+        "mensaje_error": "Deben haber maximo 4 productos en el pedido"
+      },
+      {
+        "regla": "no_mix",
+        "atributo_afectado": "color",
+        "valor_atributo": "rojo",
+        "valor_atributo2": "azul",
+        "mensaje_error": "No pueden haber productos rojos con azules."
+      }
+    ],
+    "mensaje_error": "No se cumplen todas las reglas internas: "
+  }
+]
