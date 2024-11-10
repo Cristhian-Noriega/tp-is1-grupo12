@@ -6,15 +6,17 @@ import { useContext, useState } from 'react';
 
 export const UserProductItem = ({ product, onShowDetails}) => {
   const [productQuantity, setProductQuantity] = useState(1);
+  const [productRemaining, setProductRemaining] = useState(product.stock);
 
   const { addToOrder } = useContext(OrderContext);
 
   const handleAddToOrder = () => {
-    if (productQuantity > product.stock) {
+    if (productQuantity > productRemaining) {
       alert("No hay suficiente stock disponible.");
       return;
     }
 
+    setProductRemaining(productRemaining - productQuantity)
     console.log(product);  // Verifica que el producto es el esperado
     const productSummary = {
       id: product.id,

@@ -1,14 +1,14 @@
 import "./productsSelectionPage.css"
-import { UserOrdersTable } from '../../components/orders/user_orders/UserOrdersTable';
+import { UserCurrentOrderTable } from '../../components/orders/user_orders/UserCurrentOrderTable';
 import { UserLayout } from '../../components/user_layout/UserLayout';
 
 
-export const UserOrderPage = () => {
+export const UserCurrentOrderPage = () => {
     
   return (
     <div className='order-page-wrapper'>
         <UserLayout/>
-        <UserOrdersTable/>
+        <UserCurrentOrderTable/>
         
     </div>
   );

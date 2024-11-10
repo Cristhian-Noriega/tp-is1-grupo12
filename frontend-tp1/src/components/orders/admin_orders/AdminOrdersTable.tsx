@@ -62,7 +62,7 @@ export const AdminOrdersTable = () => {
               </td>
               <td>
                 <Button
-                  text="Cancelar"
+                  text="Cancelar Orden"
                   backgroundColor="#FF6644"
                   backgroundColorHover="#FF0000"
                   handleAction={() => cancelOrder(order.id)}

@@ -1,15 +1,15 @@
 import { useContext } from 'react';
-import "./userOrderTable.css"
+import "./userCurrentOrderTable.css"
 import { OrderContext} from '../../../context/OrderContext';
 import { Context} from '../../../context/Context';
 import userOrdersService from '../../../services/userOrders'
 import { Button } from '../../ui/Button';
 const deleteButton = "/public/assets/delete.svg";
 
-export const UserOrdersTable = () => {
+export const UserCurrentOrderTable = () => {
     
       const { order, removeProductFromOrder, clearOrder } = useContext(OrderContext);
-      const { user} = useContext(Context)
+      const { user, handleAddProduct} = useContext(Context)
 
 
       const createOrderPayload = () => {
@@ -21,6 +21,11 @@ export const UserOrdersTable = () => {
           })),
         };
       };
+
+      const handleRemoveProduct = (productId) =>{
+        removeProductFromOrder(productId)
+        handleAddProduct(productId)
+      }
 
       const createOrder = async () => {
         try {
@@ -53,7 +58,11 @@ export const UserOrdersTable = () => {
               <td>{product.name}</td>
               <td>{product.quantity}</td>
               <td>
-
+                <button className='action-button' 
+                onClick={() => handleRemoveProduct(product.id)}
+                >
+                  <img src={deleteButton} alt="BOTON ELIMINAR" className="nav-icon" />
+                </button>
               </td>
             </tr>
             

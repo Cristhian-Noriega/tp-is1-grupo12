@@ -16,15 +16,15 @@ export const UserNavSideBar = () => {
         </div>
         </Link>
 
-        <Link to="/user-orders">
+        <Link to="/user-current-order">
         <div className='nav-item-box'>
-          <img src={iconOrder} alt="Users Icon" className="nav-icon" /> Pedidos
+          <img src={iconOrder} alt="Users Icon" className="nav-icon" /> Orden Actual
         </div>
         </Link>
 
-        <Link to="/user-confirmed-orders">
+        <Link to="/user-orders">
         <div className='nav-item-box'>
-          <img src={iconOrder} alt="Users Icon" className="nav-icon" /> Pedidos Confirmados
+          <img src={iconOrder} alt="Users Icon" className="nav-icon" /> Pedidos
         </div>
         </Link>
 

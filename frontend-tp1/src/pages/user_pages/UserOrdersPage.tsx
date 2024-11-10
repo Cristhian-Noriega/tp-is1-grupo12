@@ -2,7 +2,7 @@ import './productsSelectionPage.css'
 import { UserLayout } from '../../components/user_layout/UserLayout';
 import { ConfirmedOrdersList } from '../../components/orders/user_confirmed_orders/ConfirmedOrdersList';
 
-export const UserConfirmedOrdersPage = () => {
+export const UserOrdersPage = () => {
     const cancelOrder = () => {
         console.log("orden cancelada")
         //usar el service cancel order
