@@ -37,7 +37,7 @@ public class UserService {
             throw new DuplicatedUserEmailException("The email is already taken");
         });
         User user = userMapper.toEntity(registration);
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
         return userMapper.toDTO(user);
     }
 
@@ -55,8 +55,8 @@ public class UserService {
         return userDTO.get();
     }
 
-    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
-        return user.get().getPassword().equals(possiblePassword);
+    private boolean confirmPassword(User user, String possiblePassword) {
+        return user.getPassword().equals(possiblePassword);
     }
 
     public String loginUser(LoginDTO loginDTO) {
@@ -64,7 +64,7 @@ public class UserService {
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException("User not found with email " + loginDTO.email());
         }
-        if (this.confirmPassword(userOpt, loginDTO.password())) {
+        if (this.confirmPassword(userOpt.get(), loginDTO.password())) {
             User user = userOpt.get();
             String token = generateToken(user.getEmail());
             user.setAuthToken(token);
@@ -76,9 +76,7 @@ public class UserService {
     }
 
     public void askMailRestorePassword(String email) {
-        userRepository.findByEmail(email).ifPresentOrElse(user -> {
-            emailSenderService.sendPassworChangedMail(email);
-        }, () -> {
+        userRepository.findByEmail(email).ifPresentOrElse(user -> emailSenderService.sendPassworChangedMail(email), () -> {
             throw new UserNotFoundException("User not found with email " + email);
         });
     }

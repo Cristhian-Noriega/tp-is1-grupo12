@@ -1,6 +1,5 @@
 package is1.order_app.repository;
 
-import is1.order_app.dto.OrderDTO;
 import is1.order_app.entities.CustomerOrder;
 import is1.order_app.entities.OrderState;
 import org.springframework.data.repository.CrudRepository;
