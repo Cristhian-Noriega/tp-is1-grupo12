@@ -1,0 +1,14 @@
+.orders-wrapper{
+    display: flex;
+}
+.orders-boxes{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    border: 1px solid white;
+    border-radius: 15px;
+    padding: 30px;
+    width: 400px;   
+    margin: 20px;
+}

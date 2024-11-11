@@ -1,0 +1,34 @@
+.body-card {
+  padding: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  background-color: #ffffff;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.header-row {
+  display: flex;
+  border-bottom: 2px solid #007bff; /* Color de la línea */
+}
+
+.header-item {
+  flex: 1;
+  padding: 0.5rem;
+  font-weight: bold;
+  color: #007bff; /* Color del texto de los encabezados */
+}
+
+.body-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.body-item {
+  display: flex;
+  border-bottom: 1px solid #dee2e6; /* Línea entre productos */
+}
+
+.item {
+  flex: 1;
+  padding: 0.5rem;
+}

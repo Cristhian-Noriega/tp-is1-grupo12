@@ -1,0 +1,32 @@
+.nav-side-bar-wrapper {
+    width: 250px;
+    background-color: #2c2c2c; 
+    color: #fff;
+    padding: 20px;
+  }
+  
+  .nav-section {
+    margin-top: 20px;
+  }
+  
+  .nav-item-box {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    margin: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #b8b8b8;
+    transition: color 0.3s;
+  }
+  
+  .nav-item-box:hover {
+    color: #fff;
+  }
+
+  .nav-icon {
+    margin-right: 10px;
+    width: 26px;  
+    height: 26px;
+  }
+  

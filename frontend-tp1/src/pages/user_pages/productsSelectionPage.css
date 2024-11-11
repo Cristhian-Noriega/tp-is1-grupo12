@@ -1,0 +1,9 @@
+.product-page-wrapper, .order-page-wrapper, .user-confirmed-orders-wrapper{
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+}
+.table-content-wrapper{
+    margin:20px
+}
