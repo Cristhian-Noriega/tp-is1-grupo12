@@ -8,14 +8,14 @@ const deleteButton = "/public/assets/delete.svg";
 
 export const UserCurrentOrderTable = () => {
     
-      const { order, removeProductFromOrder, clearOrder } = useContext(OrderContext);
+      const { currentOrder, removeProductFromOrder, clearOrder } = useContext(OrderContext);
       const { user, handleAddProduct} = useContext(Context)
 
 
       const createOrderPayload = () => {
         return {
-          userId: "1", //TODO: User solamente devuelve el token 
-          items: order.map(item => ({
+          userId: user.id, //TODO: User solamente devuelve el token 
+          items: currentOrder.map(item => ({
             productId: item.id,
             quantity: item.quantity,
           })),
@@ -53,7 +53,7 @@ export const UserCurrentOrderTable = () => {
           </tr>
         </thead>
         <tbody>
-          {order.map(product => (
+          {currentOrder.map(product => (
             <tr key={product.id}>
               <td>{product.name}</td>
               <td>{product.quantity}</td>

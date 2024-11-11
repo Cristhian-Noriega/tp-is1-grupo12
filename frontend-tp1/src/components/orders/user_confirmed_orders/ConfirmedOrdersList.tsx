@@ -25,7 +25,9 @@ const mockOrders = [
   },
 ];
 
-export const ConfirmedOrdersList = () => {
+export const ConfirmedOrdersList = ({orders}) => {
+
+  
   const cancelOrder = (orderId) => {
     console.log(`Orden con ID ${orderId} cancelada`);
     // Aquí iría la lógica para cancelar la orden usando el servicio

@@ -1,5 +1,5 @@
 import "./productsSelectionPage.css";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import productsService from "../../services/products";
 import { productsUtils } from "../../utils/productsUtils";
 import productsAdminService from "../../services/productsAdmin";
@@ -32,7 +32,6 @@ export const ProductsSelectionPage = () => {
 
   const handleLogout = () => {
     window.localStorage.clear();
-    
     setUser(null);
     navigate('/login');
     };
