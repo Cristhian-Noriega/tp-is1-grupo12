@@ -16,9 +16,7 @@ const randomImageUrl = 'https://picsum.photos/200/300'
         password,
         gender,
         age,
-        address,
-        randomImageUrl
-        
+        address
         });
     
     } catch (exception) {
