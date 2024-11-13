@@ -1,6 +1,14 @@
-.product-page-wrapper{
+.admin-orders-body-wrapper{
     display: flex;
     width: 100%;
     height: 100%;
+}
+
+.admin-orders-body-wrappers{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    margin: 20px;
 
 }

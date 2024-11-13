@@ -35,7 +35,7 @@ export const ProductsAdministrationPage = () => {
     };
 
   return (
-    <div className="product-page-wrapper">
+    <div className="admin-products-page-wrapper">
       <AdminLayout/>
       <ProductTable products={products} />
       <button

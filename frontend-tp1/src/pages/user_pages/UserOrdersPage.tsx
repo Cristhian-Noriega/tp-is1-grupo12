@@ -6,6 +6,7 @@ import {userOrdersUtils} from '../../utils/userOrdersUtils'
 import { Context} from '../../context/Context';
 
 import { useContext, useEffect, useState } from 'react';
+import { OrderStatusFilter } from '../../components/order_status_filter/OrderStatusFilter';
 
 export const UserOrdersPage = () => {
 
@@ -39,6 +40,7 @@ export const UserOrdersPage = () => {
     <UserLayout/>
       <div className='table-content-wrapper'>
         <h2 >Órdenes de Usuario</h2>
+        <OrderStatusFilter/>
         <ConfirmedOrdersList orders={orders} handleDeleteOrder={handleDeleteOrder}/>
       </div>
     </div>

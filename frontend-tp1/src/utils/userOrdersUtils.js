@@ -3,7 +3,7 @@ import { OrdersContext } from "../context/OrdersContext";
 import ordersUserService from "../services/userOrders";
 
 export const userOrdersUtils = () => {
-  const { orders, setOrders } = useContext(OrdersContext);
+  const { orders, setOrders, originalOrders, setOriginalOrders } = useContext(OrdersContext);
 
   const deleteOrder = async (orderId) => {
     try {
@@ -17,5 +17,5 @@ export const userOrdersUtils = () => {
     }
   };
 
-  return { orders, setOrders,deleteOrder };
+  return { orders, setOrders,deleteOrder, originalOrders, setOriginalOrders };
 };
