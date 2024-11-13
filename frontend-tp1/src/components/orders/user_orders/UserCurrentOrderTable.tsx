@@ -37,6 +37,7 @@ export const UserCurrentOrderTable = () => {
             orderPayLoad
           );
          clearOrder()
+         console.log("orden creada correctamente")
          console.log(orderResponse)
         } catch (error) {
           console.log("error" + error);
