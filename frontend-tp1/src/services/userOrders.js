@@ -12,8 +12,15 @@ const getAll = async () => {
   return response.data;
 };
 
+const deleteOrder = async(orderId) => {
+  console.log(`desde el service order id, ${orderId}`)
+  console.log(`${baseUrl}/${orderId}/delete`)
+  const response = await axios.delete(`${baseUrl}/${orderId}/delete`)
+}
+
 const getByUserId = async (userId) => {
-  const response = await axios.get(`baseUrl/${userId}`);
+  console.log(`${baseUrl}/user/lucas.ezequiel.321@gmail.com`)
+  const response = await axios.get(`${baseUrl}/user/lucas.ezequiel.321@gmail.com`); //el userId esta mockeado
   return response.data;
 };
 
@@ -23,5 +30,5 @@ const create = async (orderObject) => {
   };
 
 export default {
-  getAll, create, getByUserId
+  getAll, create, getByUserId, deleteOrder
 };

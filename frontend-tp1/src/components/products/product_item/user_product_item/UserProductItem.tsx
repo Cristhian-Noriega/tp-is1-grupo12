@@ -1,14 +1,14 @@
 import './userProductItem.css';
 const addButton = "/public/assets/add.svg";
 const infoButton = "/public/assets/info.svg";
-import { OrderContext} from '../../../../context/OrderContext';
+import { CurrentOrderContext} from '../../../../context/CurrentOrderContext';
 import { useContext, useState } from 'react';
 
 export const UserProductItem = ({ product, onShowDetails}) => {
   const [productQuantity, setProductQuantity] = useState(1);
   const [productRemaining, setProductRemaining] = useState(product.stock);
 
-  const { addToOrder } = useContext(OrderContext);
+  const { addToOrder } = useContext(CurrentOrderContext);
 
   const handleAddToOrder = () => {
     if (productQuantity > productRemaining) {

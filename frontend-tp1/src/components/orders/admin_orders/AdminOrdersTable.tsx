@@ -1,35 +1,7 @@
 import { Button } from '../../ui/Button';
 import './adminOrdersTable.css';
+export const AdminOrdersTable = ({orders, handleDeleteOrder}) => {
 
-// Mock de datos de órdenes actualizado
-const mockOrders = [
-  {
-    id: 1,
-    userId: "john",
-    items: [
-      { productId: 102, quantity: 2 },
-      { productId: 105, quantity: 1 },
-    ],
-    state: "CONFIRMED",
-    confirmationTime: "2024-11-07T05:09:48.133597",
-  },
-  {
-    id: 2,
-    userId: "alice",
-    items: [
-      { productId: 204, quantity: 3 },
-      { productId: 207, quantity: 4 },
-    ],
-    state: "CONFIRMED",
-    confirmationTime: "2024-11-07T15:44:10.135487",
-  },
-];
-
-export const AdminOrdersTable = () => {
-  const cancelOrder = (orderId) => {
-    console.log(`Orden con ID ${orderId} cancelada`);
-    // Lógica para cancelar la orden usando el servicio
-  };
 
   return (
     <div className="orders-wrapper">
@@ -45,7 +17,7 @@ export const AdminOrdersTable = () => {
           </tr>
         </thead>
         <tbody>
-          {mockOrders.map((order) => (
+          {orders.map((order) => (
             <tr key={order.id}>
               <td>{order.id}</td>
               <td>{order.userId ? order.userId : "Sin usuario"}</td>
@@ -65,7 +37,7 @@ export const AdminOrdersTable = () => {
                   text="Cancelar Orden"
                   backgroundColor="#FF6644"
                   backgroundColorHover="#FF0000"
-                  handleAction={() => cancelOrder(order.id)}
+                  handleAction={() => handleDeleteOrder(order.id)}
                 />
               </td>
             </tr>

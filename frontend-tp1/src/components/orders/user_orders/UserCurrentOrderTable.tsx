@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import "./userCurrentOrderTable.css"
-import { OrderContext} from '../../../context/OrderContext';
+import { CurrentOrderContext} from '../../../context/CurrentOrderContext';
 import { Context} from '../../../context/Context';
 import userOrdersService from '../../../services/userOrders'
 import { Button } from '../../ui/Button';
@@ -8,13 +8,13 @@ const deleteButton = "/public/assets/delete.svg";
 
 export const UserCurrentOrderTable = () => {
     
-      const { currentOrder, removeProductFromOrder, clearOrder } = useContext(OrderContext);
+      const { currentOrder, removeProductFromOrder, clearOrder } = useContext(CurrentOrderContext);
       const { user, handleAddProduct} = useContext(Context)
 
 
       const createOrderPayload = () => {
         return {
-          userId: user.id, //TODO: User solamente devuelve el token 
+          userId: "lucas.ezequiel.321@gmail.com", //TODO: User solamente devuelve el token
           items: currentOrder.map(item => ({
             productId: item.id,
             quantity: item.quantity,

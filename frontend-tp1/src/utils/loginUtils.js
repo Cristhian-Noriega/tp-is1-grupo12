@@ -16,7 +16,7 @@ const handleLogin = async (email, password) => {
         });
         console.log("ESTE ES UN USUARIO")
         console.log(user)
-        window.localStorage.setItem("loggedUser", JSON.stringify(user)); // Guarda el token en el localstorage
+        window.localStorage.setItem("loggedAppUser", JSON.stringify(user)); // Guarda el token en el localstorage
         productsAdminService.setToken(user); 
         setUser(user); //Setea el user como el user que recien se logueo que contendra campos de informacion que definimos en nuestro backend
     } catch (exception) {
