@@ -27,14 +27,14 @@ public class UserRestController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<LoginResponseDTO> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
         try {
-            String token = userService.loginUser(loginDTO);
-            return ResponseEntity.ok(token);
+            LoginResponseDTO response = userService.loginUser(loginDTO);
+            return ResponseEntity.ok(response);
         } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed because user was not found.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         } catch (WrongPasswordException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed because of wrong password.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 
