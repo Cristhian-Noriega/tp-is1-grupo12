@@ -3,6 +3,7 @@ package is1.order_app.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import is1.order_app.dto.ProductFilterDTO;
 import is1.order_app.exceptions.ProductNotFoundException;
 import is1.order_app.mapper.ProductMapper;
 
@@ -90,17 +91,17 @@ public class ProductService {
         response = productMapper.toProductViewDTO(product);
         return response;
     }
-    public List<ProductViewDTO> getProductListFiltered(String name, String  brand, Integer stock, String description, String attributes) throws JsonProcessingException {
+    public List<ProductViewDTO> getProductListFiltered(ProductFilterDTO productFilterDTO) throws JsonProcessingException {
 
         List<ProductViewDTO> response= new ArrayList<>();
 
-        Specification<Product> spec = Specification.where(ProductSpecification.name(name))
-                                                    .and(ProductSpecification.brand(brand))
-                                                    .and(ProductSpecification.stock(stock))
-                                                    .and(ProductSpecification.description(description));
+        Specification<Product> spec = Specification.where(ProductSpecification.name(productFilterDTO.getName()))
+                                                    .and(ProductSpecification.brand(productFilterDTO.getBrand()))
+                                                    .and(ProductSpecification.stock(productFilterDTO.getStock()))
+                                                    .and(ProductSpecification.description(productFilterDTO.getDescription()));
 
-        if(attributes!= null && !attributes.isEmpty()){
-            List<String> atrs = List.of(attributes.split(DIVISOR));
+        if(productFilterDTO.getExtraAtributes()!= null && !productFilterDTO.getExtraAtributes().isEmpty()){
+            List<String> atrs = List.of(productFilterDTO.getExtraAtributes().split(DIVISOR));
             for (String attribute : atrs) {
                 spec.and(ProductSpecification.attributes(attribute));
             }

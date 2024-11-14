@@ -2,6 +2,7 @@ package is1.order_app.controller;
 
 
 import is1.order_app.dto.ProductDTO;
+import is1.order_app.dto.ProductFilterDTO;
 import is1.order_app.dto.StockChangeDTO;
 import is1.order_app.dto.ProductViewDTO;
 import is1.order_app.service.ProductService;
@@ -84,13 +85,9 @@ class ProductRestController {
 
     }
     @GetMapping("/search")
-    public ResponseEntity<List<ProductViewDTO>> getProductListFiltered(@RequestParam(required = false) String name,
-                                                                       @RequestParam(required = false) String brand,
-                                                                       @RequestParam(required = false) Integer stock,
-                                                                       @RequestParam(required = false) String description,
-                                                                       @RequestParam(required = false) String attributes) {
+    public ResponseEntity<List<ProductViewDTO>> getProductListFiltered(@RequestBody(required = false)ProductFilterDTO productFilterDTO) {
         try{
-            return ResponseEntity.ok(productService.getProductListFiltered(name,brand,stock,description,attributes));
+            return ResponseEntity.ok(productService.getProductListFiltered(productFilterDTO));
         }catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
