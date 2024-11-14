@@ -12,6 +12,6 @@ public record UserRegistrationDTO(
                 @NotBlank(message = "Password is required") String password,
                 @NotBlank(message = "Gender is required") String gender,
                 @NotNull(message = "Age is required") @Min(value = 18, message = "You must be at least 18 years old") Integer age,
-                @NotBlank(message = "Address is required") String address,
+                String address,
                 String photoUrl) {
 }
