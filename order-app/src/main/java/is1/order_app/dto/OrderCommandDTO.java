@@ -1,6 +1,5 @@
 package is1.order_app.dto;
 
-import is1.order_app.order_management.command.OrderCommand;
 import lombok.Data;
 
 @Data
