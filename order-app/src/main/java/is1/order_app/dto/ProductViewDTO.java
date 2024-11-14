@@ -2,12 +2,7 @@ package is1.order_app.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.HashMap;
 import java.util.Map;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Properties;
 
 @Setter
 @Getter
