@@ -43,7 +43,7 @@ export const OrderStatusFilter = () => {
     const filteredOrders = originalOrders.filter((order) => order.state === orderState);
     setOrders(filteredOrders);
     console.log(`Se filtraron las ordenes por el estado: ${orderState}`)
-    console.log(orders)
+    console.log(filteredOrders)
   };
   const  handleShowAll = () => {
     setOrders(originalOrders)

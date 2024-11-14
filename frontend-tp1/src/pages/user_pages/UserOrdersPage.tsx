@@ -10,17 +10,12 @@ import { OrderStatusFilter } from '../../components/order_status_filter/OrderSta
 
 export const UserOrdersPage = () => {
 
-  const { user, setUser } = useContext(Context);
+  const { getUserFromLocalStorage} = useContext(Context);
   const { orders,setOrders, deleteOrder} = userOrdersUtils();
 
 
     useEffect(() => {
-      const loggedUserJSON = window.localStorage.getItem("loggedAppUser");
-      if (loggedUserJSON) {
-        const user = JSON.parse(loggedUserJSON);
-        setUser(user);
-        userOrdersService.setToken(user)
-      }
+      getUserFromLocalStorage()
     }, []);
 
     useEffect(() => {
@@ -30,7 +25,7 @@ export const UserOrdersPage = () => {
     }, []);
     
     const handleDeleteOrder = (orderId) => {
-      console.log("orden cancelada")
+      console.log("orden eliminada")
       console.log(`order id : ${orderId}`)
       deleteOrder(orderId)
   }

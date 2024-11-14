@@ -1,10 +1,55 @@
 import { useEffect, useState } from 'react';
 import { Button } from '../../ui/Button';
+import { userOrdersUtils } from '../../../utils/userOrdersUtils';
 import './adminOrdersTable.css';
 export const AdminOrdersTable = ({orders, handleDeleteOrder, getAvailableCommands}) => {
+
   const [availableCommands, setAvailableCommands] = useState([])
 
- 
+  const { executeCommand,setOriginalOrders, originalOrders, setOrders} = userOrdersUtils();
+
+  
+  const handleCommandExecutor = (commandName, orderId) => {
+    
+    const commandObject = {
+      commandName: commandName
+    } 
+    executeCommand(commandObject, orderId)
+    const newState = transformExecuteCommandToAValidState(commandName)
+    console.log(newState);
+    const updatedOrders = originalOrders.map(order => {
+      if (order.id === orderId) {
+        console.log(`Actualizando orden con ID: ${orderId} a estado: ${newState}`);
+        return { ...order, state: newState };  // Actualiza la orden con el nuevo estado
+      }
+      return order;  // Si la orden no es la que corresponde, la devolvemos tal cual está
+    });
+    
+    console.log("Órdenes actualizadas:", updatedOrders);
+    
+    const newOrders = orders.filter(order => order.id !== orderId)
+    setOrders(newOrders)
+    // Actualiza el estado con las órdenes modificadas
+    setOriginalOrders(updatedOrders);
+    
+  }
+
+  const transformExecuteCommandToAValidState = (commandName) => {
+   
+    console.log("se ejecuta la funcion")
+    console.log(commandName)
+  switch (commandName) {
+    case 'ProcessingOrderCommand':
+      return 'PROCESSING';
+    case 'SentOrderCommand':
+      return 'SENT';
+    case 'CancelOrderCommand':
+      return 'CANCEL';
+    default:
+      return 'UNKNOWN'; // Si el comando no es ninguno de los anteriores
+}
+  }
+
   useEffect(() => {
     const showCommands = async () => {
       for (const order of orders) {
@@ -17,6 +62,7 @@ export const AdminOrdersTable = ({orders, handleDeleteOrder, getAvailableCommand
     };
     showCommands();
   }, [orders]);
+
   return (
     <div className="orders-wrapper">
       <table className="orders-table">
@@ -54,7 +100,7 @@ export const AdminOrdersTable = ({orders, handleDeleteOrder, getAvailableCommand
                     <Button 
                     key={index}
                     text = {command.commandName}
-                    handleAction={() => console.log(`Comando ${command.commandName} ejecutado`)}
+                    handleAction={() => handleCommandExecutor(command.commandName, order.id)}
                     backgroundColor="#FF0000"
                     backgroundColorHover="#FFA500"
                     

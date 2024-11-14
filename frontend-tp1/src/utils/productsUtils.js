@@ -3,7 +3,7 @@ import { Context } from "../context/Context";
 import productsAdminService from "../services/productsAdmin";
 
 export const productsUtils = () => {
-  const { products, setProducts, user, setUser } = useContext(Context);
+  const { products, setProducts, user, setUser, handleLogout, getUserFromLocalStorage } = useContext(Context);
 
   const deleteProduct = async (productId) => {
     try {
@@ -29,5 +29,5 @@ export const productsUtils = () => {
     }
   };
 
-  return { deleteProduct, createProduct, products, setProducts, user, setUser };
+  return { deleteProduct, createProduct, products, setProducts, user, setUser,handleLogout, getUserFromLocalStorage };
 };

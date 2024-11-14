@@ -8,16 +8,12 @@ import { AdminOrdersTable } from "../../components/orders/admin_orders/AdminOrde
 import { OrderStatusFilter } from "../../components/order_status_filter/OrderStatusFilter";
 
 export const AdminOrdersPage = () => {
-  const { setUser } = productsUtils(); // esto manejarlo mejor en el refactor quiza creando un UserContext
+  const { setUser, getUserFromLocalStorage } = productsUtils(); // esto manejarlo mejor en el refactor quiza creando un UserContext
   const { orders,setOrders, deleteOrder, setOriginalOrders, getAvailableCommands} = userOrdersUtils();
 
   //Obtiene el token en el localStorgae y trata de obtenerlo de ahi para que el usuario no tenga que volver a iniciar sesion
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem("loggedAppUser");
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-    }
+    getUserFromLocalStorage()
   }, []);
 
   useEffect(() => {
@@ -38,14 +34,14 @@ export const AdminOrdersPage = () => {
 }
   return (
     <div className="admin-orders-page-wrapper">
-       <div className="admin-orders-body-wrapper">  
-      <AdminLayout/>
+       <div className="admin-orders-page-container">  
+         <AdminLayout/>
     
-      <div className="admin-orders-body-wrappers">  
-        <OrderStatusFilter/>
-        <AdminOrdersTable orders={orders} handleDeleteOrder={handleDeleteOrder} getAvailableCommands={getAvailableCommands}/>
+          <div className="admin-orders-body-wrappers">  
+          <OrderStatusFilter/>
+          <AdminOrdersTable orders={orders} handleDeleteOrder={handleDeleteOrder} getAvailableCommands={getAvailableCommands}/>
+          </div>
         </div>
-      </div>
       
     </div>
   );

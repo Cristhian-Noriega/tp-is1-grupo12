@@ -27,5 +27,16 @@ export const userOrdersUtils = () => {
     }
   }
 
-  return { orders, setOrders,deleteOrder, originalOrders, setOriginalOrders, getAvailableCommands };
+  const executeCommand = async (command, orderId) => {
+    try{
+      console.log(`comando ${command}, order id : ${orderId}`) 
+      const response = await ordersUserService.executeCommand(command, orderId);
+      return response
+    
+    } catch (exception) {
+      console.log("error" + exception.response.data.error);
+    }
+  }
+
+  return { orders, setOrders,deleteOrder, originalOrders, setOriginalOrders, getAvailableCommands, executeCommand };
 };

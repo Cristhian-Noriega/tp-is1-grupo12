@@ -1,5 +1,5 @@
 
-import { Routes, Route, HashRouter, Navigate } from 'react-router-dom'
+import { Routes, Route, HashRouter, Navigate, BrowserRouter } from 'react-router-dom'
 import { LoginPage } from './pages/common_pages/LoginPage'
 import { RegisterPage } from './pages/common_pages/RegisterPage'
 import { ForgetPasswordPage } from './pages/common_pages/ForgetPasswordPage'
@@ -18,10 +18,11 @@ import { OrderProvider } from './context/OrdersProvider'
 function App() {
 
   return (
-    <Provider>
+    
+          <BrowserRouter>
+          <Provider>
       <CurrentOrderProvider>
         <OrderProvider>
-          <HashRouter>
           <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<LoginPage />} />
@@ -37,12 +38,12 @@ function App() {
           <Route path="/admin-products" element={<ProductsAdministrationPage/>} />
           <Route path="/admin-orders" element={<AdminOrdersPage/>} />
     
-
           </Routes>
-        </HashRouter>
-        </OrderProvider>
+          </OrderProvider>
       </CurrentOrderProvider>
     </Provider>
+        </BrowserRouter>
+        
   )
 }
 
