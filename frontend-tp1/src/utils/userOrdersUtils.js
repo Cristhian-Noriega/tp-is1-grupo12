@@ -5,13 +5,14 @@ import ordersUserService from "../services/userOrders";
 export const userOrdersUtils = () => {
   const { orders, setOrders, originalOrders, setOriginalOrders } = useContext(OrdersContext);
 
-  const deleteOrder = async (orderId) => {
+  const cancelOrder = async (orderId) => {
     try {
-      await ordersUserService.deleteOrder(orderId);
+      await ordersUserService.cancelOrderByUserId("lucas.ezequiel.321@gmail.com",orderId);
       const updatedOrders = orders.filter(
         (order) => order.id !== orderId
       );
       setOrders(updatedOrders);
+      
     } catch (exception) {
       console.log("error" + exception.response.data.error);
     }
@@ -38,5 +39,5 @@ export const userOrdersUtils = () => {
     }
   }
 
-  return { orders, setOrders,deleteOrder, originalOrders, setOriginalOrders, getAvailableCommands, executeCommand };
+  return { orders, setOrders,cancelOrder, originalOrders, setOriginalOrders, getAvailableCommands, executeCommand };
 };

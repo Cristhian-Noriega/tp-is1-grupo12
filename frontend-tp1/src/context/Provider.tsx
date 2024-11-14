@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 export function Provider({ children }) {
     const [user, setUser] = useState("");
     const [products, setProducts] = useState([]);
+    const [showMessage, setShowMessage] = useState(false);
   
     const navigate = useNavigate();
 
@@ -31,7 +32,7 @@ export function Provider({ children }) {
 
  
     return (
-      <Context.Provider value={{user, setUser, products, setProducts, handleAddProduct, getUserFromLocalStorage, handleLogout}}>
+      <Context.Provider value={{user, setUser, products, setProducts, handleAddProduct, getUserFromLocalStorage, handleLogout, showMessage, setShowMessage}}>
         {children}
       </Context.Provider>
     );

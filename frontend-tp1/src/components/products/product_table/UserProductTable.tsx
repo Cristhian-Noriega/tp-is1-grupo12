@@ -3,7 +3,7 @@ import { ProductTableHeader } from "../product_table_header/ProductTableHeader";
 import "./productTable.css";
 import ProductDetails from "../product_details/ProductDetails";
 import { UserProductItem } from "../product_item/user_product_item/UserProductItem";
-const addButton = "/public/assets/add.svg";
+
 
 export const UserProductTable = ({ products }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -27,7 +27,7 @@ export const UserProductTable = ({ products }) => {
         <ProductTableHeader />
         <tbody>
           {products.map((product) => (
-            <UserProductItem
+            <UserProductItem 
               key={product.id}
               product={product}
               onShowDetails={handleShowDetails}

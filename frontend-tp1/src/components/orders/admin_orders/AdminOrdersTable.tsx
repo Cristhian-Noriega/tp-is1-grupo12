@@ -44,9 +44,9 @@ export const AdminOrdersTable = ({orders, handleDeleteOrder, getAvailableCommand
     case 'SentOrderCommand':
       return 'SENT';
     case 'CancelOrderCommand':
-      return 'CANCEL';
+      return 'CANCELED';
     default:
-      return 'UNKNOWN'; // Si el comando no es ninguno de los anteriores
+      return 'UNKNOWN';
 }
   }
 
@@ -93,7 +93,7 @@ export const AdminOrdersTable = ({orders, handleDeleteOrder, getAvailableCommand
                 </ul>
               </td>
               <td>
-                {/* Botón para mostrar comandos */}
+        
                 <div>
                   {/* Renderizar los comandos obtenidos para la orden */}
                   {availableCommands.map((command, index) => (

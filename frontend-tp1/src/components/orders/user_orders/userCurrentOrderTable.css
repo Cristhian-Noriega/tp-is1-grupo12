@@ -1,6 +1,6 @@
 .user-order-table-wrapper{
     display: flex;
-    width: 70%;
+    width: 50%;
     margin: 20px;
     
 }
@@ -13,4 +13,9 @@
 .action-button{
     background: none;     
     border: none;
+}
+
+.button-create-order-container{
+    margin: 30px;
+    align-self: center;
 }

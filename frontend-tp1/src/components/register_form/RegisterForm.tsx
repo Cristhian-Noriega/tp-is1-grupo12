@@ -111,6 +111,7 @@ export const RegisterForm  = ({handleRegister}) => {
           value={age}
           name="age"
           onChange={({ target }) => setAge(target.value)}
+          min="0"
         />
       </div>  
 

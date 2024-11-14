@@ -6,12 +6,13 @@ import { productsUtils } from "../../utils/productsUtils";
 
 import { UserProductTable } from "../../components/products/product_table/UserProductTable";
 import { UserLayout } from "../../components/user_layout/UserLayout";
+import CardMessage from "../../components/card_message/CardMessagge";
 
 
 export const ProductsSelectionPage = () => {
   
-  const { products, setProducts, setUser, handleLogout, getUserFromLocalStorage} = productsUtils();
-
+  const { products, setProducts, getUserFromLocalStorage, showMessage, setShowMessage} = productsUtils();
+  
   
   useEffect(() => {
     getUserFromLocalStorage()
@@ -26,10 +27,13 @@ export const ProductsSelectionPage = () => {
     <div className="product-page-wrapper">
       <UserLayout/>
       <UserProductTable products={products} />
-      <button
-      onClick={handleLogout}>
-        Logout
-      </button>
+     
+      {showMessage && (
+        <CardMessage
+          messageProperties={showMessage}
+          onClose={() => setShowMessage(false)}
+        />
+      )}
     </div>
   );
 };

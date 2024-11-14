@@ -3,8 +3,7 @@ import { userOrdersUtils } from '../../utils/userOrdersUtils';
 import "./orderStatusFilter.css"
 
 export const OrderStatusFilter = () => {
-  const { orders, setOrders, originalOrders} = userOrdersUtils();
- 
+  const { setOrders, originalOrders} = userOrdersUtils();
 
   const buttons = [
     {
@@ -33,13 +32,14 @@ export const OrderStatusFilter = () => {
     },
     {
       text: "Canceladas",
-      action: () => handleFilterOrdersButton("CANCEL"),
+      action: () => handleFilterOrdersButton("CANCELED"),
       backgroundColor: "#dc3545", // rojo
       backgroundColorHover: "#c82333",
     },
   ];
 
   const handleFilterOrdersButton = (orderState) => {
+    console.log(originalOrders)
     const filteredOrders = originalOrders.filter((order) => order.state === orderState);
     setOrders(filteredOrders);
     console.log(`Se filtraron las ordenes por el estado: ${orderState}`)

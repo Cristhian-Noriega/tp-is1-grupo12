@@ -110,5 +110,8 @@ public class UserService {
         Optional<User> userOpt = userRepository.findByEmail(email);
         return userOpt.isPresent() && token.equals(userOpt.get().getAuthToken());
     }
-
+    
 }
+
+
+

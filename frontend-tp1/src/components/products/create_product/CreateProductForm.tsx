@@ -89,6 +89,7 @@ const CreateProductForm: React.FC = () => {
             value={stock}
             onChange={(e) => setStock(Number(e.target.value))}
             className="product-form-input"
+            min="0"
           />
         </div>
 

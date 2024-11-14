@@ -1,30 +1,6 @@
 import { Button } from '../../ui/Button';
 import './confirmedOrdersList.css'
 
-// Mock de datos de órdenes actualizado
-// const orders = [
-//   {
-//     id: 1,
-//     userId: "john",
-//     items: [
-//       { productId: 102, quantity: 2 },
-//       { productId: 105, quantity: 1 },
-//     ],
-//     state: "CONFIRMED",
-//     confirmationTime: "2024-11-07T05:09:48.133597",
-//   },
-//   {
-//     id: 2,
-//     userId: "alice",
-//     items: [
-//       { productId: 204, quantity: 3 },
-//       { productId: 207, quantity: 4 },
-//     ],
-//     state: "CONFIRMED",
-//     confirmationTime: "2024-11-07T15:44:10.135487",
-//   },
-// ];
-
 export const ConfirmedOrdersList = ({orders, handleDeleteOrder}) => {
   
   return (

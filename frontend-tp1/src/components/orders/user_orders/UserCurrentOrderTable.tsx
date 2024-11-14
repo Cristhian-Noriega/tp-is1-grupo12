@@ -9,7 +9,7 @@ const deleteButton = "/public/assets/delete.svg";
 export const UserCurrentOrderTable = () => {
     
       const { currentOrder, removeProductFromOrder, clearOrder } = useContext(CurrentOrderContext);
-      const { user, handleAddProduct} = useContext(Context)
+      const { user, handleAddProduct, setShowMessage} = useContext(Context)
 
 
       const createOrderPayload = () => {
@@ -25,6 +25,11 @@ export const UserCurrentOrderTable = () => {
       const handleRemoveProduct = (productId) =>{
         removeProductFromOrder(productId)
         handleAddProduct(productId)
+        setShowMessage({
+          text: `El producto con ID ${productId} ha sido eliminado de la orden actual.`,
+          type: "info",
+          duration: 3000
+        })
       }
 
       const createOrder = async () => {
@@ -37,8 +42,11 @@ export const UserCurrentOrderTable = () => {
             orderPayLoad
           );
          clearOrder()
-         console.log("orden creada correctamente")
-         console.log(orderResponse)
+         setShowMessage({
+          text: `Orden creada exitosamente.`,
+          type: "success",
+          duration: 3000
+        })
         } catch (error) {
           console.log("error" + error);
         }
@@ -73,11 +81,14 @@ export const UserCurrentOrderTable = () => {
         </tbody>
         
       </table>
+      <div className='button-create-order-container'>
       <Button
           text="Crear Orden" 
            backgroundColor="#488A32"
             backgroundColorHover="#48FA30"
             handleAction={createOrder}/>
+      </div>
+      
     </div>
   )
 }

@@ -1,21 +1,14 @@
 import axios from "axios";
 const baseUrl = "http://localhost:8080/orders";
 
-let token = null;
-
-const setToken = (newToken) => {
-  token = `bearer ${newToken}`;
-};
-
 const getAll = async () => {
   const response = await axios.get(baseUrl);
   return response.data;
 };
 
-const deleteOrder = async(orderId) => {
-  console.log(`desde el service order id, ${orderId}`)
-  console.log(`${baseUrl}/${orderId}/delete`)
-  const response = await axios.delete(`${baseUrl}/${orderId}/delete`)
+const cancelOrderByUserId = async(userId, orderId) => {
+
+  const response = await axios.post(`${baseUrl}/${orderId}/cancelByUser?userId=${userId}`)
 }
 
 const getByUserId = async (userId) => {
@@ -40,5 +33,5 @@ const executeCommand = async(commandObject,orderId) =>{
 }
 
 export default {
-  getAll, create, getByUserId, deleteOrder, getAvailableCommands, executeCommand
+  getAll, create, getByUserId, cancelOrderByUserId, getAvailableCommands, executeCommand
 };
