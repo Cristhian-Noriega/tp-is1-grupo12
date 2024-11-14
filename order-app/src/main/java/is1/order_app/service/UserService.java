@@ -10,6 +10,7 @@ import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.entities.User;
 import is1.order_app.mapper.UserMapper;
 import is1.order_app.repository.UserRepository;
+import is1.order_app.service.mails_sevice.EmailSenderService;
 import org.springframework.stereotype.Service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+
     private final UserRepository userRepository;
     private final EmailSenderService emailSenderService;
     private final UserMapper userMapper;
@@ -34,7 +36,6 @@ public class UserService {
         userRepository.findByEmail(registration.email()).ifPresent(user -> {
             throw new DuplicatedUserEmailException("The email is already taken");
         });
-
         User user = userMapper.toEntity(registration);
         userRepository.save(user);
         return userMapper.toDTO(user);
@@ -54,8 +55,8 @@ public class UserService {
         return userDTO.get();
     }
 
-    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
-        return user.get().getPassword().equals(possiblePassword);
+    private boolean confirmPassword(User user, String possiblePassword) {
+        return user.getPassword().equals(possiblePassword);
     }
 
     public String loginUser(LoginDTO loginDTO) {
@@ -63,7 +64,7 @@ public class UserService {
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException("User not found with email " + loginDTO.email());
         }
-        if (this.confirmPassword(userOpt, loginDTO.password())) {
+        if (this.confirmPassword(userOpt.get(), loginDTO.password())) {
             User user = userOpt.get();
             String token = generateToken(user.getEmail());
             user.setAuthToken(token);
@@ -75,9 +76,7 @@ public class UserService {
     }
 
     public void askMailRestorePassword(String email) {
-        userRepository.findByEmail(email).ifPresentOrElse(user -> {
-            emailSenderService.restorePasswordMail(email);
-        }, () -> {
+        userRepository.findByEmail(email).ifPresentOrElse(user -> emailSenderService.sendPassworChangedMail(email), () -> {
             throw new UserNotFoundException("User not found with email " + email);
         });
     }
@@ -110,6 +109,7 @@ public class UserService {
         Optional<User> userOpt = userRepository.findByEmail(email);
         return userOpt.isPresent() && token.equals(userOpt.get().getAuthToken());
     }
+    
 }
 
 

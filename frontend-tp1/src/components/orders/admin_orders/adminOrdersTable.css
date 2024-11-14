@@ -1,0 +1,65 @@
+/* confirmedOrdersList.css */
+
+/* Contenedor principal de las órdenes */
+.orders-wrapper {
+    margin: 20px;
+    padding: 20px;
+    background-color: #242424;
+    border-radius: 8px;
+  }
+  
+  /* Estilo de la tabla */
+  .orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #242424;
+  }
+  
+  /* Estilos para las cabeceras de la tabla */
+  .orders-table th {
+    padding: 10px;
+    background-color: #000;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #ddd;
+  }
+  
+  .orders-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .orders-table tr:nth-child(even) {
+    background-color: #f000
+  }
+  
+  .orders-table .btn-cancel {
+    background-color: #FF6644;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .orders-table .btn-cancel:hover {
+    background-color: #FF0000;
+  }
+  
+  .orders-table ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .orders-table ul li {
+    margin: 10px;
+    padding: 10px;
+  }
+  
+  .orders-table .actions {
+    text-align: center;
+  }
+  

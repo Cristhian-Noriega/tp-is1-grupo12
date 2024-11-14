@@ -1,0 +1,13 @@
+.box {
+    padding: 1rem; /* Espaciado interno */
+    margin: 1rem; /* Margen externo */
+    border: 1px solid #dee2e6; /* Borde gris claro */
+    border-radius: 0.25rem; /* Bordes redondeados */
+    background-color: #ffffff; /* Fondo blanco */
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Sombra sutil */
+}
+
+/* Opcional: Para estados hover */
+.box:hover {
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15); /* Sombra más intensa al pasar el mouse */
+}

@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import './forgetPasswordForm.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { SubmitButton } from '../ui/SubmitButton'
-export const ForgetPasswordForm = () => {
+export const ForgetPasswordForm = ({handleSendEmailToChangePassword }) => {
     const [email, setEmail] = useState("")
 
     const navigate = useNavigate();
     const onSubmit = (event) => {
         console.log('Se envio un mail de recuperacion al email: ', {email});
-        navigate('/password-recovery');
+        handleSendEmailToChangePassword (email)
+        navigate('/login');
     }
   return (
     <div className='forget-password-form-wrapper'>
@@ -19,7 +20,7 @@ export const ForgetPasswordForm = () => {
                    <br /> Le enviaremos un enlace para que pueda crear una nueva contraseña.</div>
                 <input
                     id="email"
-                    type="text"
+                    type="email"
                     value={email}
                     name="Email"
                     placeholder='Email'

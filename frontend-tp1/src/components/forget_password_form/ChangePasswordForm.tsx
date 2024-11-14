@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import './changePasswordForm.css'
 import { useNavigate } from 'react-router-dom'
 import { SubmitButton } from '../ui/SubmitButton'
-export const ChangePasswordForm = () => {
+export const ChangePasswordForm = ({handlePasswordChange}) => {
     const [email, setEmail] = useState("")
     const [newPassword, setNewPassword] = useState("")
 
     const navigate = useNavigate();
     const onSubmit = (event) => {
         console.log('Se Cambio Correctamente la contrasenia ', {email},{newPassword});
+        handlePasswordChange(email,newPassword)
         navigate('/password-recovery-confirmation');
     }
   return (
@@ -18,9 +19,9 @@ export const ChangePasswordForm = () => {
             <div className='email-box form-box'>
                 <input
                     id="email"
-                    type="text"
+                    type="email"
                     value={email}
-                    name="Email"
+                    name="email"
                     placeholder='Email'
                     onChange={({ target }) => setEmail(target.value)}
                 />
@@ -30,7 +31,7 @@ export const ChangePasswordForm = () => {
                     id="newPassword"
                     type="password"
                     value={newPassword}
-                    name="Password"
+                    name="password"
                     placeholder='New Password'
                     onChange={({ target }) => setNewPassword(target.value)}
                 />

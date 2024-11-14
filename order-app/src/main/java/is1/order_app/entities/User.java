@@ -1,6 +1,7 @@
 package is1.order_app.entities;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Setter
 @Entity
 @NoArgsConstructor
+@Table(name = "users")
 public class User {
     @Id
     @Email

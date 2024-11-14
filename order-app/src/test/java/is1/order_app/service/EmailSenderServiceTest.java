@@ -1,5 +1,6 @@
 package is1.order_app.service;
 
+import is1.order_app.service.mails_sevice.EmailSenderService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,6 @@ public class EmailSenderServiceTest {
     @Test
     void testRestorePasswordMail() {
         String receptor = "ejemplo@gmail.com";
-        emailSenderService.restorePasswordMail(receptor);
+        emailSenderService.sendPassworChangedMail(receptor);
     }
 }
