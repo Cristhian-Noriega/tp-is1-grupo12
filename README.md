@@ -13,6 +13,7 @@ The env vars are set on a `.env` file at root of the project
 
 - The API will be available at [http://localhost:8080](http://localhost:8080).
 - For example, you can access the sample endpoint at: `http://localhost:8080/hello/message`
+- The front-end interface is available at [http://localhost:5173](http://localhost:5173).
 
 ## Access the PostgreSQL Database
 
@@ -43,4 +44,6 @@ To stop the containers, press `CTRL + C` in the terminal where Docker Compose is
 ```bash
 docker-compose down
 ```
+
+
 

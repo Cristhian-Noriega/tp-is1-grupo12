@@ -1,6 +1,7 @@
 package is1.order_app.service;
 
 import is1.order_app.dto.LoginDTO;
+import is1.order_app.dto.LoginResponseDTO;
 import is1.order_app.exceptions.DuplicatedUserEmailException;
 import is1.order_app.exceptions.WrongPasswordException;
 import is1.order_app.exceptions.UserNotFoundException;
@@ -11,13 +12,13 @@ import is1.order_app.entities.User;
 import is1.order_app.mapper.UserMapper;
 import is1.order_app.repository.UserRepository;
 import is1.order_app.service.mails_sevice.EmailSenderService;
-
 import org.springframework.stereotype.Service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 @Service
 public class UserService {
@@ -37,7 +38,7 @@ public class UserService {
             throw new DuplicatedUserEmailException("The email is already taken");
         });
         User user = userMapper.toEntity(registration);
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
         return userMapper.toDTO(user);
     }
 
@@ -55,30 +56,28 @@ public class UserService {
         return userDTO.get();
     }
 
-    private boolean confirmPassword(Optional<User> user, String possiblePassword) {
-        return user.get().getPassword().equals(possiblePassword);
+    private boolean confirmPassword(User user, String possiblePassword) {
+        return user.getPassword().equals(possiblePassword);
     }
 
-    public String loginUser(LoginDTO loginDTO) {
+    public LoginResponseDTO loginUser(LoginDTO loginDTO) {
         Optional<User> userOpt = userRepository.findByEmail(loginDTO.email());
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException("User not found with email " + loginDTO.email());
         }
-        if (this.confirmPassword(userOpt, loginDTO.password())) {
+        if (this.confirmPassword(userOpt.get(), loginDTO.password())) {
             User user = userOpt.get();
             String token = generateToken(user.getEmail());
             user.setAuthToken(token);
             userRepository.save(user);
-            return token;
+            return new LoginResponseDTO(user.getEmail(), user.getName(), token);
         } else {
             throw new WrongPasswordException("Login to " + loginDTO.email() + " failed because of wrong password.");
         }
     }
 
     public void askMailRestorePassword(String email) {
-        userRepository.findByEmail(email).ifPresentOrElse(user -> {
-            emailSenderService.sendPassworChangedMail(email);
-        }, () -> {
+        userRepository.findByEmail(email).ifPresentOrElse(user -> emailSenderService.sendPassworChangedMail(email), () -> {
             throw new UserNotFoundException("User not found with email " + email);
         });
     }

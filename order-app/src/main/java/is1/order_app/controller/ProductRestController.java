@@ -2,6 +2,7 @@ package is1.order_app.controller;
 
 
 import is1.order_app.dto.ProductDTO;
+import is1.order_app.dto.ProductFilterDTO;
 import is1.order_app.dto.StockChangeDTO;
 import is1.order_app.dto.ProductViewDTO;
 import is1.order_app.service.ProductService;
@@ -9,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -77,6 +75,16 @@ class ProductRestController {
     public ResponseEntity<?> getStockProduct(@PathVariable Long productId) {
         try{
             return ResponseEntity.ok(productService.getProductById(productId).getStock());
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductViewDTO>> getProductListFiltered(@RequestBody(required = false)ProductFilterDTO productFilterDTO) {
+        try{
+            return ResponseEntity.ok(productService.getProductListFiltered(productFilterDTO));
         }catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
