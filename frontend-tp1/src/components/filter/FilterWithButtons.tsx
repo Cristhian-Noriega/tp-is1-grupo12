@@ -1,8 +1,8 @@
 import { Button } from '../ui/Button';
-
+import './filterWithButtons.css'
 export const FilterWithButtons = ({ buttons }) => {
   return (
-    <div className='filter-wrapper'>
+    <div className='button-filter-wrapper'>
       {buttons.map((button, index) => (
         <Button 
           key={index} 

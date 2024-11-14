@@ -17,5 +17,15 @@ export const userOrdersUtils = () => {
     }
   };
 
-  return { orders, setOrders,deleteOrder, originalOrders, setOriginalOrders };
+  const getAvailableCommands = async (orderId) => {
+    try{
+      const response = await ordersUserService.getAvailableCommands(orderId);
+      return response
+    
+    } catch (exception) {
+      console.log("error" + exception.response.data.error);
+    }
+  }
+
+  return { orders, setOrders,deleteOrder, originalOrders, setOriginalOrders, getAvailableCommands };
 };

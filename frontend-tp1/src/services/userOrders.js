@@ -12,6 +12,11 @@ const getAll = async () => {
   return response.data;
 };
 
+const getAvailableCommands = async(orderId) =>{
+  const response = await axios.get(`${baseUrl}/${orderId}/availableCommands`)
+  return response.data
+}
+
 const deleteOrder = async(orderId) => {
   console.log(`desde el service order id, ${orderId}`)
   console.log(`${baseUrl}/${orderId}/delete`)
@@ -30,5 +35,5 @@ const create = async (orderObject) => {
   };
 
 export default {
-  getAll, create, getByUserId, deleteOrder
+  getAll, create, getByUserId, deleteOrder, getAvailableCommands
 };

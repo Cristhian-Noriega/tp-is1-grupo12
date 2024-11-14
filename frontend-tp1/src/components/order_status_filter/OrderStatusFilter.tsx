@@ -1,12 +1,18 @@
 import { FilterWithButtons } from "../filter/FilterWithButtons";
 import { userOrdersUtils } from '../../utils/userOrdersUtils';
-import { useState } from "react";
+import "./orderStatusFilter.css"
 
 export const OrderStatusFilter = () => {
-  const { orders, setOrders, originalOrders, setOriginalsOrders} = userOrdersUtils();
+  const { orders, setOrders, originalOrders} = userOrdersUtils();
  
 
   const buttons = [
+    {
+      text: "Todas",
+      action: () => handleShowAll(),
+      backgroundColor: "#000", // verde
+      backgroundColorHover: "#111",
+    },
     {
       text: "Confirmadas",
       action: () => handleFilterOrdersButton("CONFIRMED"),
@@ -39,9 +45,12 @@ export const OrderStatusFilter = () => {
     console.log(`Se filtraron las ordenes por el estado: ${orderState}`)
     console.log(orders)
   };
+  const  handleShowAll = () => {
+    setOrders(originalOrders)
+  }
 
   return (
-    <div>
+    <div className="filter-buttons-wrapper">
       <h2>Filtrar órdenes por estado</h2>
       <FilterWithButtons buttons={buttons} />
     </div>

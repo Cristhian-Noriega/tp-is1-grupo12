@@ -1,8 +1,22 @@
+import { useEffect, useState } from 'react';
 import { Button } from '../../ui/Button';
 import './adminOrdersTable.css';
-export const AdminOrdersTable = ({orders, handleDeleteOrder}) => {
+export const AdminOrdersTable = ({orders, handleDeleteOrder, getAvailableCommands}) => {
+  const [availableCommands, setAvailableCommands] = useState([])
 
-
+ 
+  useEffect(() => {
+    const showCommands = async () => {
+      for (const order of orders) {
+      const commands = await getAvailableCommands(order.id);
+      setAvailableCommands(commands); 
+      }
+      
+      console.log("COMANDOS AVAILABLE")
+      console.log(availableCommands)
+    };
+    showCommands();
+  }, [orders]);
   return (
     <div className="orders-wrapper">
       <table className="orders-table">
@@ -33,12 +47,20 @@ export const AdminOrdersTable = ({orders, handleDeleteOrder}) => {
                 </ul>
               </td>
               <td>
-                <Button
-                  text="Cancelar Orden"
-                  backgroundColor="#FF6644"
-                  backgroundColorHover="#FF0000"
-                  handleAction={() => handleDeleteOrder(order.id)}
-                />
+                {/* Botón para mostrar comandos */}
+                <div>
+                  {/* Renderizar los comandos obtenidos para la orden */}
+                  {availableCommands.map((command, index) => (
+                    <Button 
+                    key={index}
+                    text = {command.commandName}
+                    handleAction={() => console.log(`Comando ${command.commandName} ejecutado`)}
+                    backgroundColor="#FF0000"
+                    backgroundColorHover="#FFA500"
+                    
+                    />
+                  ))}
+                </div>
               </td>
             </tr>
           ))}
