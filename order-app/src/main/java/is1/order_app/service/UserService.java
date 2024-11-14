@@ -1,6 +1,7 @@
 package is1.order_app.service;
 
 import is1.order_app.dto.LoginDTO;
+import is1.order_app.dto.LoginResponseDTO;
 import is1.order_app.exceptions.DuplicatedUserEmailException;
 import is1.order_app.exceptions.WrongPasswordException;
 import is1.order_app.exceptions.UserNotFoundException;
@@ -59,7 +60,7 @@ public class UserService {
         return user.getPassword().equals(possiblePassword);
     }
 
-    public String loginUser(LoginDTO loginDTO) {
+    public LoginResponseDTO loginUser(LoginDTO loginDTO) {
         Optional<User> userOpt = userRepository.findByEmail(loginDTO.email());
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException("User not found with email " + loginDTO.email());
@@ -69,7 +70,7 @@ public class UserService {
             String token = generateToken(user.getEmail());
             user.setAuthToken(token);
             userRepository.save(user);
-            return token;
+            return new LoginResponseDTO(user.getEmail(), user.getName(), token);
         } else {
             throw new WrongPasswordException("Login to " + loginDTO.email() + " failed because of wrong password.");
         }
