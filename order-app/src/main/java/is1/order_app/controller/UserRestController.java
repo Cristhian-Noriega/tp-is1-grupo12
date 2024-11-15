@@ -1,7 +1,6 @@
 package is1.order_app.controller;
 
 import is1.order_app.dto.*;
-import is1.order_app.entities.User;
 import is1.order_app.service.UserService;
 import is1.order_app.exceptions.WrongPasswordException;
 import is1.order_app.exceptions.UserNotFoundException;

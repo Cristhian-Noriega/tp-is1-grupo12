@@ -36,6 +36,7 @@ public class OrderMapper {
     public  OrderItemDTO toDTO(OrderItem orderItem) {
         OrderItemDTO orderItemDTO = new OrderItemDTO();
         orderItemDTO.setProductId(orderItem.getProduct().getId());
+        orderItemDTO.setProductName(orderItem.getProduct().getName());
         orderItemDTO.setQuantity(orderItem.getQuantity());
 
         return orderItemDTO;
@@ -78,7 +79,7 @@ public class OrderMapper {
         Product product = productRepository.findById(orderItemDTO.getProductId())
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
         orderItem.setProduct(product);
-
+        orderItem.setProductName(orderItemDTO.getProductName());
         orderItem.setQuantity(orderItemDTO.getQuantity());
 
         return orderItem;
