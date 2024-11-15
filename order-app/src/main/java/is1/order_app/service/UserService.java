@@ -12,6 +12,8 @@ import is1.order_app.entities.User;
 import is1.order_app.mapper.UserMapper;
 import is1.order_app.repository.UserRepository;
 import is1.order_app.service.mails_sevice.EmailSenderService;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,11 +28,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final EmailSenderService emailSenderService;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, EmailSenderService emailSenderService, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, EmailSenderService emailSenderService, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.emailSenderService = emailSenderService;
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserDTO registerUser(UserRegistrationDTO registration) {
@@ -38,6 +42,8 @@ public class UserService {
             throw new DuplicatedUserEmailException("The email is already taken");
         });
         User user = userMapper.toEntity(registration);
+        //encode the user password to pass it to store it in the db
+        user.setPassword(passwordEncoder.encode(registration.password()));
         userRepository.save(user);
         return userMapper.toDTO(user);
     }
@@ -57,7 +63,7 @@ public class UserService {
     }
 
     private boolean confirmPassword(User user, String possiblePassword) {
-        return user.getPassword().equals(possiblePassword);
+        return passwordEncoder.matches(possiblePassword, user.getPassword());
     }
 
     public LoginResponseDTO loginUser(LoginDTO loginDTO) {
