@@ -95,12 +95,12 @@ public class UserService {
         return true;
     }
 
-    // @Override
-    // public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    //     User user = userRepository.findByEmail(email)
-    //             .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-    //     return new JwtUserDetails(user.getEmail(), user.getPassword(), user.getRole());
-    // }
+    public void deleteUser(String email) {
+        if (!userRepository.existsById(email)) {
+            throw new UserNotFoundException("User not found with id " + email);
+        }
+        userRepository.deleteById(email);
+    }
 
 }
 
