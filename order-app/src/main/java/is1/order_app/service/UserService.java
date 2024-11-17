@@ -71,15 +71,16 @@ public class UserService {
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException("User not found with email " + loginDTO.email());
         }
-        if (this.confirmPassword(userOpt.get(), loginDTO.password())) {
-            User user = userOpt.get();
-            String token = generateToken(user.getEmail());
-            user.setAuthToken(token);
-            userRepository.save(user);
-            return new LoginResponseDTO(user.getEmail(), user.getName(), token);
-        } else {
+        
+        if (!this.confirmPassword(userOpt.get(), loginDTO.password())) {
             throw new WrongPasswordException("Login to " + loginDTO.email() + " failed because of wrong password.");
         }
+        
+        User user = userOpt.get();
+        String token = generateToken(user.getEmail());
+        user.setAuthToken(token);
+        userRepository.save(user);
+        return new LoginResponseDTO(user.getEmail(), user.getName(), token);
     }
 
     public void askMailRestorePassword(String email) {

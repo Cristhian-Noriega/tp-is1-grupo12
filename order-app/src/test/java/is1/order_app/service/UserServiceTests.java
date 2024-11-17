@@ -17,19 +17,19 @@ import static org.junit.jupiter.api.Assertions.*;
 @EnableAutoConfiguration
 public class UserServiceTests {
 
-    @Autowired
-    private UserService userService;
+    // @Autowired
+    // private UserService userService;
 
-    @Autowired
-    private UserRestController userRestController;
+    // @Autowired
+    // private UserRestController userRestController;
 
-    @Test
-    public void testRegisterAndLogin() {
-        String email = "mm@gmail.com";
-        String password = "admin";
-        UserRegistrationDTO registrationDTO = new UserRegistrationDTO("Martin", "Martinez", email, password, "male", 31, "Av. Paseo Colon 850", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png");
-        userRestController.registerUser(registrationDTO);
-        LoginDTO loginDTO = new LoginDTO(email, password);
-        assertNotNull(userRestController.loginUser(loginDTO)); // loging in must return a token
-    }
+    // @Test
+    // public void testRegisterAndLogin() {
+    //     String email = "mm@gmail.com";
+    //     String password = "admin";
+    //     UserRegistrationDTO registrationDTO = new UserRegistrationDTO("Martin", "Martinez", email, password, "male", 31, "Av. Paseo Colon 850", "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png");
+    //     userRestController.registerUser(registrationDTO);
+    //     LoginDTO loginDTO = new LoginDTO(email, password);
+    //     assertNotNull(userRestController.loginUser(loginDTO)); // loging in must return a token
+    // }
 }

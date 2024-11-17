@@ -2,8 +2,8 @@ package is1.order_app.controller;
 
 import is1.order_app.dto.*;
 import is1.order_app.service.UserService;
-import is1.order_app.exceptions.WrongPasswordException;
-import is1.order_app.exceptions.UserNotFoundException;
+// import is1.order_app.exceptions.WrongPasswordException;
+// import is1.order_app.exceptions.UserNotFoundException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,24 +19,7 @@ public class UserRestController {
     public UserRestController(UserService userService) {
         this.userService = userService;
     }
-
-@PostMapping("/register")
-    public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserRegistrationDTO registrationDTO) {
-        UserDTO user = userService.registerUser(registrationDTO);
-        return ResponseEntity.ok(user);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> loginUser(@Valid @RequestBody LoginDTO loginDTO) {
-        try {
-            LoginResponseDTO response = userService.loginUser(loginDTO);
-            return ResponseEntity.ok(response);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        } catch (WrongPasswordException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
-        }
-    }
+    
 
     @PostMapping("/requestPassChange")
     public ResponseEntity<String> requestPasswordChange(@RequestParam String email) {

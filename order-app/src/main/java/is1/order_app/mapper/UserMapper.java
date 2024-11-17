@@ -2,6 +2,7 @@ package is1.order_app.mapper;
 
 import is1.order_app.dto.UserDTO;
 import is1.order_app.dto.UserRegistrationDTO;
+import is1.order_app.entities.Role;
 import is1.order_app.entities.User;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,9 @@ public class UserMapper {
                 user.getPhotoUrl(),
                 user.getAge(),
                 user.getGender(),
-                user.getAddress()
-        );
+                user.getAddress(),
+                user.getRole().name()
+        );  
     }
 
     public User toEntity(UserRegistrationDTO registrationDTO) {
@@ -28,7 +30,8 @@ public class UserMapper {
                 registrationDTO.photoUrl(),
                 registrationDTO.age(),
                 registrationDTO.gender(),
-                registrationDTO.address()
+                registrationDTO.address(),
+                Role.USER
         );
     }
 }

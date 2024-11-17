@@ -1,5 +1,7 @@
 package is1.order_app.entities;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -42,7 +44,10 @@ public class User {
     @Setter
     private String authToken;
 
-    public User(String email, String name, String surname, String password, String photoUrl, Integer age, String gender, String address) {
+    @Enumerated(EnumType.STRING) 
+    private Role role;
+
+    public User(String email, String name, String surname, String password, String photoUrl, Integer age, String gender, String address, Role role) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -51,6 +56,7 @@ public class User {
         this.age = age;
         this.gender = gender;
         this.address = address;
+        this.role = role;
     }
 }
 
