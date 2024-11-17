@@ -62,9 +62,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             log.error("Invalid token");
         });
     }
-
-    // @Override
-    // protected boolean shouldNotFilter(HttpServletRequest request) {
-    //     return request.getServletPath().startsWith("/auth/login");
-    // }
 }
