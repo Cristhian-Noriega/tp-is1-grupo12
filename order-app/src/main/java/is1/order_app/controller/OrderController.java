@@ -27,12 +27,12 @@ public class OrderController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
         try {
-            orderService.createOrder(orderRequestDTO);
-            return ResponseEntity.ok("Your order has been successfully created.");
+            OrderDTO orderDTO = orderService.createOrder(orderRequestDTO);
+            return ResponseEntity.ok(orderDTO);
         } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

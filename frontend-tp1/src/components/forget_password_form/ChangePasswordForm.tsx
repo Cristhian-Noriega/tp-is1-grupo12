@@ -2,13 +2,17 @@ import React, { useState } from 'react'
 import './changePasswordForm.css'
 import { useNavigate } from 'react-router-dom'
 import { SubmitButton } from '../ui/SubmitButton'
-export const ChangePasswordForm = ({handlePasswordChange}) => {
+export const ChangePasswordForm = ({handlePasswordChange, setShowMessage}) => {
     const [email, setEmail] = useState("")
     const [newPassword, setNewPassword] = useState("")
 
     const navigate = useNavigate();
     const onSubmit = (event) => {
-        console.log('Se Cambio Correctamente la contrasenia ', {email},{newPassword});
+        setShowMessage({
+            text: `La contraseña de ${email} ha sido cambiada con éxito.`,
+            type: "success",
+            duration: 3000
+          })
         handlePasswordChange(email,newPassword)
         navigate('/password-recovery-confirmation');
     }

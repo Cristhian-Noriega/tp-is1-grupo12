@@ -1,4 +1,5 @@
 package is1.order_app.entities;
+import io.micrometer.common.lang.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -31,6 +32,7 @@ public class User {
     @NotBlank
     private String surname;
 
+    @Nullable
     private String photoUrl;
 
     @Min(18)

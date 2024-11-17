@@ -2,7 +2,14 @@ import axios from "axios";
 const baseUrl = "http://localhost:8080/users/register";
 
 const register = async (userRegistrationData) => {
-  const response = await axios.post(baseUrl, userRegistrationData); //Las credentials son pasadas como un objeto JSON
+  console.log(userRegistrationData);
+  const response = await axios.post(
+    baseUrl, 
+    userRegistrationData,
+    { headers: { "Content-Type": "application/json" } }
+  
+  ); //Las credentials son pasadas como un objeto JSON
+  console.log(response.data);
   return response.data;
 };
 

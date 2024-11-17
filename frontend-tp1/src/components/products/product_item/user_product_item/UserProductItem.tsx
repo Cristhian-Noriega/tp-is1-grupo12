@@ -1,18 +1,24 @@
 import './userProductItem.css';
 const addButton = "/public/assets/add.svg";
 const infoButton = "/public/assets/info.svg";
-import { OrderContext} from '../../../../context/OrderContext';
+import { CurrentOrderContext} from '../../../../context/CurrentOrderContext';
 import { useContext, useState } from 'react';
+import { Context } from "../../../../context/Context";
 
 export const UserProductItem = ({ product, onShowDetails}) => {
   const [productQuantity, setProductQuantity] = useState(1);
   const [productRemaining, setProductRemaining] = useState(product.stock);
 
-  const { addToOrder } = useContext(OrderContext);
+  const { setShowMessage } = useContext(Context);
+  const { addToOrder } = useContext(CurrentOrderContext);
 
   const handleAddToOrder = () => {
     if (productQuantity > productRemaining) {
-      alert("No hay suficiente stock disponible.");
+      setShowMessage({
+        text: "No hay suficiente stock de este producto",
+        type: "error",
+        duration: 3000
+      })
       return;
     }
 
@@ -23,8 +29,11 @@ export const UserProductItem = ({ product, onShowDetails}) => {
       name: product.name,
       quantity: productQuantity,
     };
-
-     
+    setShowMessage({
+      text: `Has añadido ${productSummary.quantity} de ${productSummary.name} a tu orden con éxito.`,
+      type: "success",
+      duration: 3000
+    })
     addToOrder(productSummary);
   };
 
@@ -47,6 +56,7 @@ export const UserProductItem = ({ product, onShowDetails}) => {
             value={productQuantity}
             onChange={(e) => setProductQuantity(Number(e.target.value))}
             className="product-form-input"
+            min="0"
           />
         </div>
         <button className='action-button' onClick={handleAddToOrder}><img src={addButton} alt="BOTON AGREGAR" className="nav-icon" /></button>

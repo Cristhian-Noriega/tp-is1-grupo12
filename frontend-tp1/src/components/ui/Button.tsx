@@ -9,7 +9,8 @@ export const Button = ({text, handleAction,backgroundColor, backgroundColorHover
   const buttonStyle = {
     backgroundColor: isHovered ? backgroundColorHover : backgroundColor,
     width: '95%',
-    padding: '10px',
+    height: '40px',
+    padding: '10px 20px',
     border: 'none',
     borderRadius: '4px',
     color: '#f0f0f0',
@@ -18,6 +19,8 @@ export const Button = ({text, handleAction,backgroundColor, backgroundColorHover
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
     marginTop: '20px',
+    justifyContent: 'center',
+    whiteSpace: 'nowrap',
   };
 
   return (

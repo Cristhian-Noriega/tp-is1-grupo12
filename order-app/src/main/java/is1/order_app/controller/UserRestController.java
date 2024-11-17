@@ -21,7 +21,6 @@ public class UserRestController {
     public UserRestController(UserService userService) {
         this.userService = userService;
     }
-    
 
     @PostMapping("/requestPassChange")
     public ResponseEntity<String> requestPasswordChange(@RequestParam String email) {
