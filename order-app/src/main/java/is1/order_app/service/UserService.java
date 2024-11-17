@@ -49,7 +49,7 @@ public class UserService {
         return userMapper.toDTO(user);
     }
 
-    public TokenDTO login(LoginDTO loginDTO) {
+    public LoginResponseDTO login(LoginDTO loginDTO) {
         Optional<User> userOpt = userRepository.findByEmail(loginDTO.email());
         if (userOpt.isEmpty()) {
             throw new UserNotFoundException("User not found with email " + loginDTO.email());
@@ -64,7 +64,7 @@ public class UserService {
 
         String token = jwtService.generateToken(userDetails);
 
-        return new TokenDTO(token);
+        return new LoginResponseDTO(user.getEmail(), user.getName(), token);
     }
 
 
