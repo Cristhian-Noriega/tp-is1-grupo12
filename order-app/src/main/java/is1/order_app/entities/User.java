@@ -41,9 +41,6 @@ public class User {
 
     private String address;
 
-    @Setter
-    private String authToken;
-
     @Enumerated(EnumType.STRING) 
     private Role role;
 

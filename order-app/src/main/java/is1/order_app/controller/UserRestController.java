@@ -1,12 +1,12 @@
 package is1.order_app.controller;
 
 import is1.order_app.dto.*;
+import is1.order_app.entities.User;
 import is1.order_app.service.UserService;
-// import is1.order_app.exceptions.WrongPasswordException;
-// import is1.order_app.exceptions.UserNotFoundException;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
@@ -38,16 +38,12 @@ public class UserRestController {
     }
 
 @GetMapping("/privateProfile")
-    public ResponseEntity<UserDTO> getProfile(@Valid @RequestBody ProfileRequestDTO requestDTO) {
-        String email = requestDTO.email();
-        String token = requestDTO.token();
-
-        if (userService.validateToken(email, token)) {
-            UserDTO user = userService.getUserByEmail(email);
-            return ResponseEntity.ok(user);
-        } else {
+    public ResponseEntity<UserDTO> getProfile(@AuthenticationPrincipal User authenticatedUser) {
+        if (authenticatedUser == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
+
+        return ResponseEntity.ok(userService.getUserByEmail(authenticatedUser.getEmail()));
     }
 
 @GetMapping("/publicProfile")

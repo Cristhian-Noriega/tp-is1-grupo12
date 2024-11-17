@@ -2,16 +2,24 @@ package is1.order_app.security;
 
 import java.security.Key;
 import java.util.Date;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import java.util.Optional;
 
-import io.jsonwebtoken.ExpiredJwtException;
+import javax.crypto.SecretKey;
+
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.BeanDefinitionDsl.Role;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 
-@Component
+@Service
 @Slf4j
 public class JwtService {
     @Value("${jwt.secret.key}")
@@ -22,41 +30,43 @@ public class JwtService {
 
 
     public String generateToken(JwtUserDetails userDetails) {
-        log.debug("Generating token for email: {}", userDetails.email());
-
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + jwtTimeExpiration);
+        Date expiration = new Date(System.currentTimeMillis() + jwtTimeExpiration);
+    
         return Jwts.builder()
-                .setSubject(userDetails.email())
+                .subject(userDetails.email())
                 .claim("role", userDetails.role())
-                .setIssuedAt(now)
-                .setExpiration(expiration)
-                .signWith(getSignatureKey(), SignatureAlgorithm.HS256)
+                .issuedAt(now)
+                .expiration(expiration)
+                .signWith(getSigningKey(), Jwts.SIG.HS256)
                 .compact();
     }
+    
 
-    public boolean validateToken(String token) {
+
+    public Optional<JwtUserDetails> extractVerifiedUserDetails(String token) {
         try {
-            Jwts.parserBuilder()
-                .setSigningKey(getSignatureKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-            return true;
+            Claims claims = Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+    
+            String email = claims.getSubject();
+            String role = claims.get("role", String.class);
+    
+            return Optional.of(new JwtUserDetails(email, role));
         } catch (ExpiredJwtException e) {
-            log.error("Expired JWT token", e);
+            log.error("Token has expired", e);
         } catch (Exception e) {
-            log.error("Invalid JWT token", e);
+            log.error("Token verification failed", e);
         }
-        return false;
+        return Optional.empty();
     }
+    
 
-    public Key getSignatureKey() {
-        try {
-            return Keys.hmacShaKeyFor(jwtSecretKey.getBytes());
-        } catch (IllegalArgumentException e) {
-            log.error("Invalid JWT secret key: Ensure it's Base64 encoded", e);
-            throw e;
-        }
+    private SecretKey getSigningKey() {
+        byte[] bytes = Decoders.BASE64.decode(jwtSecretKey);
+        return Keys.hmacShaKeyFor(bytes);
     }
 }
