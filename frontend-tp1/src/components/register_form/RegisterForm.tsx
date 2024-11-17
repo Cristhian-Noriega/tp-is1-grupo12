@@ -88,16 +88,16 @@ export const RegisterForm  = ({handleRegister}) => {
         <div className="Gender">Género</div>
             <input className='input-register-form'
                 type="radio"
-                value="Femenino"
-                checked={gender === "Femenino"}
+                value="Female"
+                checked={gender === "Female"}
                 onChange={({ target }) => setGender(target.value)}
             />
             Femenino
 
             <input className='input-register-form'
                 type="radio"
-                value="Masculino"
-                checked={gender === "Masculino"}
+                value="Male"
+                checked={gender === "Male"}
                 onChange={({ target }) => setGender(target.value)}
             />
             Masculino
@@ -111,6 +111,7 @@ export const RegisterForm  = ({handleRegister}) => {
           value={age}
           name="age"
           onChange={({ target }) => setAge(target.value)}
+          min="0"
         />
       </div>  
 

@@ -2,12 +2,16 @@ import React, { useState } from 'react'
 import './forgetPasswordForm.css'
 import { Link, useNavigate } from 'react-router-dom'
 import { SubmitButton } from '../ui/SubmitButton'
-export const ForgetPasswordForm = ({handleSendEmailToChangePassword }) => {
+export const ForgetPasswordForm = ({handleSendEmailToChangePassword, setShowMessage }) => {
     const [email, setEmail] = useState("")
 
     const navigate = useNavigate();
     const onSubmit = (event) => {
-        console.log('Se envio un mail de recuperacion al email: ', {email});
+        setShowMessage({
+            text: `Se ha enviado correctamente el formulario de recuperación de contraseña a ${email}.`,
+            type: "success",
+            duration: 5000
+          })
         handleSendEmailToChangePassword (email)
         navigate('/login');
     }

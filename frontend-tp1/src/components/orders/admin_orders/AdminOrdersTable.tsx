@@ -1,35 +1,67 @@
+import { useEffect, useState } from 'react';
 import { Button } from '../../ui/Button';
+import { userOrdersUtils } from '../../../utils/userOrdersUtils';
 import './adminOrdersTable.css';
+export const AdminOrdersTable = ({orders, handleDeleteOrder, getAvailableCommands}) => {
 
-// Mock de datos de órdenes actualizado
-const mockOrders = [
-  {
-    id: 1,
-    userId: "john",
-    items: [
-      { productId: 102, quantity: 2 },
-      { productId: 105, quantity: 1 },
-    ],
-    state: "CONFIRMED",
-    confirmationTime: "2024-11-07T05:09:48.133597",
-  },
-  {
-    id: 2,
-    userId: "alice",
-    items: [
-      { productId: 204, quantity: 3 },
-      { productId: 207, quantity: 4 },
-    ],
-    state: "CONFIRMED",
-    confirmationTime: "2024-11-07T15:44:10.135487",
-  },
-];
+  const [availableCommands, setAvailableCommands] = useState([])
 
-export const AdminOrdersTable = () => {
-  const cancelOrder = (orderId) => {
-    console.log(`Orden con ID ${orderId} cancelada`);
-    // Lógica para cancelar la orden usando el servicio
-  };
+  const { executeCommand,setOriginalOrders, originalOrders, setOrders} = userOrdersUtils();
+
+  
+  const handleCommandExecutor = (commandName, orderId) => {
+    
+    const commandObject = {
+      commandName: commandName
+    } 
+    executeCommand(commandObject, orderId)
+    const newState = transformExecuteCommandToAValidState(commandName)
+    console.log(newState);
+    const updatedOrders = originalOrders.map(order => {
+      if (order.id === orderId) {
+        console.log(`Actualizando orden con ID: ${orderId} a estado: ${newState}`);
+        return { ...order, state: newState };  // Actualiza la orden con el nuevo estado
+      }
+      return order;  // Si la orden no es la que corresponde, la devolvemos tal cual está
+    });
+    
+    console.log("Órdenes actualizadas:", updatedOrders);
+    
+    const newOrders = orders.filter(order => order.id !== orderId)
+    setOrders(newOrders)
+    // Actualiza el estado con las órdenes modificadas
+    setOriginalOrders(updatedOrders);
+    
+  }
+
+  const transformExecuteCommandToAValidState = (commandName) => {
+   
+    console.log("se ejecuta la funcion")
+    console.log(commandName)
+  switch (commandName) {
+    case 'ProcessingOrderCommand':
+      return 'PROCESSING';
+    case 'SentOrderCommand':
+      return 'SENT';
+    case 'CancelOrderCommand':
+      return 'CANCELED';
+    default:
+      return 'UNKNOWN';
+}
+  }
+
+  useEffect(() => {
+    const showCommands = async () => {
+      for (const order of orders) {
+      const commands = await getAvailableCommands(order.id);
+      setAvailableCommands(commands); 
+      }
+      
+      console.log("COMANDOS AVAILABLE")
+      console.log(availableCommands)
+    };
+    showCommands();
+  }, [orders]);
 
   return (
     <div className="orders-wrapper">
@@ -45,7 +77,7 @@ export const AdminOrdersTable = () => {
           </tr>
         </thead>
         <tbody>
-          {mockOrders.map((order) => (
+          {orders.map((order) => (
             <tr key={order.id}>
               <td>{order.id}</td>
               <td>{order.userId ? order.userId : "Sin usuario"}</td>
@@ -61,12 +93,20 @@ export const AdminOrdersTable = () => {
                 </ul>
               </td>
               <td>
-                <Button
-                  text="Cancelar Orden"
-                  backgroundColor="#FF6644"
-                  backgroundColorHover="#FF0000"
-                  handleAction={() => cancelOrder(order.id)}
-                />
+        
+                <div>
+                  {/* Renderizar los comandos obtenidos para la orden */}
+                  {availableCommands.map((command, index) => (
+                    <Button 
+                    key={index}
+                    text = {command.commandName}
+                    handleAction={() => handleCommandExecutor(command.commandName, order.id)}
+                    backgroundColor="#FF0000"
+                    backgroundColorHover="#FFA500"
+                    
+                    />
+                  ))}
+                </div>
               </td>
             </tr>
           ))}

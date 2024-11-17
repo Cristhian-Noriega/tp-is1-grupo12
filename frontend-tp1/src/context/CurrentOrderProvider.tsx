@@ -1,7 +1,7 @@
 import {useState} from 'react';
-import { OrderContext } from "./OrderContext";
+import { CurrentOrderContext } from "./CurrentOrderContext";
 
-export const OrderProvider = ({ children }) => {
+export const CurrentOrderProvider = ({ children }) => {
   const [currentOrder, setCurrentOrder] = useState([]);
 
   const addToOrder = (productSummary) => {
@@ -20,8 +20,8 @@ export const OrderProvider = ({ children }) => {
   };
 
   return (
-    <OrderContext.Provider value={{ currentOrder,setCurrentOrder, addToOrder, removeProductFromOrder, clearOrder }}>
+    <CurrentOrderContext.Provider value={{ currentOrder,setCurrentOrder, addToOrder, removeProductFromOrder, clearOrder }}>
       {children}
-    </OrderContext.Provider>
+    </CurrentOrderContext.Provider>
   );
 };

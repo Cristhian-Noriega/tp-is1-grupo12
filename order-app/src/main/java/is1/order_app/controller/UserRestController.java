@@ -22,6 +22,7 @@ public class UserRestController {
 
 @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserRegistrationDTO registrationDTO) {
+        System.err.println( registrationDTO);
         UserDTO user = userService.registerUser(registrationDTO);
         return ResponseEntity.ok(user);
     }

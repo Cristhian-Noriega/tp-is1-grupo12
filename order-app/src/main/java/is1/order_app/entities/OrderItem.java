@@ -22,6 +22,8 @@ public class OrderItem {
     @ManyToOne
     private Product product;
 
+    private String productName;
+
     private Integer quantity;
 
     public OrderItem(Product product, Integer quantity) {
