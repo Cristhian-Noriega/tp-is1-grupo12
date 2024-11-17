@@ -7,7 +7,6 @@ import is1.order_app.exceptions.WrongPasswordException;
 import is1.order_app.exceptions.UserNotFoundException;
 import is1.order_app.dto.UserDTO;
 import is1.order_app.dto.PassChangeDTO;
-import is1.order_app.dto.TokenDTO;
 import is1.order_app.dto.UserRegistrationDTO;
 import is1.order_app.entities.User;
 import is1.order_app.mapper.UserMapper;
@@ -16,10 +15,6 @@ import is1.order_app.security.JwtService;
 import is1.order_app.security.JwtUserDetails;
 import is1.order_app.service.mails_sevice.EmailSenderService;
 import lombok.RequiredArgsConstructor;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
