@@ -3,11 +3,11 @@ import { OrdersContext } from "../context/OrdersContext";
 import ordersUserService from "../services/userOrders";
 
 export const userOrdersUtils = () => {
-  const { orders, setOrders, originalOrders, setOriginalOrders } = useContext(OrdersContext);
+  const { orders, setOrders, originalOrders, setOriginalOrders, user } = useContext(OrdersContext);
 
-  const cancelOrder = async (orderId) => {
+  const cancelOrder = async (userId, orderId) => {
     try {
-      await ordersUserService.cancelOrderByUserId("lucas.ezequiel.321@gmail.com",orderId);
+      await ordersUserService.cancelOrderByUserId(userId,orderId);
       const updatedOrders = orders.filter(
         (order) => order.id !== orderId
       );
@@ -39,5 +39,5 @@ export const userOrdersUtils = () => {
     }
   }
 
-  return { orders, setOrders,cancelOrder, originalOrders, setOriginalOrders, getAvailableCommands, executeCommand };
+  return { orders, setOrders,cancelOrder, originalOrders, setOriginalOrders, getAvailableCommands, executeCommand,user };
 };

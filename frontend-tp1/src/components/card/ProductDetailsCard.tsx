@@ -1,5 +1,5 @@
-import './card.css'
-export const Card = ({title, body}) => {
+import './productDetailsCard.css'
+export const ProductDetailsCard = ({title, body}) => {
   return (
     <div>
         <h3>{title}</h3>

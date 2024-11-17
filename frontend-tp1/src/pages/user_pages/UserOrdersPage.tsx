@@ -9,7 +9,7 @@ import { useContext, useEffect, useState } from 'react';
 import { OrderStatusFilter } from '../../components/order_status_filter/OrderStatusFilter';
 
 export const UserOrdersPage = () => {
-  const { getUserFromLocalStorage } = useContext(Context);
+  const { getUserFromLocalStorage, user} = useContext(Context);
   const { orders, setOrders, cancelOrder, setOriginalOrders } = userOrdersUtils();
 
   useEffect(() => {
@@ -18,18 +18,18 @@ export const UserOrdersPage = () => {
 
   useEffect(() => {
     //if (user && user.id) { Por el momento no funciona porque user.id es null
-    userOrdersService.getByUserId("lucas.ezequiel.321@gmail.com").then((orders) => {
+    userOrdersService.getByUserId(user.id).then((orders) => {
       setOriginalOrders(orders);
       setOrders(orders);
     });
   }, []); // Este paréntesis de cierre fue corregido aquí
 
   const handleCancelOrder = (orderId) => {
-    console.log("AAAAAA");
-    console.log(orderId);
-    const response = cancelOrder(orderId);
+    console.log("Handle cancel order");
+    console.log(`id de la orden: ${orderId}`);
+    cancelOrder(user.id, orderId);
     console.log("orden cancelada");
-    console.log(response);
+    
   };
 
   return (
@@ -38,7 +38,7 @@ export const UserOrdersPage = () => {
       <div className='table-content-wrapper'>
         <h2>Órdenes de Usuario</h2>
         <OrderStatusFilter />
-        <ConfirmedOrdersList orders={orders} handleDeleteOrder={handleCancelOrder} />
+        <ConfirmedOrdersList orders={orders} handleCancelOrder={handleCancelOrder} />
       </div>
     </div>
   );

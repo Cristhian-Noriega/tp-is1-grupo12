@@ -21,27 +21,27 @@ function App() {
     
           <BrowserRouter>
           <Provider>
-      <CurrentOrderProvider>
-        <OrderProvider>
-          <Routes>
-          <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forget-password" element={<ForgetPasswordPage />} />
-          <Route path="/password-recovery" element={<ChangePasswordPage/>} />
-          <Route path="/password-recovery-confirmation" element={<ChangePasswordConfirmationPage />} />
+            <CurrentOrderProvider>
+              <OrderProvider>
+                <Routes>
+                <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/forget-password" element={<ForgetPasswordPage />} />
+                <Route path="/password-recovery" element={<ChangePasswordPage/>} />
+                <Route path="/password-recovery-confirmation" element={<ChangePasswordConfirmationPage />} />
 
-          <Route path="/user-products" element={<ProductsSelectionPage/>} />
-          <Route path="/user-current-order" element={<UserCurrentOrderPage/>} />
-          <Route path="/user-orders" element={<UserOrdersPage/>} />
+                <Route path="/user-products" element={<ProductsSelectionPage/>} />
+                <Route path="/user-current-order" element={<UserCurrentOrderPage/>} />
+                <Route path="/user-orders" element={<UserOrdersPage/>} />
 
-          <Route path="/admin-products" element={<ProductsAdministrationPage/>} />
-          <Route path="/admin-orders" element={<AdminOrdersPage/>} />
-    
-          </Routes>
-          </OrderProvider>
-      </CurrentOrderProvider>
-    </Provider>
+                <Route path="/admin-products" element={<ProductsAdministrationPage/>} />
+                <Route path="/admin-orders" element={<AdminOrdersPage/>} />
+          
+                </Routes>
+                </OrderProvider>
+            </CurrentOrderProvider>
+          </Provider>
         </BrowserRouter>
         
   )

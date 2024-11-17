@@ -8,7 +8,7 @@ import { AdminOrdersTable } from "../../components/orders/admin_orders/AdminOrde
 import { OrderStatusFilter } from "../../components/order_status_filter/OrderStatusFilter";
 
 export const AdminOrdersPage = () => {
-  const { setUser, getUserFromLocalStorage } = productsUtils(); // esto manejarlo mejor en el refactor quiza creando un UserContext
+  const { user, getUserFromLocalStorage } = productsUtils(); // esto manejarlo mejor en el refactor quiza creando un UserContext
   const { orders,setOrders, deleteOrder, setOriginalOrders, getAvailableCommands} = userOrdersUtils();
 
   //Obtiene el token en el localStorgae y trata de obtenerlo de ahi para que el usuario no tenga que volver a iniciar sesion
@@ -17,13 +17,14 @@ export const AdminOrdersPage = () => {
   }, []);
 
   useEffect(() => {
-    //if (user && user.id) { Por el momento no funciona porque user.id es null
-        userOrdersService.getAll().then((orders) => {
-          setOriginalOrders(orders);
-          setOrders(orders);         
+    console.log(user)
+    if (user) { //TODO: user.role == admin
+        userOrdersService.getAll().then((orders) => {        
+          setOrders(orders); 
+          setOriginalOrders(orders);        
         });
     
-  //  }
+   }
   }, []);
 
 

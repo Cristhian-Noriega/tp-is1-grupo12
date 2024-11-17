@@ -1,11 +1,8 @@
 import React, { useContext, useState } from "react";
 import "./createProductForm.css";
 const deleteButton = "/public/assets/delete.svg";
-import productsAdminService from "../../../services/productsAdmin";
-import { Context } from "../../../context/Context";
 
-
-const CreateProductForm: React.FC = () => {
+const CreateProductForm: React.FC = ({createProduct}) => {
   const [name, setName] = useState("");
   const [stock, setStock] = useState(0);
   const [brand, setBrand] = useState("");
@@ -14,21 +11,6 @@ const CreateProductForm: React.FC = () => {
   const [newAttributeKey, setNewAttributeKey] = useState("");
   const [newAttributeValue, setNewAttributeValue] = useState("");
 
-  const {products,setProducts} = useContext(Context);
-
-  const handleCreateProduct = async (product) => {
-    try {
-      console.log(product)
-      const productResponse = await productsAdminService.create(
-        product
-      );
-      console.log("respuesta")
-      console.log(productResponse)
-      setProducts(products.concat(productResponse));
-    } catch (error) {
-      console.log("error" + error);
-    }
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +29,7 @@ const CreateProductForm: React.FC = () => {
     setNewAttributeKey("");
     setNewAttributeValue("");
     console.log("Producto:", product);
-    handleCreateProduct(product)
+    createProduct(product)
   };
 
   const handleAddExtraAttribute = () => {

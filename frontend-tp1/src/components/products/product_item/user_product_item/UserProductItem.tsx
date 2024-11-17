@@ -5,7 +5,7 @@ import { CurrentOrderContext} from '../../../../context/CurrentOrderContext';
 import { useContext, useState } from 'react';
 import { Context } from "../../../../context/Context";
 
-export const UserProductItem = ({ product, onShowDetails}) => {
+export const UserProductItem = ({ product, handleStock, onShowDetails}) => {
   const [productQuantity, setProductQuantity] = useState(1);
   const [productRemaining, setProductRemaining] = useState(product.stock);
 
@@ -21,6 +21,7 @@ export const UserProductItem = ({ product, onShowDetails}) => {
       })
       return;
     }
+    
 
     setProductRemaining(productRemaining - productQuantity)
     console.log(product);  // Verifica que el producto es el esperado
@@ -29,6 +30,9 @@ export const UserProductItem = ({ product, onShowDetails}) => {
       name: product.name,
       quantity: productQuantity,
     };
+    const productNewStock = productRemaining - productQuantity
+    handleStock(product.id, productNewStock)
+
     setShowMessage({
       text: `Has añadido ${productSummary.quantity} de ${productSummary.name} a tu orden con éxito.`,
       type: "success",
@@ -43,11 +47,6 @@ export const UserProductItem = ({ product, onShowDetails}) => {
       <td>{product.stock}</td>
       <td>{product.brand}</td>
       <td>{product.description}</td>
-      <td>{product.state === 'confirm' && 'Confirmado'}
-      {product.state === 'processing' && 'En Proceso'}
-      {product.state === 'shipped' && 'Enviado'}
-      {product.state === 'canceled' && 'Cancelado'}
-      </td>
       <td>
       <div className="product-form-field">
           <label>Agregar producto a mi orden</label>

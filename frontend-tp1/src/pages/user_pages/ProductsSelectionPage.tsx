@@ -26,7 +26,7 @@ export const ProductsSelectionPage = () => {
   return (
     <div className="product-page-wrapper">
       <UserLayout/>
-      <UserProductTable products={products} />
+      <UserProductTable products={products} setProducts={setProducts} />
      
       {showMessage && (
         <CardMessage

@@ -7,7 +7,7 @@ import { productsUtils } from "../../../utils/productsUtils";
 import CreateProductForm from "../create_product/CreateProductForm";
 const addButton = "/public/assets/add.svg";
 
-export const ProductTable = ({ products }) => {
+export const AdminProductTable = ({ products }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDetailsCardVisible, setDetailsCardVisible] = useState(false);
   const [isCreateProductCardVisible, setCreateProductCardVisible] =
@@ -67,7 +67,7 @@ export const ProductTable = ({ products }) => {
           <span className="close" onClick={handleCloseCard}>
             &times;
           </span>
-          <CreateProductForm />
+          <CreateProductForm createProduct={createProduct}/>
         </div>
       )}
     </div>

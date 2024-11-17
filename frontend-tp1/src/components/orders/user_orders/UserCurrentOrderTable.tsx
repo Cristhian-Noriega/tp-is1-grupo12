@@ -14,7 +14,7 @@ export const UserCurrentOrderTable = () => {
 
       const createOrderPayload = () => {
         return {
-          userId: "lucas.ezequiel.321@gmail.com", //TODO: User solamente devuelve el token
+          userId: user.id, 
           items: currentOrder.map(item => ({
             productId: item.id,
             quantity: item.quantity,
@@ -34,7 +34,7 @@ export const UserCurrentOrderTable = () => {
 
       const createOrder = async () => {
         try {
-          
+          console.log(`usuario id ${user.id}, usuario nombre ${user.name}`)
           const orderPayLoad = createOrderPayload()
           console.log("DTOORDER")
           console.log(orderPayLoad)
@@ -87,6 +87,12 @@ export const UserCurrentOrderTable = () => {
            backgroundColor="#488A32"
             backgroundColorHover="#48FA30"
             handleAction={createOrder}/>
+
+<Button
+          text="USER?" 
+           backgroundColor="#488A32"
+            backgroundColorHover="#48FA30"
+            handleAction={()=> console.log(user)}/>
       </div>
       
     </div>

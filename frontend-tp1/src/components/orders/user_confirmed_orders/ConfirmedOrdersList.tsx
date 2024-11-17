@@ -1,7 +1,7 @@
 import { Button } from '../../ui/Button';
 import './confirmedOrdersList.css'
 
-export const ConfirmedOrdersList = ({orders, handleDeleteOrder}) => {
+export const ConfirmedOrdersList = ({orders, handleCancelOrder}) => {
   
   return (
     <div className='orders-wrapper'>
@@ -23,7 +23,7 @@ export const ConfirmedOrdersList = ({orders, handleDeleteOrder}) => {
             text="Cancelar Orden"
             backgroundColor="#FF6644"
             backgroundColorHover="#FF0000"
-            handleAction={() => handleDeleteOrder(order.id)} />
+            handleAction={() => handleCancelOrder(order.id)} />
         </div>
       ))}
     </div>

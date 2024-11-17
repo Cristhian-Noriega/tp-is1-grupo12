@@ -2,11 +2,7 @@ import axios from "axios";
 const baseUrl = "http://localhost:8080/products/admin";
 
 const create = async (productObject) => {
-  const config = {
-    headers: { Authorization: token },
-  };
-
-  const response = await axios.post(baseUrl, productObject,config);
+  const response = await axios.post(baseUrl, productObject);
   return response.data;
 };
 

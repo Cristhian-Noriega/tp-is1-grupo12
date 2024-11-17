@@ -7,6 +7,7 @@ export const productsUtils = () => {
 
   const deleteProduct = async (productId) => {
     try {
+      console.log(`esto eliminadndo el product con id: ${productId}`)
       await productsAdminService.remove(productId);
       const updatedProducts = products.filter(
         (product) => product.id !== productId
@@ -19,11 +20,13 @@ export const productsUtils = () => {
 
   const createProduct = async (product) => {
     try {
+      console.log("llegue al productUtils")
       console.log(product)
       const productResponse = await productsAdminService.create(
         product
       );
-      // setProductos(products.concat(productResponse));
+      setProducts(products.concat(productResponse));
+
     } catch (exception) {
       console.log("error" + exception.response.data.error);
     }

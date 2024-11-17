@@ -1,5 +1,5 @@
 import './productItem.css';
-const editButton = "/public/assets/add.svg";
+const editButton = "/public/assets/edit.svg";
 const deleteButton = "/public/assets/delete.svg";
 const infoButton = "/public/assets/info.svg";
 

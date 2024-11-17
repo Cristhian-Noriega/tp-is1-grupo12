@@ -9,7 +9,8 @@ export const LoginPage = () => {
   const {user,handleLogin} = loginUtils();
   const {showMessage, setShowMessage} = useContext(Context)
 
-
+console.log("es null???")
+console.log(user)
 if (user != null) {
   return <Navigate to="/user-products" />;
 }

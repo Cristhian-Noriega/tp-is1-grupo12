@@ -8,7 +8,6 @@ export const ProductTableHeader = () => {
       <th>Stock</th>
       <th>Marca</th>
       <th>Descrpicion</th>
-      <th>Estado</th>
       <th>Acciones</th>
     </tr>
   </thead>

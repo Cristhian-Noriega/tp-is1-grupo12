@@ -12,8 +12,8 @@ const cancelOrderByUserId = async(userId, orderId) => {
 }
 
 const getByUserId = async (userId) => {
-  console.log(`${baseUrl}/user/lucas.ezequiel.321@gmail.com`)
-  const response = await axios.get(`${baseUrl}/user/lucas.ezequiel.321@gmail.com`); //el userId esta mockeado
+  console.log(`${baseUrl}/user/${userId}`)
+  const response = await axios.get(`${baseUrl}/user/${userId}`); 
   return response.data;
 };
 

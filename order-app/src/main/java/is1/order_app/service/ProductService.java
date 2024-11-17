@@ -1,6 +1,5 @@
 package is1.order_app.service;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import is1.order_app.dto.ProductFilterDTO;
@@ -17,7 +16,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,15 +41,16 @@ public class ProductService {
         Product product = productMapper.toEntity(newProduct);
         productRepository.save(product);
         result = productMapper.toProductViewDTO(product);
-        log.info("Producto creado con exito"+ result.toString());
+        log.info("Producto creado con exito" + result.toString());
         return result;
     }
 
-    public ProductViewDTO updateProductStock(Long productId, StockChangeDTO stockChangeDTO) throws JsonProcessingException {
+    public ProductViewDTO updateProductStock(Long productId, StockChangeDTO stockChangeDTO)
+            throws JsonProcessingException {
         Optional<Product> productOpt = productRepository.findById(productId);
 
         if (productOpt.isEmpty()) {
-            throw new ProductNotFoundException("The product with ID: "+ productId+ "does not exist");
+            throw new ProductNotFoundException("The product with ID: " + productId + "does not exist");
         }
 
         Product product = productOpt.get();
@@ -80,7 +79,7 @@ public class ProductService {
 
     public List<ProductViewDTO> getAllProducts() throws JsonProcessingException {
         List<ProductViewDTO> products = new ArrayList<>();
-        for (Product p :productRepository.findAll()){
+        for (Product p : productRepository.findAll()) {
             products.add(getProduct(p));
         }
         return products;
@@ -91,16 +90,18 @@ public class ProductService {
         response = productMapper.toProductViewDTO(product);
         return response;
     }
-    public List<ProductViewDTO> getProductListFiltered(ProductFilterDTO productFilterDTO) throws JsonProcessingException {
 
-        List<ProductViewDTO> response= new ArrayList<>();
+    public List<ProductViewDTO> getProductListFiltered(ProductFilterDTO productFilterDTO)
+            throws JsonProcessingException {
+
+        List<ProductViewDTO> response = new ArrayList<>();
 
         Specification<Product> spec = Specification.where(ProductSpecification.name(productFilterDTO.getName()))
-                                                    .and(ProductSpecification.brand(productFilterDTO.getBrand()))
-                                                    .and(ProductSpecification.stock(productFilterDTO.getStock()))
-                                                    .and(ProductSpecification.description(productFilterDTO.getDescription()));
+                .and(ProductSpecification.brand(productFilterDTO.getBrand()))
+                .and(ProductSpecification.stock(productFilterDTO.getStock()))
+                .and(ProductSpecification.description(productFilterDTO.getDescription()));
 
-        if(productFilterDTO.getExtraAtributes()!= null && !productFilterDTO.getExtraAtributes().isEmpty()){
+        if (productFilterDTO.getExtraAtributes() != null && !productFilterDTO.getExtraAtributes().isEmpty()) {
             List<String> atrs = List.of(productFilterDTO.getExtraAtributes().split(DIVISOR));
             for (String attribute : atrs) {
                 spec.and(ProductSpecification.attributes(attribute));
@@ -108,7 +109,7 @@ public class ProductService {
         }
         List<Product> products = productRepository.findAll(spec);
 
-        for (Product p : products){
+        for (Product p : products) {
             response.add(getProduct(p));
         }
 

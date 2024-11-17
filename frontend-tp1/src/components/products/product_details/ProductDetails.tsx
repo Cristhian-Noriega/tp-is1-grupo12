@@ -1,27 +1,14 @@
 import React from 'react';
-import { Card } from '../../card/Card';
-import BodyCard from '../../card/body_card/BodyCard';
+import { ProductDetailsCard } from '../../card/ProductDetailsCard';
+import ProductDetailsBodyCard from '../../card/body_card/ProductDetailsBodyCard';
 
-interface ProductDetailsProps {
-  product: {
-    id: number;
-    name: string;
-    stock: number;
-    brand: string;
-    description: string;
-    state: string;
-    color: string;
-    peso: string;
-  };
-}
-
-const ProductDetails: React.FC<ProductDetailsProps> = ({ product }) => {
+const ProductDetails = ({ product }) => {
 
   return (
     <div className='product-details-wrapper-box'>
-      <Card 
+      <ProductDetailsCard 
         title='Detalles del Producto'
-        body={<BodyCard data={product} />}    
+        body={<ProductDetailsBodyCard data={product} />}    
       />
     </div>
   );
