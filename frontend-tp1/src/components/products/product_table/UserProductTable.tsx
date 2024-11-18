@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ProductTableHeader } from "../product_table_header/ProductTableHeader";
-import "./productTable.css";
+import "./adminProductTable.css";
 import ProductDetails from "../product_details/ProductDetails";
 import { UserProductItem } from "../product_item/user_product_item/UserProductItem";
 

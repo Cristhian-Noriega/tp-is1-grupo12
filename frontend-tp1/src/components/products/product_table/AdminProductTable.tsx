@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ProductItem } from "../product_item/ProductItem";
 import { ProductTableHeader } from "../product_table_header/ProductTableHeader";
-import "./productTable.css";
+import "./adminProductTable.css";
 import ProductDetails from "../product_details/ProductDetails";
 import { productsUtils } from "../../../utils/productsUtils";
 import CreateProductForm from "../create_product/CreateProductForm";
@@ -53,6 +53,10 @@ export const AdminProductTable = ({ products }) => {
           ))}
         </tbody>
       </table>
+      {(isDetailsCardVisible || isCreateProductCardVisible) && (
+      <div className="overlay" onClick={handleCloseCard}></div>
+    )}
+
       {isDetailsCardVisible && selectedProduct && (
         <div className="card-info-wrapper">
           <span className="close" onClick={handleCloseCard}>

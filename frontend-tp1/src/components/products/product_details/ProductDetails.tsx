@@ -8,7 +8,7 @@ const ProductDetails = ({ product }) => {
     <div className='product-details-wrapper-box'>
       <ProductDetailsCard 
         title='Detalles del Producto'
-        body={<ProductDetailsBodyCard data={product} />}    
+        body={<ProductDetailsBodyCard product={product} />}    
       />
     </div>
   );
