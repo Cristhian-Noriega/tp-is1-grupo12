@@ -5,6 +5,7 @@ import "./adminProductTable.css";
 import ProductDetails from "../product_details/ProductDetails";
 import { productsUtils } from "../../../utils/productsUtils";
 import CreateProductForm from "../create_product/CreateProductForm";
+import { OverlayFocus } from "../../overlay_focus/OverlayFocus";
 const addButton = "/public/assets/add.svg";
 
 export const AdminProductTable = ({ products }) => {
@@ -54,7 +55,7 @@ export const AdminProductTable = ({ products }) => {
         </tbody>
       </table>
       {(isDetailsCardVisible || isCreateProductCardVisible) && (
-      <div className="overlay" onClick={handleCloseCard}></div>
+      <OverlayFocus handleCloseCard={handleCloseCard}/>
     )}
 
       {isDetailsCardVisible && selectedProduct && (

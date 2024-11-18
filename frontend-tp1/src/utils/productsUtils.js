@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Context } from "../context/Context";
 import productsAdminService from "../services/productsAdmin";
+import productsService from "../services/products";
 
 export const productsUtils = () => {
   const { products, setProducts, user, setUser, handleLogout, getUserFromLocalStorage, showMessage, setShowMessage } = useContext(Context);
@@ -31,6 +32,18 @@ export const productsUtils = () => {
       console.log("error" + exception.response.data.error);
     }
   };
+  const handleGetProductByAttributes = async(attributesPayload) => {
+      try{
+        const productsWithThisAttributes = await productsService.getByAttributes(
+          attributesPayload
+        );
+        setProducts(productsWithThisAttributes)
+        
 
-  return { deleteProduct, createProduct, products, setProducts, user, setUser,handleLogout, getUserFromLocalStorage,showMessage, setShowMessage };
+      } catch(exception) {
+        console.log("error" + exception.response.data.error)
+      }
+  }
+
+  return { deleteProduct, createProduct, products, setProducts, user, setUser,handleLogout, getUserFromLocalStorage,showMessage, setShowMessage, handleGetProductByAttributes };
 };

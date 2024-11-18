@@ -11,4 +11,21 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+  /* colors of the app */
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --background-color: #242424;
+  --text-color: #212529;
+  --error-color: #dc3545;
+  --success-color:#28a745;
+  --info-color:#17a2b8;
+  --table-lines-color: #fff;
+  --card-close-button: #fff;
+  --card-product-details-background-color:#f8f9fa;
+  --card-product-filter-background-color:#f8f9fa;
+  --navbar-color:#2c2c2c;
+  --navbar-text-color:#b8b8b8;
+  --navbar-text-hover-color:#fff;
+  --butons-submit: green;
   }

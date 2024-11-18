@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import "./createProductForm.css";
+import { SubmitButton } from "../../ui/SubmitButton";
 const deleteButton = "/public/assets/delete.svg";
 
 const CreateProductForm: React.FC = ({createProduct}) => {
@@ -133,10 +134,13 @@ const CreateProductForm: React.FC = ({createProduct}) => {
             </div>
           ))}
         </div>
-
-        <button type="submit" id="save-product-button" className="product-form-button">
-          Agregar Producto
-        </button>
+        
+        <SubmitButton id="save-product-button" className="product-form-button"
+          type="submit"
+          text="Agregar Producto"
+          backgroundColor="#000"
+          backgroundColorHover="#6F6"
+        />
       </form>
     </div>
   );

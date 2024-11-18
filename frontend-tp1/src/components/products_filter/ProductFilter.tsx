@@ -3,81 +3,61 @@ import "./productFilter.css";
 import { SubmitButton } from "../ui/SubmitButton";
 const deleteButton = "/public/assets/delete.svg";
 
-
-const productAttributes = [
-  { name: 'Peso', type: 'Double' },
-  { name: 'Garantía', type: 'String' },
-  { name: 'Litraje', type: 'Integer' },
-  { name: 'Color', type: 'String' },
-  { name: 'Origen', type: 'String' },
-  { name: 'Dimensiones', type: 'String' },
-  { name: 'Fabricante', type: 'String' },
-  { name: 'Apto para', type: 'String' },
-];
-
-export const ProductFilter = ({ createProduct }) => {
+export const ProductFilter = ({ handleGetProductByAttributes}) => {
   const [name, setName] = useState("");
   const [stock, setStock] = useState(0);
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
-  const [extraAttributes, setExtraAttributes] = useState({});
+  const [extraAtributes, setExtraAttributes] = useState({});
   const [newAttributeKey, setNewAttributeKey] = useState("");
   const [newAttributeValue, setNewAttributeValue] = useState("");
-
-  const [selectedFilters, setSelectedFilters] = useState({});
-
-  const renderFilterOptions = () => {
-    return productAttributes.map((attribute) => (
-      <div key={attribute.name} className="filter-option">
-        <label>
-          <input
-            type="checkbox"
-            checked={selectedFilters[attribute.name] || false}
-            onChange={() => handleFilterChange(attribute.name)}
-          />
-          {attribute.name} ({attribute.type})
-        </label>
-      </div>
-    ));
-  };
-
-  const createExtraAttributesPayload = () => {
-    return Object.keys(selectedFilters)
-      .filter((key) => selectedFilters[key]) // Filtros seleccionados
-      .reduce((payload, attribute) => {
-        payload[attribute] = true; // Agrega el atributo al payload
-        return payload;
-      }, {});
-  };
 
   // Manejo del envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const payload = {
-      name,
-      brand,
-      stock,
-      ...(description),
-      extraAttributes: createExtraAttributesPayload(),
-    };
-
+    const attributesPayload = Object.fromEntries(
+      Object.entries({
+        name,
+        brand,
+        stock,
+        description,
+        extraAtributes,
+      }).filter(([key, value]) =>
+        value && // Excluye valores falsy como "", 0, null, undefined
+        (typeof value !== "object" || Object.keys(value).length > 0) // Incluye solo objetos no vacíos
+      )
+    );
     
-    console.log("Payload enviado:", payload);
+    console.log("Payload enviado:", attributesPayload);
+    handleGetProductByAttributes(attributesPayload)
   };
 
-  const handleFilterChange = (attributeName) => {
-    setSelectedFilters((prevState) => ({
-      ...prevState,
-      [attributeName]: !prevState[attributeName], // Toggle entre marcado y desmarcado
-    }));
+  // Manejo de agregar un nuevo atributo extra
+  const handleAddExtraAttribute = () => {
+    if (newAttributeKey && newAttributeValue) {
+      setExtraAttributes({
+        ...extraAtributes,
+        [newAttributeKey]: newAttributeValue,
+      });
+      setNewAttributeKey("");
+      setNewAttributeValue("");
+    }
+  };
+
+  // Manejo de eliminar un atributo extra
+  const handleRemoveExtraAttribute = (key) => {
+    const updatedAttributes = { ...extraAtributes };
+    delete updatedAttributes[key];
+    setExtraAttributes(updatedAttributes);
   };
 
   return (
     <div className="product-form-wrapper">
       <form onSubmit={handleSubmit} className="product-form">
-        <h2 className="product-form-heading">Atributos del Producto</h2>
+        <h2 className="product-form-heading">Filtrar Productos por Atributos</h2>
 
+        {/* Campo Nombre */}
         <div className="product-form-field">
           <label>Nombre</label>
           <input
@@ -85,9 +65,11 @@ export const ProductFilter = ({ createProduct }) => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="product-form-input"
+          
           />
         </div>
 
+        {/* Campo Stock */}
         <div className="product-form-field">
           <label>Stock</label>
           <input
@@ -99,6 +81,7 @@ export const ProductFilter = ({ createProduct }) => {
           />
         </div>
 
+        {/* Campo Marca */}
         <div className="product-form-field">
           <label>Marca</label>
           <input
@@ -106,10 +89,11 @@ export const ProductFilter = ({ createProduct }) => {
             value={brand}
             onChange={(e) => setBrand(e.target.value)}
             className="product-form-input"
-            
+          
           />
         </div>
 
+        {/* Campo Descripción */}
         <div className="product-form-field">
           <label>Descripción</label>
           <input
@@ -119,22 +103,57 @@ export const ProductFilter = ({ createProduct }) => {
             className="product-form-input"
           />
         </div>
-            
-        {/* Lista de Atributos Extras */}
+
+        {/* Campo para Agregar Atributos Extras */}
         <div className="product-form-field">
-          <h3>Atributos Extras</h3>
-          <div className="filter-options">{renderFilterOptions()}</div>
+          <label>Agregar Atributo Extra</label>
+          <input
+            type="text"
+            value={newAttributeKey}
+            onChange={(e) => setNewAttributeKey(e.target.value)}
+            placeholder="Clave del atributo"
+            className="product-form-input"
+          />
+          <input
+            type="text"
+            value={newAttributeValue}
+            onChange={(e) => setNewAttributeValue(e.target.value)}
+            placeholder="Valor del atributo"
+            className="product-form-input"
+          />
+          <button
+            type="button"
+            onClick={handleAddExtraAttribute}
+            className="product-form-button"
+          >
+            Agregar Atributo
+          </button>
         </div>
 
+        <div className="product-form-field">
+          <h3>Atributos Extras</h3>
+          {Object.entries(extraAtributes).map(([key, value]) => (
+            <div key={key} className="product-form-extra-attribute">
+              <span>{key}: {value}</span>
+              <button type="button"
+                onClick={() => handleRemoveExtraAttribute(key)}
+                className="product-form-remove-button">
+                  <img src={deleteButton} alt="BOTON ELIMINAR" className="remove-extra-attribute-icon" />
+                </button>
+            </div>
+          ))}
+        </div>
+        
+
+        
         <SubmitButton
           type="submit"
-          text="Crear Producto"
-          backgroundColor="#0F0"
-          backgroundColorHover="#0FF"
+          text="Aplicar Filtro"
+          backgroundColor="#000"
+          backgroundColorHover="#6F6"
         />
       </form>
     </div>
   );
 };
-
 

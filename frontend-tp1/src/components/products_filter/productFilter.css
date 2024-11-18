@@ -38,7 +38,7 @@
   padding: 10px;
   border-radius: 4px;
   border: none;
-  background-color: #4a90e2;
+  background-color: var(--primary-color);
   color: #fff;
   font-weight: bold;
   cursor: pointer;
@@ -52,7 +52,7 @@ input, select{
 }
 
 #save-product-button{
-  background-color: #488A32;
+  background-color: var(filter-);
 }
 
 .remove-extra-attribute-icon{

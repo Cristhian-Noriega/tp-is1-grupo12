@@ -14,21 +14,21 @@
   }
   
   .card-message.success {
-    background-color: #28a745; /* Verde para éxito */
+    background-color: var(--success-color); /* Verde para éxito */
   }
   
   .card-message.error {
-    background-color: #dc3545; /* Rojo para error */
+    background-color: var(--error-color); /* Rojo para error */
   }
   
   .card-message.info {
-    background-color: #17a2b8; /* Azul para información */
+    background-color: var(--info-color); /* Azul para información */
   }
   
   .close-button {
     background: none;
     border: none;
-    color: #fff;
+    color: var(--card-close-button);
     font-size: 1.2em;
     cursor: pointer;
     margin-left: 10px;

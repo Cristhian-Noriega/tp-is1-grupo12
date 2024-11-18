@@ -13,7 +13,7 @@
     margin-bottom: 20px;
     font-weight: 300;
     color: #f0f0f0;
-    border-bottom: 2px solid #007fca; 
+    border-bottom: 2px solid var(--primary-color); 
     padding-bottom: 10px;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .forget-password-box:hover {
-    color: #23A3E8;
+    color: var(--primary-color);
 }
 
 @media (max-width: 768px){
