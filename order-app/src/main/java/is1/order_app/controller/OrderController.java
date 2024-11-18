@@ -44,6 +44,7 @@ public class OrderController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         return ResponseEntity.ok(this.orderService.getAllOrders());
     }
@@ -134,6 +135,7 @@ public class OrderController {
     }
 
     @PostMapping("/{orderId}/cancelByUser")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<String> cancelOrderByUser(@PathVariable Long orderId, @AuthenticationPrincipal JwtUserDetails userDetails) {
         try {
             orderService.cancelOrderByUser(orderId, userDetails.email());
