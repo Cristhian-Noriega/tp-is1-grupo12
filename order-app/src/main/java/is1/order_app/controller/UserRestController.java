@@ -39,6 +39,7 @@ public class UserRestController {
     }
 
     @GetMapping("/privateProfile")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<UserDTO> getProfile(@AuthenticationPrincipal User authenticatedUser) {
         if (authenticatedUser == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);

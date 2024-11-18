@@ -35,15 +35,17 @@ public class SecurityConfig {
                 // Authentication endpoints
                 .requestMatchers("/error").permitAll()
                 .requestMatchers("/auth/**").permitAll()
-                // .requestMatchers("/auth/login").permitAll() 
-                // .requestMatchers("/auth/register").permitAll()
+
                 // User endpoints
                 .requestMatchers("/users/allProfiles").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
                 .requestMatchers("/users/privateProfile").hasRole("USER")
+                .requestMatchers("/users/requestPassChange").permitAll()
                 .requestMatchers("/users/**").authenticated()
                 
                 // Product endpoints
                 .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
                 .requestMatchers("/products/**").authenticated()
                 
                 // Order endpoints
@@ -51,6 +53,7 @@ public class SecurityConfig {
                 .requestMatchers("/orders/{orderId}/cancelByUser").hasRole("USER")
                 .requestMatchers("/orders/user/**").hasRole("USER")
                 .requestMatchers("/orders/**").authenticated()
+                .anyRequest().denyAll()
             )
             .sessionManagement(session -> 
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

@@ -27,9 +27,13 @@ public class OrderController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO, @AuthenticationPrincipal JwtUserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+        
         try {
-            OrderDTO orderDTO = orderService.createOrder(orderRequestDTO);
+            OrderDTO orderDTO = orderService.createOrder(orderRequestDTO, userDetails.email());
             return ResponseEntity.ok(orderDTO);
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
