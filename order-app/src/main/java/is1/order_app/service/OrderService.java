@@ -41,8 +41,8 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDTO createOrder(OrderRequestDTO orderRequestDTO) {
-        CustomerOrder order = orderMapper.toEntity(orderRequestDTO);
+    public OrderDTO createOrder(OrderRequestDTO orderRequestDTO, String email) {
+        CustomerOrder order = orderMapper.toEntity(orderRequestDTO, email);
 
         // Verificar y reducir el stock de los productos en la orden
         for (OrderItem item : order.getItems()) {
