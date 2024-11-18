@@ -74,63 +74,62 @@ public class OrderController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+    public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
         this.orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Order deleted successfully.");
     }
 
-    @GetMapping("/canceled")
-    public ResponseEntity<List<OrderDTO>> getCanceledOrders() {
-        List<OrderDTO> orders = orderService.getCanceledOrders();
+    @GetMapping("satus/{status}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<OrderDTO>> getOrdersByStatus(@PathVariable String status) {
+        List<OrderDTO> orders;
+        switch (status) {
+            case "canceled":
+                orders = orderService.getCanceledOrders();
+                break;
+            case "processing":
+                orders = orderService.getProcessingOrders();
+                break;
+            case "sent":
+                orders = orderService.getSentOrders();
+                break;
+            case "confirmed":
+                orders = orderService.getConfirmedOrders();
+                break;
+            default:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/processing")
-    public ResponseEntity<List<OrderDTO>> getProcessingOrders() {
-        List<OrderDTO> orders = orderService.getProcessingOrders();
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/sent")
-    public ResponseEntity<List<OrderDTO>> getSentOrders() {
-        List<OrderDTO> orders = orderService.getSentOrders();
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/confirmed")
-    public ResponseEntity<List<OrderDTO>> getConfirmedOrders() {
-        List<OrderDTO> orders = orderService.getConfirmedOrders();
-        return ResponseEntity.ok(orders);
-    }
 
     //Endpoints para usuario
     @GetMapping("/user")
-    public ResponseEntity<List<OrderDTO>> getOrdersByUserId(@AuthenticationPrincipal JwtUserDetails userDetails) {
+    public ResponseEntity<List<OrderDTO>> getUserOrders(@AuthenticationPrincipal JwtUserDetails userDetails) {
         List<OrderDTO> orders = orderService.getOrdersByUserId(userDetails.email());
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/user/canceled")
-    public ResponseEntity<List<OrderDTO>> getCanceledOrdersByUserId(@AuthenticationPrincipal JwtUserDetails userDetails) {
-        List<OrderDTO> orders = orderService.getCanceledOrdersByUserId(userDetails.email());
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/user/processing")
-    public ResponseEntity<List<OrderDTO>> getProcessingOrdersByUserId(@AuthenticationPrincipal JwtUserDetails userDetails) {
-        List<OrderDTO> orders = orderService.getProcessingOrdersByUserId(userDetails.email());
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/user/sent")
-    public ResponseEntity<List<OrderDTO>> getSentOrdersByUserId(@AuthenticationPrincipal JwtUserDetails userDetails) {
-        List<OrderDTO> orders = orderService.getSentOrdersByUserId(userDetails.email());
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/user/confirmed")
-    public ResponseEntity<List<OrderDTO>> getConfirmedOrdersByUserId(@AuthenticationPrincipal JwtUserDetails userDetails) { 
-        List<OrderDTO> orders = orderService.getConfirmedOrdersByUserId(userDetails.email());
+    @GetMapping("/status/{status}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<OrderDTO>> getOrdersByStatus(@PathVariable String status, @AuthenticationPrincipal JwtUserDetails userDetails) {
+        List<OrderDTO> orders;
+        switch (status) {
+            case "canceled":
+                orders = orderService.getCanceledOrdersByUserId(userDetails.email());
+                break;
+            case "processing":
+                orders = orderService.getProcessingOrdersByUserId(userDetails.email());
+                break;
+            case "sent":
+                orders = orderService.getSentOrdersByUserId(userDetails.email());
+                break;
+            case "confirmed":
+                orders = orderService.getConfirmedOrdersByUserId(userDetails.email());
+                break;
+            default:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
         return ResponseEntity.ok(orders);
     }
 
