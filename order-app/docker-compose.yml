@@ -5,14 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - POSTGRES_USER=is1_admin
-      - POSTGRES_PASSWORD=is1_admin
-      - POSTGRES_DB=orderdb
-      - JWT_KEY=myjwtsecret
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/orderdb
-      - SPRING_DATASOURCE_USERNAME=is1_admin
-      - SPRING_DATASOURCE_PASSWORD=is1_admin
+    env_file:
+      - .env
     ports:
       - "8080:8080"  # Expose API on port 8080
     depends_on:
@@ -22,9 +16,9 @@ services:
     image: postgres:12.16
     container_name: is1_db
     environment:
-      POSTGRES_USER: is1_admin
-      POSTGRES_PASSWORD: is1_admin
-      POSTGRES_DB: orderdb
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"  # Expose PostgreSQL on default port
     volumes:

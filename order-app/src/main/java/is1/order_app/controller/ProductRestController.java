@@ -7,6 +7,7 @@ import is1.order_app.dto.ProductViewDTO;
 import is1.order_app.service.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -22,7 +23,8 @@ class ProductRestController {
         this.productService = productService;
     }
 
-    @PostMapping("/admin")
+    @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ProductViewDTO> createProduct(@NonNull @RequestBody ProductDTO request) {
         try {
             return ResponseEntity.ok(productService.createProduct(request));
@@ -32,7 +34,8 @@ class ProductRestController {
         }
     }
 
-    @DeleteMapping("/admin/{productId}")
+    @DeleteMapping("/{productId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> deleteProduct(@PathVariable Long productId) {
         try {
             productService.deleteProduct(productId);
@@ -43,10 +46,11 @@ class ProductRestController {
         }
     }
 
-    @PutMapping("/admin/{productId}/stock")
-    public ResponseEntity<ProductViewDTO> updateStock(@PathVariable Long productId,
-            @RequestBody StockChangeDTO request) {
-        try {
+
+    @PutMapping("/{productId}/stock")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ProductViewDTO> updateStock(@PathVariable Long productId, @RequestBody StockChangeDTO request) {
+        try{
             return ResponseEntity.ok(productService.updateProductStock(productId, request));
         } catch (Exception e) {
             e.printStackTrace();
