@@ -5,9 +5,12 @@ import is1.order_app.dto.OrderDTO;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.exceptions.CannotCancelOrderException;
 import is1.order_app.exceptions.OrderNotFoundException;
+import is1.order_app.security.JwtUserDetails;
 import is1.order_app.service.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,9 +26,14 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO, @AuthenticationPrincipal JwtUserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+        
         try {
-            OrderDTO orderDTO = orderService.createOrder(orderRequestDTO);
+            OrderDTO orderDTO = orderService.createOrder(orderRequestDTO, userDetails.email());
             return ResponseEntity.ok(orderDTO);
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -36,6 +44,7 @@ public class OrderController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         return ResponseEntity.ok(this.orderService.getAllOrders());
     }
@@ -46,6 +55,7 @@ public class OrderController {
     }
     
     @PostMapping("/{orderId}/executeCommand")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommandDTO commandDTO) {
         try {
             this.orderService.executeCommand(orderId, commandDTO.getCommandName());
@@ -64,70 +74,71 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> deleteOrder(@PathVariable Long id) {
         this.orderService.deleteOrder(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Order deleted successfully.");
     }
 
-    @GetMapping("/canceled")
-    public ResponseEntity<List<OrderDTO>> getCanceledOrders() {
-        List<OrderDTO> orders = orderService.getCanceledOrders();
+    @GetMapping("satus/{status}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<OrderDTO>> getOrdersByStatus(@PathVariable String status) {
+        List<OrderDTO> orders;
+        switch (status) {
+            case "canceled":
+                orders = orderService.getCanceledOrders();
+                break;
+            case "processing":
+                orders = orderService.getProcessingOrders();
+                break;
+            case "sent":
+                orders = orderService.getSentOrders();
+                break;
+            case "confirmed":
+                orders = orderService.getConfirmedOrders();
+                break;
+            default:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/processing")
-    public ResponseEntity<List<OrderDTO>> getProcessingOrders() {
-        List<OrderDTO> orders = orderService.getProcessingOrders();
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/sent")
-    public ResponseEntity<List<OrderDTO>> getSentOrders() {
-        List<OrderDTO> orders = orderService.getSentOrders();
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/confirmed")
-    public ResponseEntity<List<OrderDTO>> getConfirmedOrders() {
-        List<OrderDTO> orders = orderService.getConfirmedOrders();
-        return ResponseEntity.ok(orders);
-    }
 
     //Endpoints para usuario
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<OrderDTO>> getOrdersByUserId(@PathVariable String userId) {
-        List<OrderDTO> orders = orderService.getOrdersByUserId(userId);
+    @GetMapping("/user")
+    public ResponseEntity<List<OrderDTO>> getUserOrders(@AuthenticationPrincipal JwtUserDetails userDetails) {
+        List<OrderDTO> orders = orderService.getOrdersByUserId(userDetails.email());
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/user/{userId}/canceled")
-    public ResponseEntity<List<OrderDTO>> getCanceledOrdersByUserId(@PathVariable String userId) {
-        List<OrderDTO> orders = orderService.getCanceledOrdersByUserId(userId);
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/user/{userId}/processing")
-    public ResponseEntity<List<OrderDTO>> getProcessingOrdersByUserId(@PathVariable String userId) {
-        List<OrderDTO> orders = orderService.getProcessingOrdersByUserId(userId);
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/user/{userId}/sent")
-    public ResponseEntity<List<OrderDTO>> getSentOrdersByUserId(@PathVariable String userId) {
-        List<OrderDTO> orders = orderService.getSentOrdersByUserId(userId);
-        return ResponseEntity.ok(orders);
-    }
-
-    @GetMapping("/user/{userId}/confirmed")
-    public ResponseEntity<List<OrderDTO>> getConfirmedOrdersByUserId(@PathVariable String userId) {
-        List<OrderDTO> orders = orderService.getConfirmedOrdersByUserId(userId);
+    @GetMapping("/status/{status}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<List<OrderDTO>> getOrdersByStatus(@PathVariable String status, @AuthenticationPrincipal JwtUserDetails userDetails) {
+        List<OrderDTO> orders;
+        switch (status) {
+            case "canceled":
+                orders = orderService.getCanceledOrdersByUserId(userDetails.email());
+                break;
+            case "processing":
+                orders = orderService.getProcessingOrdersByUserId(userDetails.email());
+                break;
+            case "sent":
+                orders = orderService.getSentOrdersByUserId(userDetails.email());
+                break;
+            case "confirmed":
+                orders = orderService.getConfirmedOrdersByUserId(userDetails.email());
+                break;
+            default:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
         return ResponseEntity.ok(orders);
     }
 
     @PostMapping("/{orderId}/cancelByUser")
-    public ResponseEntity<String> cancelOrderByUser(@PathVariable Long orderId, @RequestParam String userId) {
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<String> cancelOrderByUser(@PathVariable Long orderId, @AuthenticationPrincipal JwtUserDetails userDetails) {
         try {
-            orderService.cancelOrderByUser(orderId, userId);
+            orderService.cancelOrderByUser(orderId, userDetails.email());
             return ResponseEntity.ok("Your order has been successfully canceled.");
         } catch (OrderNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");

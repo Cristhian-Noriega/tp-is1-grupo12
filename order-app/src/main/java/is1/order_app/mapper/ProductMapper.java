@@ -4,15 +4,7 @@ import is1.order_app.dto.ProductDTO;
 import is1.order_app.dto.ProductViewDTO;
 import is1.order_app.entities.Product;
 import is1.order_app.utils.AttributeParser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
 
 @Component
 public class ProductMapper {

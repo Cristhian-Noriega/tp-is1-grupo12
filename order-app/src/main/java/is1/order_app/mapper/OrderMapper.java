@@ -42,9 +42,9 @@ public class OrderMapper {
         return orderItemDTO;
     }
 
-    public  CustomerOrder toEntity(OrderRequestDTO orderRequestDTO) {
+    public  CustomerOrder toEntity(OrderRequestDTO orderRequestDTO, String email) {
         CustomerOrder order = new CustomerOrder();
-        order.setUserId(orderRequestDTO.getUserId());
+        order.setUserId(email);
         List<OrderItem> orderItems = orderRequestDTO.getItems().stream()
                 .map(itemDTO -> {
                     OrderItem item = toEntity(itemDTO);
