@@ -1,6 +1,7 @@
 package is1.order_app.service;
 
 import is1.order_app.dto.OrderCommandDTO;
+import is1.order_app.order_management.command.CancelOrderCommand;
 import is1.order_app.repository.ProductRepository;
 import is1.order_app.service.rule_service.ValidadorPedido;
 import is1.order_app.dto.OrderDTO;
@@ -64,9 +65,17 @@ public class OrderService {
     public void executeCommand(Long orderId, String commandName) {
         CustomerOrder order = findOrderById(orderId);
         OrderCommand command = OrderCommandFactory.createCommand(commandName);
+
         command.execute(order);
+        if (command instanceof CancelOrderCommand) {
+            updateStockForCanceledOrder(order);
+        }
+
         orderRepository.save(order);
     }
+
+
+
     public List<OrderCommandDTO> getAvailableCommands(Long orderId) {
         OrderDTO orderDTO = getOrderById(orderId);
         CustomerOrder order = orderMapper.toEntity(orderDTO);
@@ -173,24 +182,12 @@ public class OrderService {
         CustomerOrder order = findOrderById(orderId);
 
         if (!order.getUserId().equals(userId)) {
-            throw new IllegalStateException("No tienes permiso para cancelar este pedido.");
+            throw new IllegalStateException("You are not authorized to cancel this order.");
         }
 
         executeCommand(orderId, "CancelOrderCommand");
-
-        //actualizar stock y no quedan en negativos.
-        for (OrderItem item : order.getItems()) {
-            Product product = item.getProduct();
-            int newStock = product.getStock() + item.getQuantity();
-
-            if (newStock < 0) {
-                throw new IllegalStateException("El stock no puede ser negativo para el producto " + product.getName());
-            }
-
-            product.setStock(newStock);
-            productRepository.save(product);
-        }
     }
+
 
     public List<OrderDTO> getConfirmedOrdersByUserId(String userId) {
         return orderRepository.findByUserIdAndState(userId, OrderState.CONFIRMED)
@@ -198,5 +195,19 @@ public class OrderService {
                 .map(orderMapper::toDTO)
                 .toList();
     }
+
+    @Transactional
+    private void updateStockForCanceledOrder(CustomerOrder order) {
+        for (OrderItem item : order.getItems()) {
+            Product product = item.getProduct();
+            int newStock = product.getStock() + item.getQuantity();
+
+            product.setStock(newStock);
+            productRepository.save(product);
+        }
+    }
+
+
+
 }
 
