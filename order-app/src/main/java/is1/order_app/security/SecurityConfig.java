@@ -46,6 +46,7 @@ public class SecurityConfig {
                 // Product endpoints
                 .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/products/{productId}/stock").hasRole("ADMIN")
                 .requestMatchers("/products/**").authenticated()
                 
                 // Order endpoints

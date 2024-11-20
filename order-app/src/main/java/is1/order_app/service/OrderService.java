@@ -44,6 +44,8 @@ public class OrderService {
     public OrderDTO createOrder(OrderRequestDTO orderRequestDTO, String email) {
         CustomerOrder order = orderMapper.toEntity(orderRequestDTO, email);
 
+        this.confirmOrder(order);
+
         // Verificar y reducir el stock de los productos en la orden
         for (OrderItem item : order.getItems()) {
             Product product = item.getProduct();
@@ -107,7 +109,7 @@ public class OrderService {
         }
 
         String email = order.getUserAdress();
-        this.emailSenderService.sendOrderConfirmationMail(email);
+        this.emailSenderService.sendOrderConfirmationMail(email, order);
     }
 
     public List<OrderDTO> getOrdersByUserId(String userId) {

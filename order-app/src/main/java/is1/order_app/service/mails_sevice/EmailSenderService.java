@@ -4,6 +4,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import is1.order_app.entities.CustomerOrder;
+
 @Service
 public class EmailSenderService {
     
@@ -27,8 +29,9 @@ public class EmailSenderService {
         this.sendMail(recipientEmailAddress, new PasswordChangeMailWriter());
     }
 
-    public void sendOrderConfirmationMail(String recipientEmailAddress) {
-        this.sendMail(recipientEmailAddress, new OrderConfirmationMailWriter());
+    public void sendOrderConfirmationMail(String recipientEmailAddress, CustomerOrder order) {
+        System.out.println("!!!!!!!!!!Sending order confirmation mail to: " + recipientEmailAddress);
+        this.sendMail(recipientEmailAddress, new OrderConfirmationMailWriter(order));
     }
 
     public void sendOrderUpdateMailWriter(String recipientEmailAddress, String orderState, int orderId) {
