@@ -12,7 +12,7 @@ export const ProductEditStock = ({ product, editProductStock}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await editProductStock(product.id);
+      await editProductStock(product.id,productStock);
       handleUpdateStock(product.id,productStock)
     } catch (error) {
       console.error("Error al obtener el stock:", error);

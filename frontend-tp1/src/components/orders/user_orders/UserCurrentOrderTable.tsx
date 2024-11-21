@@ -31,24 +31,27 @@ export const UserCurrentOrderTable = () => {
         })
       }
 
-      const createOrder = async () => {
-        try {
-          console.log(`usuario id ${user.id}, usuario nombre ${user.name}`)
-          const orderPayLoad = createOrderPayload()
-          console.log("DTOORDER")
-          console.log(orderPayLoad)
-          const orderResponse = await userOrdersService.create(
-            orderPayLoad
-          );
-         clearOrder()
-         setShowMessage({
-          text: `Orden creada exitosamente.`,
-          type: "success",
-          duration: 3000
-        })
-        } catch (error) {
-          console.log("error" + error);
-        }
+      const createOrder = async () => {      
+          try{
+            const orderPayLoad = createOrderPayload()
+            const orderResponse = await userOrdersService.create(
+              orderPayLoad)
+              clearOrder()
+            setShowMessage({
+              text: `Orden creada exitosamente.`,
+              type: "success",
+              duration: 3000
+            })
+            
+          }catch (error){
+            console.log("AAAAAAA")
+            console.log(error.response.data)
+            setShowMessage({
+              text: error.response.data.errors,
+              type: "error",
+              duration: 7000
+            })
+          }  
       }
   return (
     <div className='user-order-table-wrapper'>

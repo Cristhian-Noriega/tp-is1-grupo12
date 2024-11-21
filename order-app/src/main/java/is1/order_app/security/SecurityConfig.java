@@ -24,48 +24,45 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    
-    @Bean 
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .csrf(csrf -> csrf.disable())
-            // Add session management
-            
-            .authorizeHttpRequests(auth -> auth
-                // Authentication endpoints
-                .requestMatchers("/error").permitAll()
-                .requestMatchers("/auth/**").permitAll()
+                .csrf(csrf -> csrf.disable())
+                // Add session management
 
-                // User endpoints
-                .requestMatchers("/users/allProfiles").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
-                .requestMatchers("/users/privateProfile").hasRole("USER")
-                .requestMatchers("/users/requestPassChange").permitAll()
-                .requestMatchers("/users/**").authenticated()
-                
-                // Product endpoints
-                .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/products/{productId}/stock").hasRole("ADMIN")
-                .requestMatchers("/products/**").authenticated()
-                
-                // Order endpoints
-                .requestMatchers(HttpMethod.POST, "/orders/create").hasRole("USER")
-                .requestMatchers("/orders/{orderId}/cancelByUser").hasRole("USER")
-                .requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.POST, "/orders/{orderId}/executeCommand").hasRole("ADMIN")
-                .requestMatchers("/orders/**").hasRole("USER")
-                .requestMatchers("/orders/**").authenticated()
-                .anyRequest().denyAll()
-            )
-            .sessionManagement(session -> 
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            )
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .build();
+                .authorizeHttpRequests(auth -> auth
+                        // Authentication endpoints
+                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+
+                        // User endpoints
+                        .requestMatchers("/users/allProfiles").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/users/**").hasRole("ADMIN")
+                        .requestMatchers("/users/privateProfile").hasRole("USER")
+                        .requestMatchers("/users/requestPassChange").permitAll()
+                        .requestMatchers("/users/**").authenticated()
+
+                        // Product endpoints
+                        .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/products/{productId}/stock").hasRole("ADMIN")
+                        .requestMatchers("/products/**").authenticated()
+
+                        // Order endpoints
+                        .requestMatchers(HttpMethod.POST, "/orders/create").hasRole("USER")
+                        .requestMatchers("/orders/{orderId}/cancelByUser").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/orders/{orderId}/availableCommands").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/orders/{orderId}/executeCommand").hasRole("ADMIN")
+                        .requestMatchers("/orders/**").hasRole("USER")
+                        .requestMatchers("/orders/**").authenticated()
+                        .anyRequest().denyAll())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
-        @Bean
+    @Bean
     UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("*"));
@@ -82,7 +79,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+            throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }

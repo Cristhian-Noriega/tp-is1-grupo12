@@ -4,7 +4,6 @@ const baseUrl = "http://localhost:8080/orders";
 let token = null;
 
 const setToken =(newToken) => {
-  console.log("TOKNE RE SETEADO", newToken)
   token = newToken 
 } 
 
@@ -32,11 +31,10 @@ const create = async (orderObject) => {
     const response = await axios.post(`${baseUrl}/create`, orderObject,
       { headers: { "Authorization": `Bearer ${token}` } }
     );
-  return response.data;
+    return response.data;
   };
 
 const getAvailableCommands = async(orderId) =>{
-  console.log("tokenizado",token)
   const response = await axios.get(`${baseUrl}/${orderId}/availableCommands`,
     { headers: { "Authorization": `Bearer ${token}` } }
   )

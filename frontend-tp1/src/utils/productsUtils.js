@@ -41,7 +41,7 @@ export const productsUtils = () => {
         
 
       } catch(exception) {
-        console.log("error" + exception.response.data.error)
+        console.log("error" + exception)
       }
   }
   const handleGetStockByProductId = async(productId) => {

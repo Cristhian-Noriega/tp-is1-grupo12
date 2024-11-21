@@ -17,8 +17,10 @@ const getByAttributes = async (attributes) => {
   console.log(attributes)
   console.log("tokoeko",token)
   const response = await axios.get(`${baseUrl}/search`, attributes,
-    { headers: { "Authorization": `Bearer ${token}` } }
+    { headers: { "Content-Type": "application/json" } }
   )
+  console.log("dataa respuesta")
+  console.log(response)
   return response
 } 
 

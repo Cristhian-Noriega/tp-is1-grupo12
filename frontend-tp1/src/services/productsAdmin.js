@@ -9,6 +9,7 @@ const setToken =(newToken) => {
 
 const create = async (productObject) => {
   console.log("el tokenazo", token)
+  console.log(productObject)
   const response = await axios.post(baseUrl, productObject, { headers: { "Authorization": `Bearer ${token}` } });
   return response.data;
 };
