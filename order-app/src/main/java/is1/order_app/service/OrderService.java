@@ -17,6 +17,7 @@ import is1.order_app.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import is1.order_app.service.mails_sevice.EmailSenderService;
+import is1.order_app.exceptions.NotEnoughStockException;
 import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.exceptions.OrderValidatorErrorsException;
 import java.util.ArrayList;
@@ -45,18 +46,22 @@ public class OrderService {
     public OrderDTO createOrder(OrderRequestDTO orderRequestDTO, String email) {
         CustomerOrder order = orderMapper.toEntity(orderRequestDTO, email);
 
+        this.validateRules(order);
+
         // Verificar y reducir el stock de los productos en la orden
         for (OrderItem item : order.getItems()) {
             Product product = item.getProduct();
 
             if (product.getStock() < item.getQuantity()) {
-                throw new IllegalStateException("There is not enough stock for the product: " + product.getName());
+                throw new NotEnoughStockException("There is not enough stock for the product: " + product.getName());
             }
             product.setStock(product.getStock() - item.getQuantity());
             productRepository.save(product); // Guardar los cambios en el producto
         }
 
         order = orderRepository.save(order);
+        this.sendOrderConfirmationMail(email, order);
+
         return orderMapper.toDTO(order);
     }
 
@@ -109,14 +114,15 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public void confirmOrder(CustomerOrder order) {
+    public void validateRules(CustomerOrder order) {
         List<String> listaDeErrores = this.validadorPedido.validar(order.getItems());
         if (!(listaDeErrores.isEmpty())) {
             throw new OrderValidatorErrorsException(listaDeErrores);
         }
+    }
 
-        String email = order.getUserAdress();
-        this.emailSenderService.sendOrderConfirmationMail(email);
+    public void sendOrderConfirmationMail(String recipientEmailAddress, CustomerOrder order) {
+        emailSenderService.sendOrderConfirmationMail(recipientEmailAddress, order);
     }
 
     public List<OrderDTO> getOrdersByUserId(String userId) {
