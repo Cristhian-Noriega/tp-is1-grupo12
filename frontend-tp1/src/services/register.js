@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "http://localhost:8080/users/register";
+const baseUrl = "http://localhost:8080/auth/register";
 
 const register = async (userRegistrationData) => {
   console.log(userRegistrationData);

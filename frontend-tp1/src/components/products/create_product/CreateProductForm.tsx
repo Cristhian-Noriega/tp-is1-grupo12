@@ -29,7 +29,6 @@ const CreateProductForm: React.FC = ({createProduct}) => {
     setExtraAttributes({});
     setNewAttributeKey("");
     setNewAttributeValue("");
-    console.log("Producto:", product);
     createProduct(product)
   };
 

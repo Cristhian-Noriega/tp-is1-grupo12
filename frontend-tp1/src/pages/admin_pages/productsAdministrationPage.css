@@ -24,12 +24,33 @@
     margin: 20px;
 
 }
+.buttons-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    margin-left: 20px;
+}
 .product-filter-wrapper{
     position: absolute;
     top: 3%;
     left: 30%;
     width: 600px;
     height:1000px;
+    background-color: var(--card-product-filter-background-color);
+    border-radius: 8px;
+    border: 1px solid #d3d3d3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 20px;
+    color: black;
+  }
+
+  .product-search-by-id-wrapper{
+    position: absolute;
+    top: 3%;
+    left: 35%;
+    width: 400px;
+    height:300px;
     background-color: var(--card-product-filter-background-color);
     border-radius: 8px;
     border: 1px solid #d3d3d3;

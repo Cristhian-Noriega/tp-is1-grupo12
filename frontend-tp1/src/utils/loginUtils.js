@@ -7,7 +7,7 @@ export const loginUtils = () => {
 const { user,setUser, setShowMessage}  = useContext(Context);
 
 const handleLogin = async (email, password) => {
-
+    
     try {
         const user = await loginService.login({
         email,

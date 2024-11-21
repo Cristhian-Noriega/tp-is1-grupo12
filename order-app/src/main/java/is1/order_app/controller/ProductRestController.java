@@ -46,11 +46,11 @@ class ProductRestController {
         }
     }
 
-
     @PutMapping("/{productId}/stock")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ProductViewDTO> updateStock(@PathVariable Long productId, @RequestBody StockChangeDTO request) {
-        try{
+    public ResponseEntity<ProductViewDTO> updateStock(@PathVariable Long productId,
+            @RequestBody StockChangeDTO request) {
+        try {
             return ResponseEntity.ok(productService.updateProductStock(productId, request));
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,6 +59,7 @@ class ProductRestController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ProductViewDTO>> getAllProducts() {
         try {
             return ResponseEntity.ok(productService.getAllProducts());

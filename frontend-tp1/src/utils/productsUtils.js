@@ -44,6 +44,39 @@ export const productsUtils = () => {
         console.log("error" + exception.response.data.error)
       }
   }
+  const handleGetStockByProductId = async(productId) => {
+    try{
+      console.log("antes de ejecutarmeeee")
+      console.log(productId)
+      const productStock = await productsAdminService.getStockByProductId(
+        productId
+      );
+      console.log("se hizo la request")
+      console.log(productStock)
+      return productStock
+      
 
-  return { deleteProduct, createProduct, products, setProducts, user, setUser,handleLogout, getUserFromLocalStorage,showMessage, setShowMessage, handleGetProductByAttributes };
+    } catch(exception) {
+      console.log("error" + exception.response.data.error)
+    }
+}
+const editProductStock = async(productId, stock) => {
+  try{
+    console.log("antes de ejecutarmeeee")
+    console.log("stock", stock)
+    console.log(productId)
+    const productStock = await productsAdminService.updateStock(
+      productId, {stock}
+    );
+    console.log("se hizo la request")
+    console.log(productStock)
+    return productStock
+    
+
+  } catch(exception) {
+    console.log("error" + exception.response.data.error)
+  }
+}
+
+  return { deleteProduct, createProduct, products, setProducts, user, setUser,handleLogout, getUserFromLocalStorage,showMessage, setShowMessage, handleGetProductByAttributes, handleGetStockByProductId, editProductStock };
 };

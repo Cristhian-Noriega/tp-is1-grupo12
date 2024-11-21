@@ -16,16 +16,17 @@ export const AdminOrdersPage = () => {
     getUserFromLocalStorage()
   }, []);
 
+
   useEffect(() => {
-    console.log(user)
-    if (user) { //TODO: user.role == admin
+    if (user.token) { 
+        userOrdersService.setToken(user.token)
         userOrdersService.getAll().then((orders) => {        
           setOrders(orders); 
           setOriginalOrders(orders);        
         });
     
    }
-  }, []);
+  }, [user]);
 
 
   const handleDeleteOrder = (orderId) => {

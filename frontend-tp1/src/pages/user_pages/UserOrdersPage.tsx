@@ -5,7 +5,7 @@ import userOrdersService from '../../services/userOrders';
 import { userOrdersUtils } from '../../utils/userOrdersUtils';
 import { Context } from '../../context/Context';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { OrderStatusFilter } from '../../components/order_status_filter/OrderStatusFilter';
 
 export const UserOrdersPage = () => {
@@ -17,17 +17,19 @@ export const UserOrdersPage = () => {
   }, []);
 
   useEffect(() => {
-    //if (user && user.id) { Por el momento no funciona porque user.id es null
-    userOrdersService.getByUserId(user.id).then((orders) => {
+    if (user.token) { 
+    userOrdersService.setToken(user.token)
+    userOrdersService.getByUserId().then((orders) => {
       setOriginalOrders(orders);
       setOrders(orders);
     });
-  }, []); // Este paréntesis de cierre fue corregido aquí
+    
+}}, [user]); 
 
   const handleCancelOrder = (orderId) => {
     console.log("Handle cancel order");
     console.log(`id de la orden: ${orderId}`);
-    cancelOrder(user.id, orderId);
+    cancelOrder(orderId);
     console.log("orden cancelada");
     
   };

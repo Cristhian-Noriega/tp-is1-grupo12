@@ -14,7 +14,6 @@ export const UserCurrentOrderTable = () => {
 
       const createOrderPayload = () => {
         return {
-          userId: user.id, 
           items: currentOrder.map(item => ({
             productId: item.id,
             quantity: item.quantity,

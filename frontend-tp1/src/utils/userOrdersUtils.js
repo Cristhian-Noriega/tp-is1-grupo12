@@ -5,9 +5,9 @@ import ordersUserService from "../services/userOrders";
 export const userOrdersUtils = () => {
   const { orders, setOrders, originalOrders, setOriginalOrders, user } = useContext(OrdersContext);
 
-  const cancelOrder = async (userId, orderId) => {
+  const cancelOrder = async (orderId) => {
     try {
-      await ordersUserService.cancelOrderByUserId(userId,orderId);
+      await ordersUserService.cancelOrderByUserId(orderId);
       const updatedOrders = orders.filter(
         (order) => order.id !== orderId
       );

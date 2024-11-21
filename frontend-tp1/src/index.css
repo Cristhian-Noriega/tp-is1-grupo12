@@ -14,6 +14,7 @@
 
   /* colors of the app */
   --primary-color: #007bff;
+  --primary-color-hover: #0056b3;
   --secondary-color: #6c757d;
   --background-color: #242424;
   --text-color: #212529;
@@ -24,8 +25,10 @@
   --card-close-button: #fff;
   --card-product-details-background-color:#f8f9fa;
   --card-product-filter-background-color:#f8f9fa;
+  --card-product-edit-stock-background-color:#f8f9fa;
   --navbar-color:#2c2c2c;
   --navbar-text-color:#b8b8b8;
   --navbar-text-hover-color:#fff;
-  --butons-submit: green;
+  --buton-submit: #488A32;
+  --buton-submit-hover:#5CA744;
   }
