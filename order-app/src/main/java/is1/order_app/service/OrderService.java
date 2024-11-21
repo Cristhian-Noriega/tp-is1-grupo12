@@ -46,7 +46,7 @@ public class OrderService {
     public OrderDTO createOrder(OrderRequestDTO orderRequestDTO, String email) {
         CustomerOrder order = orderMapper.toEntity(orderRequestDTO, email);
 
-        this.confirmOrder(order);
+        this.validateRules(order);
 
         // Verificar y reducir el stock de los productos en la orden
         for (OrderItem item : order.getItems()) {
@@ -60,6 +60,8 @@ public class OrderService {
         }
 
         order = orderRepository.save(order);
+        this.sendOrderConfirmationMail(email, order);
+
         return orderMapper.toDTO(order);
     }
 
@@ -112,14 +114,15 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public void confirmOrder(CustomerOrder order) {
+    public void validateRules(CustomerOrder order) {
         List<String> listaDeErrores = this.validadorPedido.validar(order.getItems());
         if (!(listaDeErrores.isEmpty())) {
             throw new OrderValidatorErrorsException(listaDeErrores);
         }
+    }
 
-        String email = order.getUserAdress();
-        this.emailSenderService.sendOrderConfirmationMail(email, order);
+    public void sendOrderConfirmationMail(String recipientEmailAddress, CustomerOrder order) {
+        emailSenderService.sendOrderConfirmationMail(recipientEmailAddress, order);
     }
 
     public List<OrderDTO> getOrdersByUserId(String userId) {

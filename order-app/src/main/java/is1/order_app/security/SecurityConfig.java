@@ -52,6 +52,8 @@ public class SecurityConfig {
                 // Order endpoints
                 .requestMatchers(HttpMethod.POST, "/orders/create").hasRole("USER")
                 .requestMatchers("/orders/{orderId}/cancelByUser").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/orders/{orderId}/executeCommand").hasRole("ADMIN")
                 .requestMatchers("/orders/**").hasRole("USER")
                 .requestMatchers("/orders/**").authenticated()
                 .anyRequest().denyAll()

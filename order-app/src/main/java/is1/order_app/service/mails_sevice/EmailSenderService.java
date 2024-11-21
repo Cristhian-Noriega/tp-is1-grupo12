@@ -30,7 +30,6 @@ public class EmailSenderService {
     }
 
     public void sendOrderConfirmationMail(String recipientEmailAddress, CustomerOrder order) {
-        System.out.println("!!!!!!!!!!Sending order confirmation mail to: " + recipientEmailAddress);
         this.sendMail(recipientEmailAddress, new OrderConfirmationMailWriter(order));
     }
 
