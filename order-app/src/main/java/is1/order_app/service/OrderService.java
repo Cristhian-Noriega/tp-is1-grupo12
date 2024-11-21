@@ -1,6 +1,7 @@
 package is1.order_app.service;
 
 import is1.order_app.dto.OrderCommandDTO;
+import is1.order_app.order_management.command.CancelOrderCommand;
 import is1.order_app.repository.ProductRepository;
 import is1.order_app.service.rule_service.ValidadorPedido;
 import is1.order_app.dto.OrderDTO;
@@ -16,6 +17,7 @@ import is1.order_app.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import is1.order_app.service.mails_sevice.EmailSenderService;
+import is1.order_app.exceptions.NotEnoughStockException;
 import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.exceptions.OrderValidatorErrorsException;
 import java.util.ArrayList;
@@ -44,18 +46,22 @@ public class OrderService {
     public OrderDTO createOrder(OrderRequestDTO orderRequestDTO, String email) {
         CustomerOrder order = orderMapper.toEntity(orderRequestDTO, email);
 
+        this.validateRules(order);
+
         // Verificar y reducir el stock de los productos en la orden
         for (OrderItem item : order.getItems()) {
             Product product = item.getProduct();
 
             if (product.getStock() < item.getQuantity()) {
-                throw new IllegalStateException("There is not enough stock for the product: " + product.getName());
+                throw new NotEnoughStockException("There is not enough stock for the product: " + product.getName());
             }
             product.setStock(product.getStock() - item.getQuantity());
             productRepository.save(product); // Guardar los cambios en el producto
         }
 
         order = orderRepository.save(order);
+        this.sendOrderConfirmationMail(email, order);
+
         return orderMapper.toDTO(order);
     }
 
@@ -64,9 +70,17 @@ public class OrderService {
     public void executeCommand(Long orderId, String commandName) {
         CustomerOrder order = findOrderById(orderId);
         OrderCommand command = OrderCommandFactory.createCommand(commandName);
+
         command.execute(order);
+        if (command instanceof CancelOrderCommand) {
+            updateStockForCanceledOrder(order);
+        }
+
         orderRepository.save(order);
     }
+
+
+
     public List<OrderCommandDTO> getAvailableCommands(Long orderId) {
         OrderDTO orderDTO = getOrderById(orderId);
         CustomerOrder order = orderMapper.toEntity(orderDTO);
@@ -100,14 +114,15 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public void confirmOrder(CustomerOrder order) {
+    public void validateRules(CustomerOrder order) {
         List<String> listaDeErrores = this.validadorPedido.validar(order.getItems());
         if (!(listaDeErrores.isEmpty())) {
             throw new OrderValidatorErrorsException(listaDeErrores);
         }
+    }
 
-        String email = order.getUserAdress();
-        this.emailSenderService.sendOrderConfirmationMail(email);
+    public void sendOrderConfirmationMail(String recipientEmailAddress, CustomerOrder order) {
+        emailSenderService.sendOrderConfirmationMail(recipientEmailAddress, order);
     }
 
     public List<OrderDTO> getOrdersByUserId(String userId) {
@@ -173,24 +188,12 @@ public class OrderService {
         CustomerOrder order = findOrderById(orderId);
 
         if (!order.getUserId().equals(userId)) {
-            throw new IllegalStateException("No tienes permiso para cancelar este pedido.");
+            throw new IllegalStateException("You are not authorized to cancel this order.");
         }
 
         executeCommand(orderId, "CancelOrderCommand");
-
-        //actualizar stock y no quedan en negativos.
-        for (OrderItem item : order.getItems()) {
-            Product product = item.getProduct();
-            int newStock = product.getStock() + item.getQuantity();
-
-            if (newStock < 0) {
-                throw new IllegalStateException("El stock no puede ser negativo para el producto " + product.getName());
-            }
-
-            product.setStock(newStock);
-            productRepository.save(product);
-        }
     }
+
 
     public List<OrderDTO> getConfirmedOrdersByUserId(String userId) {
         return orderRepository.findByUserIdAndState(userId, OrderState.CONFIRMED)
@@ -198,5 +201,19 @@ public class OrderService {
                 .map(orderMapper::toDTO)
                 .toList();
     }
+
+    @Transactional
+    private void updateStockForCanceledOrder(CustomerOrder order) {
+        for (OrderItem item : order.getItems()) {
+            Product product = item.getProduct();
+            int newStock = product.getStock() + item.getQuantity();
+
+            product.setStock(newStock);
+            productRepository.save(product);
+        }
+    }
+
+
+
 }
 

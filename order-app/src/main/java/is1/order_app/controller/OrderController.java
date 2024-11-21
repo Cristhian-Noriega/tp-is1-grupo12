@@ -27,21 +27,13 @@ public class OrderController {
 
     @PostMapping("/create")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO,
-            @AuthenticationPrincipal JwtUserDetails userDetails) {
+    public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO, @AuthenticationPrincipal JwtUserDetails userDetails) {
         if (userDetails == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-
-        try {
-            OrderDTO orderDTO = orderService.createOrder(orderRequestDTO, userDetails.email());
-            return ResponseEntity.ok(orderDTO);
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        
+        OrderDTO orderDTO = orderService.createOrder(orderRequestDTO, userDetails.email());
+        return ResponseEntity.ok(orderDTO);
     }
 
     @GetMapping()
@@ -54,7 +46,7 @@ public class OrderController {
     public ResponseEntity<OrderDTO> getOrder(@PathVariable Long id) {
         return ResponseEntity.ok(this.orderService.getOrderById(id));
     }
-
+    
     @PostMapping("/{orderId}/executeCommand")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> executeCommand(@PathVariable Long orderId, @RequestBody OrderCommandDTO commandDTO) {
@@ -104,7 +96,8 @@ public class OrderController {
         return ResponseEntity.ok(orders);
     }
 
-    // Endpoints para usuario
+
+    //Endpoints para usuario
     @GetMapping("/user")
     public ResponseEntity<List<OrderDTO>> getUserOrders(@AuthenticationPrincipal JwtUserDetails userDetails) {
         List<OrderDTO> orders = orderService.getOrdersByUserId(userDetails.email());
@@ -113,8 +106,7 @@ public class OrderController {
 
     @GetMapping("/status/{status}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<List<OrderDTO>> getOrdersByStatus(@PathVariable String status,
-            @AuthenticationPrincipal JwtUserDetails userDetails) {
+    public ResponseEntity<List<OrderDTO>> getOrdersByStatus(@PathVariable String status, @AuthenticationPrincipal JwtUserDetails userDetails) {
         List<OrderDTO> orders;
         switch (status) {
             case "canceled":
@@ -137,8 +129,7 @@ public class OrderController {
 
     @PostMapping("/{orderId}/cancelByUser")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<String> cancelOrderByUser(@PathVariable Long orderId,
-            @AuthenticationPrincipal JwtUserDetails userDetails) {
+    public ResponseEntity<String> cancelOrderByUser(@PathVariable Long orderId, @AuthenticationPrincipal JwtUserDetails userDetails) {
         try {
             orderService.cancelOrderByUser(orderId, userDetails.email());
             return ResponseEntity.ok("Your order has been successfully canceled.");

@@ -1,15 +1,19 @@
 package is1.order_app.entities;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
 @Getter
-@Data
+@Setter
+@NoArgsConstructor
 public class CustomerOrder {
 
     @Id
@@ -26,21 +30,16 @@ public class CustomerOrder {
 
     private LocalDateTime confirmationTime;
 
-    public CustomerOrder() {}
-
     @PrePersist
     public void initializeOrder() {
         if (confirmationTime == null) {
-            this.confirmationTime = LocalDateTime.now();
+            this.confirmationTime = ZonedDateTime.now(ZoneId.of("America/Argentina/Buenos_Aires")).toLocalDateTime();
         }
         if (state == null) {
             this.state = OrderState.CONFIRMED;
         }
     }
 
-    public String getUserAdress() {
-        return this.userId;
-    }
 
     public boolean canBeCanceled() {
         return state == OrderState.CONFIRMED &&
