@@ -38,12 +38,12 @@ public class ProductService {
     }
 
     public ProductViewDTO createProduct(ProductDTO newProduct) throws JsonProcessingException {
-        log.info("Producto llegue");
+
         ProductViewDTO result;
         Product product = productMapper.toEntity(newProduct);
         productRepository.save(product);
         result = productMapper.toProductViewDTO(product);
-        log.info("Producto creado con exito"+ result.toString());
+
         return result;
     }
 
@@ -51,7 +51,7 @@ public class ProductService {
         Optional<Product> productOpt = productRepository.findById(productId);
 
         if (productOpt.isEmpty()) {
-            throw new ProductNotFoundException("The product with ID: "+ productId+ "does not exist");
+            throw new ProductNotFoundException("The product with ID: "+ productId+ " does not exist");
         }
 
         Product product = productOpt.get();
@@ -64,7 +64,7 @@ public class ProductService {
     public void deleteProduct(Long productId) {
         Optional<Product> productOpt = productRepository.findById(productId);
         if (productOpt.isEmpty()) {
-            throw new ProductNotFoundException("The product with ID: " + productId + "does not exist");
+            throw new ProductNotFoundException("The product with ID: " + productId + " does not exist");
         }
 
         productRepository.deleteById(productId);
@@ -73,7 +73,7 @@ public class ProductService {
     public ProductViewDTO getProductById(Long productId) throws JsonProcessingException {
         Optional<Product> productOpt = productRepository.findById(productId);
         if (productOpt.isEmpty()) {
-            throw new ProductNotFoundException("The product with ID: " + productId + "does not exist");
+            throw new ProductNotFoundException("The product with ID: " + productId + " does not exist");
         }
         return getProduct(productOpt.get());
     }
