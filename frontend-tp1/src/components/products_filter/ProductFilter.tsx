@@ -24,7 +24,7 @@ export const ProductFilter = ({ handleGetProductByAttributes}) => {
         description,
         extraAtributes,
       }).filter(([key, value]) =>
-        value && // Excluye valores falsy como "", 0, null, undefined
+        value && // Excluye valores como "", 0, null, undefined
         (typeof value !== "object" || Object.keys(value).length > 0) // Incluye solo objetos no vacíos
       )
     );

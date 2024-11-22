@@ -15,19 +15,19 @@ export const AdminNavSideBar = () => {
     <div className='nav-side-bar-wrapper'>
       <div className='nav-section'>
         
-        <Link to="/admin-products">
+        <Link to="/admin/products">
         <div className='nav-item-box'>
           <img src={iconProducts} alt="Users Icon" className="nav-icon" /> Productos
         </div>
         </Link>
 
-        <Link to="/admin-orders">
+        <Link to="/admin/orders">
         <div className='nav-item-box'>
           <img src={iconOrder} alt="Users Icon" className="nav-icon" /> Pedidos
         </div>
         </Link>
 
-        <Link to="/admin-profile">
+        <Link to="/admin/profile">
         <div className='nav-item-box'>
           <img src={iconUsers} alt="Users Icon" className="nav-icon" /> Usuario
         </div>

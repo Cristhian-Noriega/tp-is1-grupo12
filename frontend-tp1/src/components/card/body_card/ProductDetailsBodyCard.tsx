@@ -9,7 +9,6 @@ export const ProductDetailsBodyCard = ({ product }) => {
         <div className='header-item'>Stock</div>
         <div className='header-item'>Marca</div>
         <div className='header-item'>Descripcion</div>
-        <div className='header-item'>Estado</div>
         <div className='header-item'>Atributos Extras</div>
       </div>
       <div className='body-row'>
@@ -19,7 +18,6 @@ export const ProductDetailsBodyCard = ({ product }) => {
             <div className='item'>{product.stock}</div>
             <div className='item'>{product.brand}</div>
             <div className='item'>{product.description}</div>
-            <div className='item'>{product.state === 'confirm' ? 'Confirmado' : 'Cancelado'}</div>
             <div className='item'>
             {product.extraAttributes || product.extraAtributes ? (
               <div className='extra-attributes'>

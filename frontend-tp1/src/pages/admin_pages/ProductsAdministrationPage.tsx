@@ -14,12 +14,10 @@ export const ProductsAdministrationPage = () => {
   const { products, setProducts, getUserFromLocalStorage, handleGetProductByAttributes,handleGetStockByProductId, user } = productsUtils();
   const [isFilterProductsCardVisible, setFilterProductsCardVisible] = useState(false);
   const [isSearchProductsCardVisible, setSearchProductsCardVisible] = useState(false);
-  // Carga el usuario desde el localStorage al cargar la página
   useEffect(() => {
     getUserFromLocalStorage();
   }, []);
   
-  // Carga los productos desde el servicio al cargar la página
   useEffect(() => {
     if (user.token) {
     productsService.setToken(user.token);
@@ -28,7 +26,6 @@ export const ProductsAdministrationPage = () => {
     }
   }, [setProducts,user]);
 
-  // Alternar visibilidad de la tarjeta de filtros
   const handleShowFilterProductsCard = () => {
     setFilterProductsCardVisible(!isFilterProductsCardVisible);
   };
@@ -37,7 +34,6 @@ export const ProductsAdministrationPage = () => {
     setSearchProductsCardVisible(!isSearchProductsCardVisible);
   };
 
-  // Cerrar la tarjeta de filtros
   const handleCloseCard = () => {
     setSearchProductsCardVisible(false);
     setFilterProductsCardVisible(false);

@@ -37,6 +37,8 @@ export const productsUtils = () => {
         const productsWithThisAttributes = await productsService.getByAttributes(
           attributesPayload
         );
+        console.log("Respuesta de Product by Attributes")
+        console.log(productsWithThisAttributes)
         setProducts(productsWithThisAttributes)
         
 

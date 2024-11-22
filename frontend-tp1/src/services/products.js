@@ -16,12 +16,15 @@ const getByAttributes = async (attributes) => {
   console.log("service getByAttributes")
   console.log(attributes)
   console.log("tokoeko",token)
-  const response = await axios.get(`${baseUrl}/search`, attributes,
-    { headers: { "Content-Type": "application/json" } }
-  )
+  const response = await axios.get(`${baseUrl}/search`, {
+    params: attributes, 
+    headers: { 
+      Authorization:`Bearer ${token}`
+    }
+  });
   console.log("dataa respuesta")
   console.log(response)
-  return response
+  return response.data
 } 
 
 export default {
