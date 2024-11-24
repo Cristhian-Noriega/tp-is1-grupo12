@@ -64,6 +64,7 @@ export const AdminProductTable = ({ products }) => {
           ))}
         </tbody>
       </table>
+      
       {(isDetailsCardVisible || isCreateProductCardVisible || isStockEditCardVisible) && (
       <OverlayFocus handleCloseCard={handleCloseCard}/>
     )}

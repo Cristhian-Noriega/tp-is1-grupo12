@@ -15,25 +15,25 @@ export const UserNavSideBar = () => {
     <div className='nav-side-bar-wrapper'>
       <div className='nav-section'>
         
-        <Link to="/user-products">
+        <Link to="/user/products">
         <div className='nav-item-box'>
           <img src={iconProducts} alt="Users Icon" className="nav-icon" /> Productos
         </div>
         </Link>
 
-        <Link to="/user-current-order">
+        <Link to="/user/current-order">
         <div className='nav-item-box'>
           <img src={iconActualOrder} alt="Users Icon" className="nav-icon" /> Orden Actual
         </div>
         </Link>
 
-        <Link to="/user-orders">
+        <Link to="/user/orders">
         <div className='nav-item-box'>
           <img src={iconMyOrders} alt="Users Icon" className="nav-icon" /> Mis Ordenes
         </div>
         </Link>
 
-        <Link to="/user-profile">
+        <Link to="/user/profile">
         <div className='nav-item-box'>
           <img src={iconUsers} alt="Users Icon" className="nav-icon" /> Usuario
         </div>

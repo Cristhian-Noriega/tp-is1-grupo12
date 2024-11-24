@@ -11,10 +11,10 @@ export const LoginPage = () => {
 
   // Redireccion basada en el rol del usuario
   if (user != null && user.role === "ADMIN") {
-    return <Navigate to="/admin-products" replace />;
+    return <Navigate to="/admin/products" replace />;
   }
   if (user != null && user.role === "USER") {
-    return <Navigate to="/user-products" replace />;
+    return <Navigate to="/user/products" replace />;
   }
 
   return (

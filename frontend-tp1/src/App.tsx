@@ -27,22 +27,22 @@ function App() {
                 <Route path="/" element={<Navigate to="/login" replace />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/forget-password" element={<ForgetPasswordPage />} />
-                <Route path="/password-recovery" element={<ChangePasswordPage/>} />
-                <Route path="/password-recovery-confirmation" element={<ChangePasswordConfirmationPage />} />
+                <Route path="/forget/password" element={<ForgetPasswordPage />} />
+                <Route path="/password/recovery" element={<ChangePasswordPage/>} />
+                <Route path="/password/recovery/confirmation" element={<ChangePasswordConfirmationPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage/>} />
 
                  {/* Rutas protegidas para ADMIN */}
               <Route element={<ProtectedRoutes role="ADMIN" />}>
-                <Route path="/admin-products" element={<ProductsAdministrationPage />} />
-                <Route path="/admin-orders" element={<AdminOrdersPage />} />
+                <Route path="/admin/products" element={<ProductsAdministrationPage />} />
+                <Route path="/admin/orders" element={<AdminOrdersPage />} />
               </Route>
 
               {/* Rutas protegidas para USER */}
               <Route element={<ProtectedRoutes role="USER" />}>
-                <Route path="/user-products" element={<ProductsSelectionPage />} />
-                <Route path="/user-orders" element={<UserOrdersPage />} />
-                <Route path="/user-current-order" element={<UserCurrentOrderPage />} />
+                <Route path="/user/products" element={<ProductsSelectionPage />} />
+                <Route path="/user/orders" element={<UserOrdersPage />} />
+                <Route path="/user/current-order" element={<UserCurrentOrderPage />} />
               </Route>
                 
               

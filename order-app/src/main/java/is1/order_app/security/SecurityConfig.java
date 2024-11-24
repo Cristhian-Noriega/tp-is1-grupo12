@@ -35,6 +35,8 @@ public class SecurityConfig {
                         // Authentication endpoints
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/users/requestPassChange").permitAll()
+                        .requestMatchers("/users/passChange").permitAll()
 
                         // User endpoints
                         .requestMatchers("/users/allProfiles").hasRole("ADMIN")

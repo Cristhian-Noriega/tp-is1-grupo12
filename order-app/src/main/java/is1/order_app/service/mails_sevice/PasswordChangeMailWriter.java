@@ -8,7 +8,7 @@ public class PasswordChangeMailWriter extends EmailWriter {
     }
 
     protected String getTextContent() {
-		String link = "http://localhost:5173/#/password-recovery";
+		String link = "http://localhost:5173/password/recovery";
         return "Confirme su cambio de contrasena usando el siguiente link:\n" + link;
     }
 	
