@@ -1,6 +1,7 @@
 package is1.order_app.controller;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import is1.order_app.dto.ProductDTO;
 import is1.order_app.dto.ProductFilterDTO;
 import is1.order_app.dto.StockChangeDTO;
@@ -19,7 +20,7 @@ import java.util.List;
 
 class ProductRestController {
     private final ProductService productService;
-
+    private static final Logger logger = LoggerFactory.getLogger(ProductRestController.class);
     public ProductRestController(ProductService productService) { this.productService = productService; }
 
     @PostMapping()
@@ -46,7 +47,7 @@ class ProductRestController {
 
     @PutMapping("/{productId}/stock")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ProductViewDTO> updateStock(@PathVariable Long productId, @RequestBody StockChangeDTO request) {
+    public ResponseEntity<?> updateStock(@PathVariable Long productId, @RequestBody StockChangeDTO request) {
         try{
             return ResponseEntity.ok(productService.updateProductStock(productId, request));
         }catch (Exception e) {
@@ -54,7 +55,17 @@ class ProductRestController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    @PutMapping("/{productId}/update")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> updateAllAtributes(@PathVariable Long productId,@NonNull @RequestBody ProductDTO productDTO) {
+        try{
+            return ResponseEntity.ok(productService.updateProduct(productId, productDTO));
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
 
+    }
     @GetMapping
     public ResponseEntity<List<ProductViewDTO>> getAllProducts() {
         try{

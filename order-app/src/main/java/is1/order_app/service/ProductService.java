@@ -6,7 +6,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import is1.order_app.dto.ProductFilterDTO;
 import is1.order_app.exceptions.ProductNotFoundException;
 import is1.order_app.mapper.ProductMapper;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import is1.order_app.entities.Product;
 import is1.order_app.dto.ProductDTO;
 import is1.order_app.dto.StockChangeDTO;
@@ -28,7 +29,7 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-
+    private static final Logger logger = LoggerFactory.getLogger(ProductService.class);
     private static final String DIVISOR = ",";
 
     @Autowired
@@ -46,14 +47,26 @@ public class ProductService {
 
         return result;
     }
+    public ProductViewDTO updateProduct( Long productId, ProductDTO productDTO) throws JsonProcessingException {
+        Optional<Product> productOpt = productRepository.findById(productId);
 
+        if (productOpt.isEmpty()) {
+            throw new ProductNotFoundException("The product with ID: "+ productId+ " does not exist");
+        }
+        
+        Product product = productOpt.get();
+        product.updateAllAtributes(productDTO);
+        productRepository.save(product);
+
+        return getProduct(product);
+    }
     public ProductViewDTO updateProductStock(Long productId, StockChangeDTO stockChangeDTO) throws JsonProcessingException {
         Optional<Product> productOpt = productRepository.findById(productId);
 
         if (productOpt.isEmpty()) {
             throw new ProductNotFoundException("The product with ID: "+ productId+ " does not exist");
         }
-
+        logger.info("llegue");
         Product product = productOpt.get();
         product.setStock(stockChangeDTO.getNewStock());
         productRepository.save(product);
