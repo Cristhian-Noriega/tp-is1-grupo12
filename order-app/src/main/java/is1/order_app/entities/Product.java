@@ -1,4 +1,5 @@
 package is1.order_app.entities;
+import is1.order_app.dto.ProductDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -75,5 +76,12 @@ public class Product {
             }
         }
         return attributesMap;
+    }
+    public void updateAllAtributes(ProductDTO productDTO){
+        this.name=productDTO.getName();
+        this.stock = productDTO.getStock();
+        this.brand=productDTO.getBrand();
+        this.description=productDTO.getDescription();
+        this.productExtraAtributtes=convertMapforDB(productDTO.getExtraAtributes());
     }
 }
