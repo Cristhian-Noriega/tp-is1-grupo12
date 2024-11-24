@@ -3,9 +3,9 @@ import { SubmitButton } from "../ui/SubmitButton";
 import { Context} from '../../context/Context';
 import "./productEditStock.css"
 
-export const ProductEditStock = ({ product, editProductStock}) => {
+export const ProductEditStock = ({ product, editProductStock, handleCloseCard}) => {
   const [productStock, setProductStock] = useState(0);
-  const { products,setProducts, setShowMessage} = useContext(Context)
+  const { setProducts, setShowMessage} = useContext(Context)
 
 
 
@@ -14,8 +14,18 @@ export const ProductEditStock = ({ product, editProductStock}) => {
     try {
       await editProductStock(product.id,productStock);
       handleUpdateStock(product.id,productStock)
+      setShowMessage({
+        text: `Se actualizo el stock correctamente del producto ${product.name} (id: ${product.id})`,
+        type: "success",
+        duration: 3000
+      })
+      handleCloseCard();
     } catch (error) {
-      console.error("Error al obtener el stock:", error);
+      setShowMessage({
+        text: error,
+        type: "error",
+        duration: 3000
+      })
     }
   };
 

@@ -48,15 +48,17 @@ export const UserProductItem = ({ product, handleStock, onShowDetails}) => {
       <td>{product.brand}</td>
       <td>{product.description}</td>
       <td>
-      <div className="product-form-field">
+      <div className="product-form-field-container">
           <label>Agregar producto a mi orden</label>
-          <input
+          <div id="stock-input-container">
+          <input id="stock-input-container"
             type="number"
             value={productQuantity}
             onChange={(e) => setProductQuantity(Number(e.target.value))}
             className="product-form-input"
             min="0"
           />
+          </div>
         </div>
         <button className='action-button' onClick={handleAddToOrder}><img src={addButton} alt="BOTON AGREGAR" className="nav-icon" /></button>
         <button className='action-button' onClick={() => onShowDetails(product)}><img src={infoButton} alt="BOTON INFO" className="nav-icon" /></button>

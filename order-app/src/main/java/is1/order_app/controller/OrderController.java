@@ -28,32 +28,13 @@ public class OrderController {
     @PostMapping("/create")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<OrderDTO> createOrder(@RequestBody OrderRequestDTO orderRequestDTO,
-            
-            
-            
-         
+            @AuthenticationPrincipal JwtUserDetails userDetails) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
 
-        
-        
-        
-        
-        
-        HEAD
-
-        try {
-            OrderDTO orderDTO = orderService.createOrder(orderRequestDTO, userDetails.email());
-            return ResponseEntity.ok(orderDTO);
-        } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (Exception e) {
-     
-
-    
-    
-    
-    
-    
-    >>> main
+        OrderDTO orderDTO = orderService.createOrder(orderRequestDTO, userDetails.email());
+        return ResponseEntity.ok(orderDTO);
     }
 
     @GetMapping()
@@ -95,9 +76,15 @@ public class OrderController {
     }
 
     @GetMapping("satus/{status}")
-    @
-
-                      orders = orderService.getProcessingOrders();
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<OrderDTO>> getOrdersByStatus(@PathVariable String status) {
+        List<OrderDTO> orders;
+        switch (status) {
+            case "canceled":
+                orders = orderService.getCanceledOrders();
+                break;
+            case "processing":
+                orders = orderService.getProcessingOrders();
                 break;
             case "sent":
                 orders = orderService.getSentOrders();
@@ -107,12 +94,6 @@ public class OrderController {
                 break;
             default:
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            
-            
-            
-            
-            
-            
         }
         return ResponseEntity.ok(orders);
     }
@@ -131,17 +112,15 @@ public class OrderController {
         List<OrderDTO> orders;
         switch (status) {
             case "canceled":
-            
-                orders = orderService.getCanceledOrdersByUserId(userDetails.ema
-            l());
+
+                orders = orderService.getCanceledOrdersByUserId(userDetails.email());
                 break;
-            
+
             case "processing":
-            
-                orders = orderService.getProcessingOrdersByUserId(userDetails.e
-            ail());
+
+                orders = orderService.getProcessingOrdersByUserId(userDetails.email());
                 break;
-            
+
             case "sent":
                 orders = orderService.getSentOrdersByUserId(userDetails.email());
                 break;

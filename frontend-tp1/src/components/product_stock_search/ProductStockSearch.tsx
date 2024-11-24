@@ -13,7 +13,7 @@ export const ProductStockSearch = ({ handleGetStockByProductId}) => {
     console.log(productId);
     try {
       const stock = await handleGetStockByProductId(productId);
-      setProductStock(stock); // Actualiza el estado con el valor entero
+      setProductStock(stock); 
     } catch (error) {
       console.error("Error al obtener el stock:", error);
       setProductStock(null);
@@ -23,11 +23,10 @@ export const ProductStockSearch = ({ handleGetStockByProductId}) => {
   return (
     <div className="product-serach-by-id-form-wrapper">
       <form onSubmit={handleSubmit} className="product-serach-by-id-form">
-        <h2 className="product-form-heading">Buscar Producto Por Id</h2>
+        <h2 className="product-form-heading">Buscar Stock por ID</h2>
 
-        {/* Campo Nombre */}
         <div className="product-form-field">
-          <label>Buscar por Id</label>
+          <label>Buscar Stock por ID</label>
           <input
             type="number"
             value={productId}

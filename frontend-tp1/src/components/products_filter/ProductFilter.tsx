@@ -3,7 +3,7 @@ import "./productFilter.css";
 import { SubmitButton } from "../ui/SubmitButton";
 const deleteButton = "/public/assets/delete.svg";
 
-export const ProductFilter = ({ handleGetProductByAttributes}) => {
+export const  ProductFilter = ({ handleGetProductByAttributes}) => {
   const [name, setName] = useState("");
   const [stock, setStock] = useState(0);
   const [brand, setBrand] = useState("");

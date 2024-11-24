@@ -77,6 +77,7 @@ export const AdminProductTable = ({ products }) => {
           <ProductEditStock 
           product={selectedProduct}
           editProductStock={editProductStock}
+          handleCloseCard={handleCloseCard}
            />
         </div>
       )}
