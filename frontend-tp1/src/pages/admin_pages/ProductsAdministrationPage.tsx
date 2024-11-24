@@ -28,7 +28,6 @@ export const ProductsAdministrationPage = () => {
     }
   }, [setProducts,user]);
 
-  // Alternar visibilidad de la tarjeta de filtros
   const handleShowFilterProductsCard = () => {
     setFilterProductsCardVisible(!isFilterProductsCardVisible);
   };
