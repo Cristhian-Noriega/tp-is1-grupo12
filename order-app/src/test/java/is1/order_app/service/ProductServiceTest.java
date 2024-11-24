@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.*;
 
@@ -169,80 +170,84 @@ public class ProductServiceTest {
 
         when(productRepository.findById(productId)).thenReturn(Optional.of(mockProduct) );
 
-        ProductViewDTO result = productService.updateProductStock(productId,mockStockChangeDTO);
+        productService.updateProductStock(productId,mockStockChangeDTO);
 
         verify(productRepository, times(1)).findById(productId);
         verify(productMapper, times(1)).toProductViewDTO(mockProduct);
         verify(productRepository, times(1)).save(mockProduct);
     }
-
-/*
-    // Verifies that the service retrieves all orders associated with a specific user ID.
     @Test
-    void getOrdersByUserId() {
-        String userId = "user123";
-        List<CustomerOrder> mockOrders = List.of(new CustomerOrder(), new CustomerOrder());
-        when(productRepository.findByUserId(userId)).thenReturn(mockOrders);
+    void updateExistingProduct() throws JsonProcessingException {
+        Long productId = 1L;
 
-        List<OrderDTO> result = productService.getOrdersByUserId(userId);
+        Product mockProduct = new Product();
 
-        // Assert
-        verify(productRepository, times(1)).findByUserId(userId);
-        assertEquals(mockOrders.size(), result.size());
+        Map<String, Object> extraAtributes = new HashMap<>();
+        extraAtributes.put("color", "negro");
+        extraAtributes.put("peso", "2 kg");
+
+        ProductDTO mockUpdatedProductDto= new ProductDTO("testing",11,"hirtachi","for testing",extraAtributes);
+        mockProduct.setId(productId);
+
+        when(productRepository.findById(productId)).thenReturn(Optional.of(mockProduct) );
+
+
+        ProductViewDTO result= productService.updateProduct(productId,mockUpdatedProductDto);
+
+        verify(productRepository, times(1)).findById(productId);
+        verify(productRepository, times(1)).save(mockProduct);
+    }
+    @Test
+    void updateNotExistingProduct() throws JsonProcessingException {
+        Long productId = 1L;
+
+        Product mockProduct = new Product();
+        mockProduct.setId(productId);
+        Map<String, Object> extraAtributes = new HashMap<>();
+        extraAtributes.put("color", "negro");
+        extraAtributes.put("peso", "2 kg");
+        ProductDTO mockUpdatedProductDto= new ProductDTO("testing",11,"hirtachi","for testing",extraAtributes);
+        mockProduct.setId(productId);
+        when(productRepository.findById(productId)).thenReturn(Optional.empty());
+
+        Exception exception = assertThrows(ProductNotFoundException.class, () -> {
+            productService.updateProduct(productId,mockUpdatedProductDto);
+        });
+        assertEquals("The product with ID: " + productId + " does not exist", exception.getMessage());
+        verify(productRepository, times(1)).findById(productId);
+
+    }
+
+    @Test
+    void getAllProducts() throws JsonProcessingException {
+
+        productService.getAllProducts();
+        verify(productRepository, times(1)).findAll();
+
+    }
+    @Test
+    void filterProducts() throws JsonProcessingException {
+        ProductFilterDTO productFilterDTO = new ProductFilterDTO();
+        productFilterDTO.setName("Product A");
+        productFilterDTO.setBrand("Brand X");
+        productFilterDTO.setStock(100);
+        productFilterDTO.setDescription("Description of Product A");
+        productFilterDTO.setExtraAtributes("color:red;size:M");
+
+        Product product1 = new Product("Product A", 100, "Brand X", "Description of Product A", Map.of("color", "red", "size", "M"));
+        Product product2 = new Product("Product B", 50, "Brand Y", "Description of Product B", Map.of("color", "blue", "size", "L"));
+
+       when(productRepository.findAll(any(Specification.class))).thenReturn(List.of(product1, product2));
+
+       List<ProductViewDTO> result = productService.getProductListFiltered(productFilterDTO);
+
+       verify(productRepository, times(1)).findAll(any(Specification.class));
+       assertNotNull(result);
+       assertEquals(2, result.size());
+
     }
 
 
-    // exception is thrown if there is insufficient stock for any product in the order.
-    @Test
-    void createOrder_not_stock() {
-        // Arrange
-        OrderRequestDTO requestDTO = new OrderRequestDTO();
-        CustomerOrder mockOrder = new CustomerOrder();
-        OrderItem item = new OrderItem();
-        Product product = new Product();
-        product.setStock(0); // stock is 0
-        item.setProduct(product);
-        item.setQuantity(1);
-        mockOrder.setItems(List.of(item));
-        String email = "test@example.com";
-
-        when(productMapper.toEntity(requestDTO, email)).thenReturn(mockOrder);
-
-        // Assert
-        assertThrows(IllegalStateException.class, () -> productService.createOrder(requestDTO, email));
-        verify(productRepository, never()).save(any());
-    }
-
-
-    // Verifies that the service retrieves all orders in the CANCELED state.
-    @Test
-    void getCanceledOrders() {
-        List<CustomerOrder> mockOrders = List.of(new CustomerOrder(), new CustomerOrder());
-        when(productRepository.findByState(OrderState.CANCELED)).thenReturn(mockOrders);
-
-        List<OrderDTO> result = productService.getCanceledOrders();
-
-        // Assert
-        verify(productRepository, times(1)).findByState(OrderState.CANCELED);
-        assertEquals(mockOrders.size(), result.size());
-    }
-
-
-    @Test
-    void executeCommand_shouldThrowExceptionForInvalidCommand() {
-        // Arrange
-        Long orderId = 1L;
-        String invalidCommandName = "InvalidCommand";
-
-        when(productRepository.findById(orderId)).thenReturn(Optional.of(new CustomerOrder()));
-
-        // Assert
-        assertThrows(IllegalArgumentException.class, () ->
-                productService.executeCommand(orderId, invalidCommandName)
-        );
-    }
-
-*/
 }
 
 
