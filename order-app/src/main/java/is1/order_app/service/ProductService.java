@@ -53,7 +53,7 @@ public class ProductService {
         if (productOpt.isEmpty()) {
             throw new ProductNotFoundException("The product with ID: "+ productId+ " does not exist");
         }
-        
+
         Product product = productOpt.get();
         product.updateAllAtributes(productDTO);
         productRepository.save(product);
