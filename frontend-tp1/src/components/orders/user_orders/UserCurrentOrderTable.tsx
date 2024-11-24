@@ -33,8 +33,18 @@ export const UserCurrentOrderTable = () => {
 
       const createOrder = async () => {      
           try{
+            if(currentOrder.length <= 0){ 
+              console.log("entre al if")
+              setShowMessage({
+                text: `No podes crear una orden sin productos`,
+                type: "error",
+                duration: 3000
+              })
+              return
+            }
+
             const orderPayLoad = createOrderPayload()
-            const orderResponse = await userOrdersService.create(
+            await userOrdersService.create(
               orderPayLoad)
               clearOrder()
             setShowMessage({
@@ -42,6 +52,7 @@ export const UserCurrentOrderTable = () => {
               type: "success",
               duration: 3000
             })
+
             
           }catch (error){
             console.log("AAAAAAA")
@@ -90,11 +101,6 @@ export const UserCurrentOrderTable = () => {
             backgroundColorHover="#48FA30"
             handleAction={createOrder}/>
 
-<Button
-          text="USER?" 
-           backgroundColor="#488A32"
-            backgroundColorHover="#48FA30"
-            handleAction={()=> console.log(user)}/>
       </div>
       
     </div>
