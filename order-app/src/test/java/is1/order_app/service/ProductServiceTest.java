@@ -2,19 +2,11 @@ package is1.order_app.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import is1.order_app.dto.*;
-import is1.order_app.entities.CustomerOrder;
-import is1.order_app.entities.OrderItem;
-import is1.order_app.entities.OrderState;
 import is1.order_app.entities.Product;
-import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.exceptions.ProductNotFoundException;
-import is1.order_app.mapper.OrderMapper;
 import is1.order_app.mapper.ProductMapper;
-import is1.order_app.order_management.OrderCommandFactory;
-import is1.order_app.repository.OrderRepository;
 import is1.order_app.repository.ProductRepository;
 import is1.order_app.service.mails_sevice.EmailSenderService;
-import org.apache.logging.log4j.spi.ObjectThreadContextMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -101,7 +93,7 @@ public class ProductServiceTest {
         when(productMapper.toProductViewDTO(mockProduct)).thenReturn(mockProductViewDTO);
 
         Exception exception = assertThrows(ProductNotFoundException.class, () -> {
-            ProductViewDTO result = productService.getProductById(1L);
+            productService.getProductById(1L);
         });
         assertEquals("The product with ID: " + productId + " does not exist", exception.getMessage());
 
@@ -192,7 +184,7 @@ public class ProductServiceTest {
         when(productRepository.findById(productId)).thenReturn(Optional.of(mockProduct) );
 
 
-        ProductViewDTO result= productService.updateProduct(productId,mockUpdatedProductDto);
+        productService.updateProduct(productId,mockUpdatedProductDto);
 
         verify(productRepository, times(1)).findById(productId);
         verify(productRepository, times(1)).save(mockProduct);

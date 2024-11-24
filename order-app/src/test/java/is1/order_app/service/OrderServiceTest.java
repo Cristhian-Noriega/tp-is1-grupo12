@@ -3,27 +3,28 @@ package is1.order_app.service;
 import is1.order_app.dto.OrderDTO;
 import is1.order_app.dto.OrderRequestDTO;
 import is1.order_app.entities.*;
-        import is1.order_app.exceptions.OrderNotFoundException;
+import is1.order_app.exceptions.NotEnoughStockException;
+import is1.order_app.exceptions.OrderNotFoundException;
 import is1.order_app.mapper.OrderMapper;
 import is1.order_app.order_management.OrderCommandFactory;
 import is1.order_app.repository.OrderRepository;
 import is1.order_app.repository.ProductRepository;
 import is1.order_app.service.mails_sevice.EmailSenderService;
+import is1.order_app.service.rule_service.ValidadorPedido;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import is1.order_app.entities.CustomerOrder;
-import is1.order_app.entities.OrderState;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-        import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 class OrderServiceTest {
 
@@ -45,6 +46,9 @@ class OrderServiceTest {
 
     @Mock
     private EmailSenderService emailSenderService;
+
+    @Mock
+    private ValidadorPedido validadorPedido;
 
 
     @BeforeEach
@@ -150,7 +154,7 @@ class OrderServiceTest {
         when(orderMapper.toEntity(requestDTO, email)).thenReturn(mockOrder);
 
         // Assert
-        assertThrows(IllegalStateException.class, () -> orderService.createOrder(requestDTO, email));
+        assertThrows(NotEnoughStockException.class, () -> orderService.createOrder(requestDTO, email));
         verify(productRepository, never()).save(any());
     }
 
