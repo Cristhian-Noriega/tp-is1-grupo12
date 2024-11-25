@@ -10,9 +10,17 @@ table {
   border-collapse: collapse;
   border-spacing: 10px;
 }
-
+.card-update-stock-wrapper{
+  position:fixed;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  z-index: 1000;
+}
 .card-info-wrapper{
-  position: absolute;
+  position:fixed;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -28,11 +36,10 @@ table {
 
 .create-product-card-wrapper{
   position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 3%;
+  left: 30%;
   width: 600px;
-  height: 1000px;
+  height:1000px;
   background-color: #f9f9ff;
   border-radius: 8px;
   border: 1px solid #d3d3d3;
@@ -49,4 +56,6 @@ table {
   font-size: 44px;
   top: 10px;
   right: 20px;
+  color: black;
 }
+

@@ -39,7 +39,7 @@ class ProductRestController {
         try{
             productService.deleteProduct(productId);
             return ResponseEntity.ok().build();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
@@ -97,11 +97,13 @@ class ProductRestController {
 
     }
     @GetMapping("/search")
-    public ResponseEntity<List<ProductViewDTO>> getProductListFiltered(@RequestParam(required = false) String name,
-                                                                       @RequestParam(required = false) Integer stock,
-                                                                       @RequestParam(required = false) String brand,
-                                                                       @RequestParam(required = false) String description,
-                                                                       @RequestParam(required = false) String extraAtributes
+    public ResponseEntity<List<ProductViewDTO>> getProductListFiltered(
+        @RequestParam(required = false) String name,
+        @RequestParam(required = false) Integer stock,
+        @RequestParam(required = false) String brand,
+        @RequestParam(required = false) String description,
+        @RequestParam(required = false) String extraAtributes
+
     ) {
         ProductFilterDTO filter = new ProductFilterDTO();
         filter.setName(name);
@@ -116,6 +118,5 @@ class ProductRestController {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-
     }
 }

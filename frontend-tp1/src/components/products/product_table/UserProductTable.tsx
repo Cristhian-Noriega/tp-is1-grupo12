@@ -1,20 +1,31 @@
 import { useState } from "react";
 import { ProductTableHeader } from "../product_table_header/ProductTableHeader";
-import "./productTable.css";
+import "./adminProductTable.css";
 import ProductDetails from "../product_details/ProductDetails";
 import { UserProductItem } from "../product_item/user_product_item/UserProductItem";
 
 
-export const UserProductTable = ({ products }) => {
+export const UserProductTable = ({ products, setProducts }) => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isDetailsCardVisible, setDetailsCardVisible] = useState(false);
 
 
   const handleShowDetails = (product) => {
-    console.log("Producto seleccionado:", product);
     setSelectedProduct(product);
     setDetailsCardVisible(true);
   };
+
+  const handleStock = (productId, productNewStock) => {
+    console.log('haddlestock')
+    console.log(productId, productNewStock)
+    setProducts(
+      products.map(product =>
+        product.id === productId
+          ? { ...product, stock: productNewStock }
+          : product                               
+      )
+    );
+  }
 
   const handleCloseCard = () => {
     setDetailsCardVisible(false);
@@ -30,6 +41,7 @@ export const UserProductTable = ({ products }) => {
             <UserProductItem 
               key={product.id}
               product={product}
+              handleStock={handleStock} 
               onShowDetails={handleShowDetails}
             />
           ))}

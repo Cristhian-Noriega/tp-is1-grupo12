@@ -42,7 +42,7 @@ export const LoginForm = ({handleLogin}) => {
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>
-      <Link to="/forget-password" className='forget-password-box'>
+      <Link to="/forget/password" className='forget-password-box'>
         ¿Olvidaste tu contraseña?
       </Link>
       

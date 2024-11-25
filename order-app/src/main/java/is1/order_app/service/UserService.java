@@ -70,11 +70,15 @@ public class UserService {
     }
 
     public UserDTO getUserByEmail(String email) {
-        Optional<UserDTO> userDTO = userRepository.findByEmail(email).map(userMapper::toDTO);
-        if (userDTO.isEmpty()) {
+        Optional<User> user = userRepository.findByEmail(email);
+        System.out.println(user);
+        if (user.isEmpty()) {
             throw new UserNotFoundException("User not found with email " + email);
         }
-        return userDTO.get();
+
+        UserDTO userDTO = userMapper.toDTO(user.get());
+
+        return userDTO;
     }
 
 

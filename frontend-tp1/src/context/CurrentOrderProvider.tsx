@@ -5,10 +5,7 @@ export const CurrentOrderProvider = ({ children }) => {
   const [currentOrder, setCurrentOrder] = useState([]);
 
   const addToOrder = (productSummary) => {
-    console.log("adding order")
-    setCurrentOrder((prevOrder) => [...prevOrder, productSummary]);
-    console.log(productSummary)
-    console.log(currentOrder)
+    setCurrentOrder((prevOrder) => [...prevOrder, productSummary]); 
   };
 
   const removeProductFromOrder = (productId) => {

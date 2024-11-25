@@ -1,0 +1,14 @@
+.product-edit-stock-wrapper{
+width: 500px;
+height: 350px;
+background-color: var(--card-product-edit-stock-background-color);
+color:black
+}
+
+.product-edit-stock-form{
+    padding: 30px;
+}
+
+.product-update-stock-box{
+    padding: 30px;
+}

@@ -2,20 +2,20 @@
   padding: 1rem;
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
-  background-color: #ffffff;
+  background-color: var(--card-product-details-background-color);
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .header-row {
   display: flex;
-  border-bottom: 2px solid #007bff; /* Color de la línea */
+  border-bottom: 2px solid var(--primary-color);
 }
 
 .header-item {
   flex: 1;
   padding: 0.5rem;
   font-weight: bold;
-  color: #007bff; /* Color del texto de los encabezados */
+  color: var(--primary-color); /* color del texto de los encabezados de la tabla */
 }
 
 .body-row {
@@ -25,7 +25,7 @@
 
 .body-item {
   display: flex;
-  border-bottom: 1px solid #dee2e6; /* Línea entre productos */
+  border-bottom: 1px solid var(--table-lines-color); 
 }
 
 .item {

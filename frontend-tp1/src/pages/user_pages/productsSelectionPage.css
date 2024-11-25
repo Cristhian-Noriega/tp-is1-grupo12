@@ -4,6 +4,16 @@
     height: 100%;
 
 }
+.product-page-container{
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    width: 75%;
+    height: 100%;
+}
+h2{
+    margin: 20px;
+}
 .table-content-wrapper{
     margin:20px
 }

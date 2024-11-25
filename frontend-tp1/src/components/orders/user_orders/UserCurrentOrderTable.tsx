@@ -14,7 +14,6 @@ export const UserCurrentOrderTable = () => {
 
       const createOrderPayload = () => {
         return {
-          userId: "lucas.ezequiel.321@gmail.com", //TODO: User solamente devuelve el token
           items: currentOrder.map(item => ({
             productId: item.id,
             quantity: item.quantity,
@@ -32,24 +31,38 @@ export const UserCurrentOrderTable = () => {
         })
       }
 
-      const createOrder = async () => {
-        try {
-          
-          const orderPayLoad = createOrderPayload()
-          console.log("DTOORDER")
-          console.log(orderPayLoad)
-          const orderResponse = await userOrdersService.create(
-            orderPayLoad
-          );
-         clearOrder()
-         setShowMessage({
-          text: `Orden creada exitosamente.`,
-          type: "success",
-          duration: 3000
-        })
-        } catch (error) {
-          console.log("error" + error);
-        }
+      const createOrder = async () => {      
+          try{
+            if(currentOrder.length <= 0){ 
+              console.log("entre al if")
+              setShowMessage({
+                text: `No podes crear una orden sin productos`,
+                type: "error",
+                duration: 3000
+              })
+              return
+            }
+
+            const orderPayLoad = createOrderPayload()
+            await userOrdersService.create(
+              orderPayLoad)
+              clearOrder()
+            setShowMessage({
+              text: `Orden creada exitosamente.`,
+              type: "success",
+              duration: 3000
+            })
+
+            
+          }catch (error){
+            console.log("AAAAAAA")
+            console.log(error.response.data)
+            setShowMessage({
+              text: error.response.data.errors,
+              type: "error",
+              duration: 7000
+            })
+          }  
       }
   return (
     <div className='user-order-table-wrapper'>
@@ -87,6 +100,7 @@ export const UserCurrentOrderTable = () => {
            backgroundColor="#488A32"
             backgroundColorHover="#48FA30"
             handleAction={createOrder}/>
+
       </div>
       
     </div>

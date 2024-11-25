@@ -14,7 +14,7 @@ export const ChangePasswordForm = ({handlePasswordChange, setShowMessage}) => {
             duration: 3000
           })
         handlePasswordChange(email,newPassword)
-        navigate('/password-recovery-confirmation');
+        navigate('/password/recovery/confirmation');
     }
   return (
     <div className='forget-password-form-wrapper'>
