@@ -5,8 +5,8 @@ import { useContext } from 'react';
 import {Context} from '../../../context/Context'
 const iconProducts = "/public/assets/caja_productos.svg";
 const iconActualOrder = "/public/assets/cart.svg";
-const iconMyOrders = "public/assets/orders.svg"
-const iconUsers = "public/assets/user.svg";
+const iconMyOrders = "/public/assets/orders.svg"
+const iconUsers = "/public/assets/user.svg";
 
 export const UserNavSideBar = () => {
   const { handleLogout} = useContext(Context)
@@ -33,7 +33,7 @@ export const UserNavSideBar = () => {
         </div>
         </Link>
 
-        <Link to="/user/profile">
+        <Link to="/profile">
         <div className='nav-item-box'>
           <img src={iconUsers} alt="Users Icon" className="nav-icon" /> Usuario
         </div>

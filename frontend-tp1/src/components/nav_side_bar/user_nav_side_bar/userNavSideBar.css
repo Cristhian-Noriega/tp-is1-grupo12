@@ -7,6 +7,11 @@
   .nav-section {
     margin-top: 20px;
   }
+
+  .nav-section a {
+    text-decoration: none;
+  }
+  
   
   .nav-item-box {
     display: flex;

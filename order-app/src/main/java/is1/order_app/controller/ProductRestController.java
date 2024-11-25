@@ -39,7 +39,7 @@ class ProductRestController {
         try{
             productService.deleteProduct(productId);
             return ResponseEntity.ok().build();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }

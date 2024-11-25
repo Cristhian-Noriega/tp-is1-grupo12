@@ -14,6 +14,7 @@ import { CurrentOrderProvider } from './context/CurrentOrderProvider'
 import { OrderProvider } from './context/OrdersProvider'
 import { ProtectedRoutes } from './protected_routes/ProtectedRoutes'
 import { UnauthorizedPage } from './pages/common_pages/UnauthorizedPage'
+import { ProfilePage } from './pages/common_pages/ProfilePage'
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
                 <Route path="/password/recovery" element={<ChangePasswordPage/>} />
                 <Route path="/password/recovery/confirmation" element={<ChangePasswordConfirmationPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage/>} />
+                <Route path="/profile" element={<ProfilePage/>} />
+            
 
                  {/* Rutas protegidas para ADMIN */}
               <Route element={<ProtectedRoutes role="ADMIN" />}>

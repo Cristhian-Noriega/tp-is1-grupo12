@@ -4,8 +4,8 @@ import { Button } from '../../ui/Button';
 import {Context} from '../../../context/Context'
 import { useContext } from 'react';
 const iconProducts = "/public/assets/caja_productos.svg";
-const iconOrder = "public/assets/bolsa_productos.svg"
-const iconUsers = "public/assets/user.svg";
+const iconOrder = "/public/assets/bolsa_productos.svg"
+const iconUsers = "/public/assets/user.svg";
 
 export const AdminNavSideBar = () => {
 
@@ -27,7 +27,7 @@ export const AdminNavSideBar = () => {
         </div>
         </Link>
 
-        <Link to="/admin/profile">
+        <Link to="/profile">
         <div className='nav-item-box'>
           <img src={iconUsers} alt="Users Icon" className="nav-icon" /> Usuario
         </div>

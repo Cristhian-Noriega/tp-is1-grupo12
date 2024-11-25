@@ -47,13 +47,14 @@ public class SecurityConfig {
 
                         // Product endpoints
                         .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/products/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/products/{productId}").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/products/{productId}/stock").hasRole("ADMIN")
                         .requestMatchers("/products/**").authenticated()
 
                         // Order endpoints
                         .requestMatchers(HttpMethod.POST, "/orders/create").hasRole("USER")
                         .requestMatchers("/orders/{orderId}/cancelByUser").hasRole("USER")
+                        .requestMatchers(HttpMethod.GET, "/orders").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/orders/{orderId}/availableCommands").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/orders/{orderId}/executeCommand").hasRole("ADMIN")
                         .requestMatchers("/orders/**").hasRole("USER")

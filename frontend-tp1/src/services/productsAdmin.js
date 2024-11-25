@@ -16,7 +16,7 @@ const create = async (productObject) => {
 
 const remove = async (productId) => {
   console.log("el tokenazo", token)
-  const response = await axios.delete(`${baseUrl}/${productId}`,productId, { headers: { "Authorization": `Bearer ${token}` } });
+  const response = await axios.delete(`${baseUrl}/${productId}`, { headers: { "Authorization": `Bearer ${token}` } });
   return response.data;
 };
 
