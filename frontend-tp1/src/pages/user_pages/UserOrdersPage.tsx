@@ -4,12 +4,12 @@ import { ConfirmedOrdersList } from '../../components/orders/user_confirmed_orde
 import userOrdersService from '../../services/userOrders';
 import { userOrdersUtils } from '../../utils/userOrdersUtils';
 import { Context } from '../../context/Context';
-
+import CardMessage from "../../components/card_message/CardMessagge";
 import { useContext, useEffect } from 'react';
 import { OrderStatusFilter } from '../../components/order_status_filter/OrderStatusFilter';
 
 export const UserOrdersPage = () => {
-  const { getUserFromLocalStorage, user} = useContext(Context);
+  const { getUserFromLocalStorage, user, setShowMessage, showMessage} = useContext(Context);
   const { orders, setOrders, cancelOrder, setOriginalOrders } = userOrdersUtils();
 
   useEffect(() => {
@@ -27,11 +27,11 @@ export const UserOrdersPage = () => {
 }}, [user]); 
 
   const handleCancelOrder = (orderId) => {
-    console.log("Handle cancel order");
     console.log(`id de la orden: ${orderId}`);
-    cancelOrder(orderId);
-    console.log("orden cancelada");
-    
+    const confirmed = window.confirm("¿Estas seguro de que deseas cancelar la orden?");
+    if (confirmed) {
+      cancelOrder(orderId);
+    }
   };
 
   return (
@@ -42,6 +42,12 @@ export const UserOrdersPage = () => {
         <OrderStatusFilter />
         <ConfirmedOrdersList orders={orders} handleCancelOrder={handleCancelOrder} />
       </div>
+      {showMessage && (
+        <CardMessage
+          messageProperties={showMessage}
+          onClose={() => setShowMessage(false)}
+        />
+      )}
     </div>
   );
 };

@@ -5,7 +5,20 @@ export const CurrentOrderProvider = ({ children }) => {
   const [currentOrder, setCurrentOrder] = useState([]);
 
   const addToOrder = (productSummary) => {
-    setCurrentOrder((prevOrder) => [...prevOrder, productSummary]); 
+    setCurrentOrder((prevOrder) => {
+      const productExists = prevOrder.some(product => product.id === productSummary.id);
+    
+      if (productExists) {
+        return prevOrder.map(product =>
+          product.id === productSummary.id
+            ? { ...product, quantity: product.quantity + productSummary.quantity }
+            : product
+        );
+      } else {
+        return [...prevOrder, productSummary];
+      }
+    });
+    
   };
 
   const removeProductFromOrder = (productId) => {

@@ -9,8 +9,8 @@ const register = async (userRegistrationData) => {
     { headers: { "Content-Type": "application/json" } }
   
   ); //Las credentials son pasadas como un objeto JSON
-  console.log(response.data);
-  return response.data;
+  console.log(response);
+  return response;
 };
 
 export default { register };

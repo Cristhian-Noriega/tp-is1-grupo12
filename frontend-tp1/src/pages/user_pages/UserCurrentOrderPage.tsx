@@ -6,7 +6,6 @@ import { Context } from "../../context/Context"
 import { useContext, useEffect } from "react";
 import userOrdersService from '../../services/userOrders';
 
-
 export const UserCurrentOrderPage = () => {
   const { showMessage, setShowMessage, user, getUserFromLocalStorage } = useContext(Context);
   

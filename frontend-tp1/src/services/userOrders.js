@@ -13,7 +13,7 @@ const getAll = async () => {
   return response.data;
 };
 
-const cancelOrderByUserId = async(orderId) => { //quedo medio raro en el backend porque pide en los parametros de orderId pero tambien lo pide en la url
+const cancelOrderByUserId = async(orderId) => {
   const response = await axios.post(`${baseUrl}/${orderId}/cancelByUser`,orderId,
      { headers: { "Authorization": `Bearer ${token}` } })
      return response
@@ -24,6 +24,13 @@ const getByUserId = async () => {
   const response = await axios.get(`${baseUrl}/user`,
     { headers: { "Authorization": `Bearer ${token}` } }
   ); 
+  return response.data;
+};
+
+const deleteOrder = async (orderId) => {
+  const response = await axios.delete(`${baseUrl}/orderId`,
+    { headers: { "Authorization": `Bearer ${token}` } }
+  );
   return response.data;
 };
 
@@ -49,5 +56,5 @@ const executeCommand = async(commandObject,orderId) =>{
 }
 
 export default {
-  getAll, create, getByUserId, cancelOrderByUserId, getAvailableCommands, executeCommand, setToken
+  getAll, create, getByUserId, cancelOrderByUserId, getAvailableCommands, executeCommand, setToken, deleteOrder
 };

@@ -7,7 +7,7 @@ const sendEmailToChangePassword = async (email) => {
   const response = await axios.post(baseUrl)
   return response.data;
   } catch (error) {
-    console.error("Error en la petición:", error);
+    console.error("Error en la peticion:", error);
   }
 };
 
