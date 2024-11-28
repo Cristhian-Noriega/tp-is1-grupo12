@@ -24,7 +24,7 @@ export const UserProductItem = ({ product, handleStock, onShowDetails}) => {
     
 
     setProductRemaining(productRemaining - productQuantity)
-    console.log(product);  // Verifica que el producto es el esperado
+    console.log(product); 
     const productSummary = {
       id: product.id,
       name: product.name,

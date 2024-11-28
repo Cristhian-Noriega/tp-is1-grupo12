@@ -36,5 +36,9 @@ public class EmailSenderService {
     public void sendOrderUpdateMailWriter(String recipientEmailAddress, String orderState, int orderId) {
         this.sendMail(recipientEmailAddress, new OrderUpdateMailWriter(orderState, orderId));
     }
+
+    public void sendMailToVerifyAccount(String recipientEmailAddress) {
+        this.sendMail(recipientEmailAddress, new AccountVerificationMailWriter());
+    }
     
 }

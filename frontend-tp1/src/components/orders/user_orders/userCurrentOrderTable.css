@@ -15,6 +15,10 @@
     border: none;
 }
 
+.action-button:hover{
+    cursor: pointer;
+}
+
 .button-create-order-container{
     margin: 30px;
     align-self: center;

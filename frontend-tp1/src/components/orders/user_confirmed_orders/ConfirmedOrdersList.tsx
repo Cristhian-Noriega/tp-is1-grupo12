@@ -22,12 +22,16 @@ export const ConfirmedOrdersList = ({orders, handleCancelOrder}) => {
           </ul>
           </div>
           <div className='button-cancel-container'>
+          {order.state == "CONFIRMED" &&
             <Button
               text="Cancelar Orden"
               backgroundColor="#FF6644"
               backgroundColorHover="#FF0000"
-              handleAction={() => handleCancelOrder(order.id)} />
+              handleAction={() => handleCancelOrder(order.id)}
+              />
+            }
           </div>
+          
         </div>
       ))}
     </div>

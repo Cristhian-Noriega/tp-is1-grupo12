@@ -6,7 +6,7 @@ const infoButton = "/public/assets/info.svg";
 export const ProductItem = ({ product, onShowEditStock,deleteProduct, onShowDetails }) => {
 
   const handleDelete = () => {
-    if (window.confirm(`Seguro que quieres eliminar el contacto ${product.name}?`)) {
+    if (window.confirm(`Seguro que quieres eliminar el producto: ${product.name}?`)) {
       deleteProduct(product.id);
     }
   };

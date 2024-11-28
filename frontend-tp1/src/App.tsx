@@ -15,6 +15,7 @@ import { OrderProvider } from './context/OrdersProvider'
 import { ProtectedRoutes } from './protected_routes/ProtectedRoutes'
 import { UnauthorizedPage } from './pages/common_pages/UnauthorizedPage'
 import { ProfilePage } from './pages/common_pages/ProfilePage'
+import { ValidationEmailPage } from './pages/common_pages/ValidationEmailPage'
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/password/recovery/confirmation" element={<ChangePasswordConfirmationPage />} />
                 <Route path="/unauthorized" element={<UnauthorizedPage/>} />
                 <Route path="/profile" element={<ProfilePage/>} />
+                <Route path="/password/validation" element={<ValidationEmailPage/>} />
             
 
                  {/* Rutas protegidas para ADMIN */}

@@ -17,4 +17,16 @@ const getPublicProfile = async () => {
     }
 };
 
-export default { getPublicProfile, setToken };
+const validateEmail = async (email) => {
+    try {
+        console.log("VALIDANDO EMAIL", email)
+        const response = await axios.post(`http://localhost:8080/auth/verify-email/${email}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error en la petición:', error);
+    }
+};
+
+
+
+export default { getPublicProfile, setToken, validateEmail };

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import './registerForm.css'
 import { Link, useNavigate } from 'react-router-dom';
 import { SubmitButton } from '../ui/SubmitButton';
+import { registerUtils } from '../../utils/registerUtils';
 
-export const RegisterForm  = ({handleRegister}) => {
+export const RegisterForm  = () => {
     const [username, setUsername] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ export const RegisterForm  = ({handleRegister}) => {
     const [age, setAge] = useState("");
     const [address, setAddress] = useState("");
 
+    const {handleRegister} = registerUtils();
     const navigate = useNavigate();
 
     const onSubmit = (event) => {
@@ -25,6 +27,7 @@ export const RegisterForm  = ({handleRegister}) => {
         setGender("")
         setAddress("")
         
+
         navigate("/login");
       };
 

@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { Button } from '../../ui/Button';
 import { userOrdersUtils } from '../../../utils/userOrdersUtils';
 import './adminOrdersTable.css';
+import { Context } from '../../../context/Context';
+import { useContext } from "react";
 
-export const AdminOrdersTable = ({ orders, handleDeleteOrder, getAvailableCommands }) => {
+export const AdminOrdersTable = ({ orders, getAvailableCommands }) => {
   const [availableCommands, setAvailableCommands] = useState({});  // Cambiamos a un objeto en vez de array
 
-  const { executeCommand, setOriginalOrders, originalOrders, setOrders } = userOrdersUtils();
+  const { executeCommand, setOriginalOrders, originalOrders, setOrders, deleteOrder } = userOrdersUtils();
+  const { setShowMessage, showMessage} = useContext(Context);
 
   const handleCommandExecutor = (commandName, orderId) => {
     const commandObject = {
@@ -27,8 +30,13 @@ export const AdminOrdersTable = ({ orders, handleDeleteOrder, getAvailableComman
 
     const newOrders = orders.filter((order) => order.id !== orderId);
     setOrders(newOrders);
-    // Actualiza el estado con las órdenes modificadas
     setOriginalOrders(updatedOrders);
+
+    setShowMessage({
+      text: `Se aplico el comando ${commandName} a la orden ${orderId}`,
+      type: "success",
+      duration: 3000
+    })
   };
 
   const transformExecuteCommandToAValidState = (commandName) => {
@@ -45,6 +53,15 @@ export const AdminOrdersTable = ({ orders, handleDeleteOrder, getAvailableComman
         return 'UNKNOWN';
     }
   };
+
+  const handleDeleteOrder = (orderId) => {
+    console.log("ELIMINANDO ORDEN", orderId)
+    const confirmed = window.confirm("¿Estás seguro de que deseas cancelar la orden?");
+    if (confirmed) {
+      deleteOrder(orderId)
+    }
+    
+  }
 
   useEffect(() => {
     const showCommands = async () => {
@@ -100,10 +117,17 @@ export const AdminOrdersTable = ({ orders, handleDeleteOrder, getAvailableComman
                       key={commandIndex}
                       text={command.commandName}
                       handleAction={() => handleCommandExecutor(command.commandName, order.id)}  // Ahora la acción se asocia con la orden específica
-                      backgroundColor="#FF0000"
-                      backgroundColorHover="#FFA500"
+                      backgroundColor="var(--primary-color)"
+                      backgroundColorHover="#var(--primary-color-hover)"
                     />
                   ))}
+                   <Button 
+                      key={commandIndex}
+                      text="Eliminar Orden"
+                      handleAction={() => handleDeleteOrder(order.id)}  // Ahora la acción se asocia con la orden específica
+                      backgroundColor="var(--primary-color)"
+                      backgroundColorHover="#var(--primary-color-hover)"
+                    />
                 </div>
               </td>
             </tr>
