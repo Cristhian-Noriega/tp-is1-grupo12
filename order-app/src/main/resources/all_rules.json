@@ -99,5 +99,10 @@
       }
     ],
     "mensaje_error": "No se cumplen todas las reglas internas: "
+  },
+  {
+    "regla": "<item",
+    "valor": 3,
+    "mensaje_error": "Maximo 3 productos de un mismo item"
   }
 ]
