@@ -11,7 +11,7 @@
     "atributo_afectado": "color",
     "valor_atributo": "amarillo",
     "valor": 1,
-    "mensaje_error": "Máximo 3 productos de color amarillo."
+    "mensaje_error": "Minimo 1 productos de color amarillo."
   },
   {
     "regla": "no_mix",
@@ -104,5 +104,11 @@
     "regla": "<item",
     "valor": 3,
     "mensaje_error": "Maximo 3 productos de un mismo item"
+  },
+  {
+    "regla": "in>_int",
+    "atributo": "precio",
+    "valor_atributo": 10000,
+    "mensaje_error": "Un item debe tener precio mayor a 10000"
   }
 ]
