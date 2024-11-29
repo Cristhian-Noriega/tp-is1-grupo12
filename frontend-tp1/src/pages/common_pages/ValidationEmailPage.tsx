@@ -8,14 +8,9 @@ export const ValidationEmailPage = () => {
 
   const {showMessage, setShowMessage} = useContext(Context)
   
-  const handleValidateEmail = (email) => {
-    console.log(email)
-    validateEmailService.validateEmail(email)
-  }
-
   return (
     <div>
-        <ValidateEmailForm handleValidateEmail={handleValidateEmail} setShowMessage={setShowMessage}/>
+        <ValidateEmailForm setShowMessage={setShowMessage}/>
         {showMessage && (
         <CardMessage
           messageProperties={showMessage}

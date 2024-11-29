@@ -1,17 +1,16 @@
 import React, { useState } from 'react'
 import { SubmitButton } from '../ui/SubmitButton'
-export const ValidateEmailForm = ({handleValidateEmail, setShowMessage}) => {
+import { validationEmailUtils } from "../../utils/validationEmailUtils";
+export const ValidateEmailForm = ({setShowMessage}) => {
     const [email, setEmail] = useState("")
+    const {handleValidateEmail } = validationEmailUtils();
 
     const onSubmit = (event) => {
         event.preventDefault();
-        setShowMessage({
-            text: `La contraseña de ${email} ha sido cambiada con éxito.`,
-            type: "success",
-            duration: 3000
-          })
-          handleValidateEmail(email)
+        handleValidateEmail(email)
+        setEmail("")
     }
+
   return (
     <div className='forget-password-form-wrapper'>
         <h2>Validar con email</h2>

@@ -18,13 +18,10 @@ const getPublicProfile = async () => {
 };
 
 const validateEmail = async (email) => {
-    try {
-        console.log("VALIDANDO EMAIL", email)
-        const response = await axios.post(`http://localhost:8080/auth/verify-email/${email}`);
-        return response.data;
-    } catch (error) {
-        console.error('Error en la petición:', error);
-    }
+    console.log("VALIDANDO EMAIL", email)
+    const response = await axios.post(`http://localhost:8080/auth/verify-email/${email}`);
+    return response.data;
+    
 };
 
 

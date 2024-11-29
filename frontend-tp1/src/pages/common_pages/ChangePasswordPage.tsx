@@ -12,7 +12,7 @@ export const ChangePasswordPage = () => {
 
   return (
     <div>
-        <ChangePasswordForm handlePasswordChange={handlePasswordChange} setShowMessage={setShowMessage}/>
+        <ChangePasswordForm handlePasswordChange={handlePasswordChange}/>
         {showMessage && (
         <CardMessage
           messageProperties={showMessage}
