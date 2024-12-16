@@ -1,0 +1,64 @@
+[
+  {
+    "regla": "<=_int",
+    "atributo_afectado": "peso",
+    "valor": 15,
+    "mensaje_error": "El peso total de los productos debe ser menos de 15 kg."
+  },
+  {
+    "regla": "and",
+    "reglas": [
+      {
+        "regla": "no_mix",
+        "atributo_afectado": "tipo",
+        "valor_atributo": "liquido",
+        "valor_atributo2": "gaseoso",
+        "mensaje_error": "No pueden haber productos liquidos con gaseosos."
+      },
+      {
+        "regla": "<item",
+        "valor": 3,
+        "mensaje_error": "Maximo tres productos iguales"
+      }
+    ],
+    "mensaje_error": "no se cumple:"
+  },
+  {
+    "regla": "<=_str",
+    "atributo_afectado": "sector",
+    "valor_atributo": "electrodomesticos",
+    "valor": 2,
+    "mensaje_error": "Máximo 2 productos del sector electrodomesticos."
+  },
+  {
+    "regla": "or",
+    "reglas": [
+      {
+        "regla": "not_in",
+        "atributo_afectado": "promocion",
+        "valor_atributo": "true",
+        "mensaje_error": "Hay un producto promocion, pero no hay un item con precio mayor a 100000"
+      },
+      {
+        "regla": "and",
+        "reglas": [
+          {
+            "regla": ">=_str",
+            "atributo_afectado": "promocion",
+            "valor_atributo": "true",
+            "valor": 1,
+            "mensaje_error": ""
+          },
+          {
+            "regla": "in>_int",
+            "atributo": "precio",
+            "valor_atributo": 10000,
+            "mensaje_error": "Un item debe tener precio mayor a 10000"
+          }
+        ],
+        "mensaje_error": ""
+      }
+    ],
+    "mensaje_error": "no se cumple:"
+  }
+]

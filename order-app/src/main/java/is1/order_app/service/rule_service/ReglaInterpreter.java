@@ -60,6 +60,10 @@ public class ReglaInterpreter {
                 reglas.add(new MinProductsRegla(regla.getInt("valor"), msjError));
             } else if (Objects.equals(simbolo, "max_products")) {
                 reglas.add(new MaxProductsRegla(regla.getInt("valor"), msjError));
+            } else if (Objects.equals(simbolo, "<item")) {
+                reglas.add(new MaxCantPorItemRegla(regla.getInt("valor"), msjError));
+            } else if (Objects.equals(simbolo, "in>_int")) {
+                reglas.add(new InMayorIntRegla(regla.getString("atributo"), regla.getInt("valor_atributo"), msjError));
             } else {
                 throw new ClassNotFoundException("No hay regla con el simbolo y atributo proporcionados");
             }
