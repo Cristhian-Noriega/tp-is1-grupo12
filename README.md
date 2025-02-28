@@ -1,5 +1,13 @@
 # TP Ingenieria de Software I - 2C2024
 
+## Team members
+* Cristhian Noriega
+* Santiago Fassio
+* Lucas Araujo
+* Kevin Vallejo
+* Agustin Cavo
+* Ian Anca
+
 ## Run with docker
 
 To build and run the containers:
