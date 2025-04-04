@@ -5,7 +5,6 @@ import is1.order_app.dto.LoginResponseDTO;
 import is1.order_app.exceptions.DuplicatedUserEmailException;
 import is1.order_app.exceptions.WrongPasswordException;
 import is1.order_app.exceptions.UserNotFoundException;
-import is1.order_app.exceptions.UserNotVerified;
 import is1.order_app.dto.UserDTO;
 import is1.order_app.dto.PassChangeDTO;
 import is1.order_app.dto.UserRegistrationDTO;
@@ -42,7 +41,7 @@ public class UserService {
         //encode the user password to pass it to store it in the db
         user.setPassword(passwordEncoder.encode(registration.password()));
         userRepository.save(user);
-        emailSenderService.sendMailToVerifyAccount(registration.email());
+    
 
         return userMapper.toDTO(user);
     }
@@ -54,9 +53,6 @@ public class UserService {
         }
         User user = userOpt.get();
 
-        if (!user.getIsActive()) {
-            throw new UserNotVerified("User is not verified " + loginDTO.email());
-        }
 
         if (!passwordEncoder.matches(loginDTO.password(), user.getPassword())) {
             throw new WrongPasswordException("Wrong password");
@@ -94,17 +90,6 @@ public class UserService {
             throw new UserNotFoundException("User not found with email " + email);
         });
     }
-
-    public void verifyEmail(String email) {
-        Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isEmpty()) {
-            throw new UserNotFoundException("User not found with email " + email);
-        }
-        User user = userOpt.get();
-        user.setIsActive(true);
-        userRepository.save(user);
-    }
-
 
 
     public boolean changePassword(PassChangeDTO passChangeDTO) {
