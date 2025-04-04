@@ -6,9 +6,6 @@ import userOrdersService from "../../services/userOrders";
 import { AdminLayout } from "../../components/admin_layout/AdminLayout";
 import { AdminOrdersTable } from "../../components/orders/admin_orders/AdminOrdersTable";
 import { OrderStatusFilter } from "../../components/order_status_filter/OrderStatusFilter";
-import { Context } from "../../context/Context";
-import CardMessage from "../../components/card_message/CardMessagge";
-import { useContext } from "react";
 
 export const AdminOrdersPage = () => {
   const { user, getUserFromLocalStorage } = productsUtils(); // esto manejarlo mejor en el refactor quiza creando un UserContext
@@ -19,7 +16,6 @@ export const AdminOrdersPage = () => {
     setOriginalOrders,
     getAvailableCommands,
   } = userOrdersUtils();
-  const { setShowMessage, showMessage } = useContext(Context);
 
   //Obtiene el token en el localStorgae y trata de obtenerlo de ahi para que el usuario no tenga que volver a iniciar sesion
   useEffect(() => {
@@ -36,6 +32,11 @@ export const AdminOrdersPage = () => {
     }
   }, [user]);
 
+  const handleDeleteOrder = (orderId) => {
+    console.log("orden cancelada");
+    console.log(`order id : ${orderId}`);
+    deleteOrder(orderId);
+  };
   return (
     <div className="admin-orders-page-wrapper">
       <div className="admin-orders-page-container">
@@ -45,16 +46,11 @@ export const AdminOrdersPage = () => {
           <OrderStatusFilter />
           <AdminOrdersTable
             orders={orders}
+            handleDeleteOrder={handleDeleteOrder}
             getAvailableCommands={getAvailableCommands}
           />
         </div>
       </div>
-      {showMessage && (
-        <CardMessage
-          messageProperties={showMessage}
-          onClose={() => setShowMessage(false)}
-        />
-      )}
     </div>
   );
 };
