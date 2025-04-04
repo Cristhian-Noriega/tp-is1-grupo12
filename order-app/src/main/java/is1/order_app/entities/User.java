@@ -1,6 +1,6 @@
 package is1.order_app.entities;
 import io.micrometer.common.lang.Nullable;
-import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -47,8 +47,6 @@ public class User {
     @Enumerated(EnumType.STRING) 
     private Role role;
 
-    @Column(nullable = false)
-    private Boolean isActive;
 
     public User(String email, String name, String surname, String password, String photoUrl, Integer age, String gender, String address, Role role) {
         this.email = email;
@@ -60,7 +58,7 @@ public class User {
         this.gender = gender;
         this.address = address;
         this.role = role;
-        this.isActive = false;
+        
     }
 }
 
